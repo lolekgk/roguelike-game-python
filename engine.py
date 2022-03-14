@@ -1,3 +1,5 @@
+
+from util import key_pressed
 import random
 
 
@@ -5,16 +7,6 @@ WALLS = ['░']
 
 
 def create_board(width, height):
-    '''
-    Creates a new game board based on input parameters.
-
-    Args:
-    int: The width of the board
-    int: The height of the board
-
-    Returns:
-    list: Game board
-    '''
     board = []
     board.append(['░' for i in range(width)])
     for i in range(height - 2):
@@ -24,11 +16,8 @@ def create_board(width, height):
         board.append(row)
     board.append(['░' for i in range(width)])
     board[random.randint(1, height-2)][-1] = 'B'
-    for row in board:
-        print(''.join(row))
+    return board
 
-
-create_board(30, 20)
 
 
 def put_player_on_board(board, player):
@@ -42,4 +31,32 @@ def put_player_on_board(board, player):
     Returns:
     Nothing
     '''
+    pass
+
+player = {"field":(2,2)}
+
+
+def is_move_valid(board, new_row, new_column):
+    if board[new_row][new_column] in WALLS:
+        return False
+    return True
+
+
+def player_move(board, key):
+    (row, column) = player["field"]
+    if key == "W":
+        new_row, new_column = row - 1, column
+    elif key == "A":
+        new_row, new_column = row, column - 1
+    elif key == "S":
+        new_row, new_column = row + 1, column
+    elif key == "D":
+        new_row, new_column = row, column + 1
+    else:
+        new_row, new_column = row, column
+    if is_move_valid(board, new_row, new_column):
+        player["field"] = (new_row, new_column)
+    
+
+def npc_move():
     pass
