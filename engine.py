@@ -1,3 +1,5 @@
+from util import key_pressed
+
 def create_board(width, height):
     '''
     Creates a new game board based on input parameters.
@@ -23,4 +25,34 @@ def put_player_on_board(board, player):
     Returns:
     Nothing
     '''
+    pass
+
+player = {"field":(3,3)}
+
+board = [[0] * 4 ] * 4
+print(board)
+
+def player_move(board):
+    direction = key_pressed().upper()
+    (row, column) = player["field"]
+    if direction == "W":
+        new_row, new_column = row - 1, column
+    elif direction == "A":
+        new_row, new_column = row, column - 1
+    elif direction == "S":
+        new_row, new_column = row + 1, column
+    elif direction == "D":
+        new_row, new_column = row, column + 1
+    else:
+        new_row, new_column = row, column
+    if is_move_valid(board, new_row, new_column):
+        player["field"] = (new_row, new_column)
+    
+
+player_move(board)
+
+    
+
+
+def npc_move():
     pass
