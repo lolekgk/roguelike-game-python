@@ -27,13 +27,21 @@ def put_player_on_board(board, player):
     '''
     pass
 
-player = {"field":(3,3)}
+player = {"field":(2,2)}
 
-board = [[0] * 4 ] * 4
-print(board)
+board = [["0", "0", "0", "0"], ["0", ".", ".", "0"], ["0", ".", ".", "0"], ["0", "0", "0", "0"]]
+WALL = ["0"]
+#print(board)
+
+def is_move_valid(board, new_row, new_column):
+    if board[new_row][new_column] in WALL:
+        return False
+    return True
+
 
 def player_move(board):
     direction = key_pressed().upper()
+    #print(direction)
     (row, column) = player["field"]
     if direction == "W":
         new_row, new_column = row - 1, column
@@ -47,6 +55,7 @@ def player_move(board):
         new_row, new_column = row, column
     if is_move_valid(board, new_row, new_column):
         player["field"] = (new_row, new_column)
+    #print(player)
     
 
 player_move(board)
