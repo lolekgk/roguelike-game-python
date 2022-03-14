@@ -2,6 +2,7 @@ import util
 import engine
 import ui
 
+
 PLAYER_ICON = '@'
 PLAYER_START_X = 3
 PLAYER_START_Y = 3
@@ -35,7 +36,7 @@ def main():
         if key == 'q':
             is_running = False
         else:
-            pass
+            engine.player_move(board, key)
         util.clear_screen()
 
 

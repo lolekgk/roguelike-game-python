@@ -16,11 +16,8 @@ def create_board(width, height):
         board.append(row)
     board.append(['░' for i in range(width)])
     board[random.randint(1, height-2)][-1] = 'B'
-    for row in board:
-        print(''.join(row))
+    return board
 
-
-create_board(30, 20)
 
 
 def put_player_on_board(board, player):
@@ -45,16 +42,15 @@ def is_move_valid(board, new_row, new_column):
     return True
 
 
-def player_move(board):
-    direction = key_pressed().upper()
+def player_move(board, key):
     (row, column) = player["field"]
-    if direction == "W":
+    if key == "W":
         new_row, new_column = row - 1, column
-    elif direction == "A":
+    elif key == "A":
         new_row, new_column = row, column - 1
-    elif direction == "S":
+    elif key == "S":
         new_row, new_column = row + 1, column
-    elif direction == "D":
+    elif key == "D":
         new_row, new_column = row, column + 1
     else:
         new_row, new_column = row, column
