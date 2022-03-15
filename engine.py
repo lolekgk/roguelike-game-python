@@ -62,7 +62,7 @@ def npc_move():
     pass
 
 def is_interaction_with_item(board):
-    icons = [item[icon] for item in ITEMS]
+    icons = [item["icon"] for item in ITEMS]
     if board(player["field"]) in icons:
         return True
     return False
