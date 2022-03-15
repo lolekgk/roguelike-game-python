@@ -1,5 +1,5 @@
 
-from util import key_pressed
+from characters_and_items import ITEMS
 import random
 
 
@@ -59,4 +59,13 @@ def player_move(board, key):
     
 
 def npc_move():
+    pass
+
+def is_interaction_with_item(board):
+    icons = [item[icon] for item in ITEMS]
+    if board(player["field"]) in icons:
+        return True
+    return False
+
+def interaction_with_item(board):
     pass
