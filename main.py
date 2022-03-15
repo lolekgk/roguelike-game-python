@@ -23,21 +23,24 @@ def create_player():
 
 
 def main():
-    player = create_player()
+    player = {"field":(2,2)}  #create_player()
+    npc = {"field":(3,3)}
+    print(f"player to-----: {player}")
     board = engine.create_board(BOARD_WIDTH, BOARD_HEIGHT)
 
-    util.clear_screen()
+    #util.clear_screen()
     is_running = True
     while is_running:
         engine.put_player_on_board(board, player)
         ui.display_board(board)
 
-        key = util.key_pressed()
-        if key == 'q':
+        key = util.key_pressed().upper()
+        if key == 'Q':
             is_running = False
         else:
-            engine.player_move(board, key)
-        util.clear_screen()
+            engine.icon_move(player, board, key)
+            engine.npc_move(npc, board)
+        #util.clear_screen()
 
 
 if __name__ == '__main__':

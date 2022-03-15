@@ -33,7 +33,7 @@ def put_player_on_board(board, player):
     '''
     pass
 
-player = {"field":(2,2)}
+#player = {"field":(2,2)}
 
 
 def is_move_valid(board, new_row, new_column):
@@ -42,8 +42,8 @@ def is_move_valid(board, new_row, new_column):
     return True
 
 
-def player_move(board, key):
-    (row, column) = player["field"]
+def icon_move(icon, board, key):
+    (row, column) = icon["field"]
     if key == "W":
         new_row, new_column = row - 1, column
     elif key == "A":
@@ -55,8 +55,11 @@ def player_move(board, key):
     else:
         new_row, new_column = row, column
     if is_move_valid(board, new_row, new_column):
-        player["field"] = (new_row, new_column)
+        icon["field"] = (new_row, new_column)
+        print(f"player x:{new_row}{new_column}")        #Do usunięcia, wyświetla koordynaty
     
 
-def npc_move():
-    pass
+def npc_move(icon, board):
+    dirction = "WASD"
+    key = random.choice(dirction)
+    icon_move(icon, board, key)
