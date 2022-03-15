@@ -1,5 +1,6 @@
 from util import key_pressed
 import random
+import items_and_characters
 
 
 WALLS = ['░']
@@ -47,12 +48,14 @@ def put_npc_on_board(board, npc):
 
 def put_items_on_board(board, item):
     '''randomowe rozmieszczenie przedmiotow'''
-    while True:
-        y = random.randint(0, len(board[0])-1)
-        x = random.randint(0, len(board)-1)
-        if board[x][y] == ' ':
-            board[x][y] = 'i'
-            break 
+    for i in range(len(item)):
+        for num in range(item[i]['total amount']):
+            while True:
+                y = random.randint(0, len(board[0])-1)
+                x = random.randint(0, len(board)-1)
+                if board[x][y] == ' ':
+                    board[x][y] = item[i]['icon']
+                    break 
 
 
 def is_put_on_board_valid(board, x, y):
@@ -87,6 +90,8 @@ def npc_move():
     pass
 
 
+'''for tests only'''
+print(items_and_characters.ITEMS[2]['icon'])
 
 board = create_board(30, 20)
 put_player_on_board(board, 1)
@@ -97,7 +102,8 @@ def display_board(board):
 
 # player = {"field":(2,2)}
 put_npc_on_board(board, 1)
-put_items_on_board(board, 1)
+# put_items_on_board(board, items_and_characters.ITEMS[2])
+put_items_on_board(board, items_and_characters.ITEMS)
 display_board(board)      
 
 
