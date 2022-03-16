@@ -4,9 +4,12 @@ import items_and_characters
 
 
 WALLS = ['░']
-PLAYER_ICON = '☺'
+
+'''for tests only'''
+PLAYER_ICON = '☻'
 PLAYER_START_X = 3
 PLAYER_START_Y = 3
+'''for tests only'''
 
 
 def create_board(width, height):
@@ -37,12 +40,11 @@ def put_player_on_board(board, player):
 
 
 def put_npc_on_board(board, npc):
-    '''randomowe rozmieszczenie postaci npc'''
     while True:
-        y = random.randint(0, len(board[0])-1)
-        x = random.randint(0, len(board)-1)
-        if board[x][y] == ' ':
-            board[x][y] = 'n'
+        column = random.randint(0, len(board[0])-1)
+        row = random.randint(0, len(board)-1)
+        if board[row][column] == ' ':
+            board[row][column] = '‼'
             break 
 
 
@@ -51,15 +53,15 @@ def put_items_on_board(board, item):
     for i in range(len(item)):
         for num in range(item[i]['total amount']):
             while True:
-                y = random.randint(0, len(board[0])-1)
-                x = random.randint(0, len(board)-1)
-                if board[x][y] == ' ':
-                    board[x][y] = item[i]['icon']
+                column = random.randint(0, len(board[0])-1)
+                row = random.randint(0, len(board)-1)
+                if is_put_on_board_valid(board, row, column):
+                    board[row][column] = item[i]['icon']
                     break 
 
 
-def is_put_on_board_valid(board, x, y):
-    if board[x][y] == ' ':
+def is_put_on_board_valid(board, row, column):
+    if board[row][column] == ' ':
         return True
     return False
 
@@ -91,7 +93,7 @@ def npc_move():
 
 
 '''for tests only'''
-print(items_and_characters.ITEMS[2]['icon'])
+# print(items_and_characters.ITEMS[2]['icon'])
 
 board = create_board(30, 20)
 put_player_on_board(board, 1)
