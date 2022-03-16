@@ -15,8 +15,10 @@ COMPLEX_ITEM = {"name": "fridge", "icon": "[]", "total amount": 1, "items_list":
 # the value for "attributes" is a list of tuples; 
 # each tuple cointains item name and probability of getting that item upon interaction
 # probabilieties sum up to 1
-CHARACTERS = [{"name": "best student", "icon": "♥", "attributes": [("nerd's notes", 1)]},
-            {"name": "perpetual student", "icon": "‼", "attributes": [("last year's test", 0.5), ("beer", 0.5)]}]
+NPC = [{"name": "best student", "icon": "♥", "position": (20, 15),
+             "attributes": [("nerd's notes", 1)]},
+            {"name": "perpetual student", "icon": "‼", "position": (25, 10),
+             "attributes": [("last year's test", 0.5), ("beer", 0.5)]}]
 
 
 # a dictionary of dictionaries with type name as key
