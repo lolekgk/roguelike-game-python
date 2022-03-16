@@ -1,4 +1,4 @@
-from util import key_pressed
+from items_and_characters import ITEMS
 import random
 import items_and_characters
 
@@ -6,11 +6,6 @@ import items_and_characters
 WALLS = ['░']
 ROW = 0
 COLUMN = 1
-'''for tests only'''
-PLAYER_ICON = '☻'
-PLAYER_START_X = 3
-PLAYER_START_Y = 3
-'''for tests only'''
 
 
 def create_board(width, height):
@@ -90,8 +85,8 @@ def is_move_valid(board, new_row, new_column):
     return True
 
 
-def player_move(board, key):
-    (row, column) = player["field"]
+def move(character, board, key):
+    (row, column) = character["field"]
     if key == "W":
         new_row, new_column = row - 1, column
     elif key == "A":
@@ -103,27 +98,27 @@ def player_move(board, key):
     else:
         new_row, new_column = row, column
     if is_move_valid(board, new_row, new_column):
-        player["field"] = (new_row, new_column)
+        character["field"] = (new_row, new_column)
+
     
 
 def npc_move():
     pass
+ 
+
+def is_interaction_with_item(player, board):
+    icons = [item["icon"] for item in ITEMS]
+    if board(player["field"]) in icons:
+        return True
+    return False
 
 
-'''for tests only'''
-# print(items_and_characters.ITEMS[2]['icon'])
+def interaction_with_item(board):
+    pass
 
-board = create_board(30, 20)
-put_player_on_board(board, 1)
 
-def display_board(board):
-    for row in board:
-        print(''.join(row))
-
-# player = {"field":(2,2)}
-put_npc_on_board(board, items_and_characters.NPC)
-# put_items_on_board(board, items_and_characters.ITEMS[2])
-put_items_on_board(board, items_and_characters.ITEMS)
-display_board(board)      
-
+def npc_move(npc, board):
+    dirction = "WASD"
+    key = random.choice(dirction)
+    move(npc, board, key)
 
