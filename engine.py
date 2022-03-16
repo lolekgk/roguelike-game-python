@@ -1,5 +1,5 @@
 
-from util import key_pressed
+from items_and_characters import ITEMS
 import random
 
 
@@ -47,7 +47,7 @@ def put_player_on_board(board, player):
     '''
     pass
 
-player = {"field":(2,2)}
+#player = {"field":(2,2)}
 
 
 def is_move_valid(board, new_row, new_column):
@@ -56,8 +56,8 @@ def is_move_valid(board, new_row, new_column):
     return True
 
 
-def player_move(board, key):
-    (row, column) = player["field"]
+def move(character, board, key):
+    (row, column) = character["field"]
     if key == "W":
         new_row, new_column = row - 1, column
     elif key == "A":
@@ -69,8 +69,21 @@ def player_move(board, key):
     else:
         new_row, new_column = row, column
     if is_move_valid(board, new_row, new_column):
-        player["field"] = (new_row, new_column)
-    
+        character["field"] = (new_row, new_column)
 
-def npc_move():
+
+def is_interaction_with_item(player, board):
+    icons = [item["icon"] for item in ITEMS]
+    if board(player["field"]) in icons:
+        return True
+    return False
+
+def interaction_with_item(board):
     pass
+
+
+def npc_move(npc, board):
+    dirction = "WASD"
+    key = random.choice(dirction)
+    move(npc, board, key)
+

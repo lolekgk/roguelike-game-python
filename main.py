@@ -29,6 +29,7 @@ def create_player(player_type):
 
 
 def main():
+
     player_type = ui.get_player_type()
     name = ui.get_player_name()
     player = create_player(player_type)
@@ -41,13 +42,12 @@ def main():
         engine.put_player_on_board(board, player)
         ui.display_board(board, stats_scroll)
 
-        key = util.key_pressed()
-        if key == 'q':
+        key = util.key_pressed().upper()
+        if key == 'Q':
             is_running = False
         else:
             engine.player_move(board, key)
         util.clear_screen()
-        x = input("dupa")
 
 
 if __name__ == '__main__':
