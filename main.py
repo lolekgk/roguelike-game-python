@@ -2,7 +2,8 @@ import util
 import engine
 import ui
 from items_and_characters import ITEMS, NPCS
-from copy import copy, deepcopy
+from copy import deepcopy
+import random
 
 
 BOARD_WIDTH = 30
@@ -28,6 +29,12 @@ def create_player(player_type):
     return player_types[player_type]
 
 
+def get_npc_direction():
+    direction = "WASD"
+    key = random.choice(direction)
+    return key
+
+
 def main():
     player_type = ui.get_player_type()
     name = ui.get_player_name()
@@ -37,21 +44,25 @@ def main():
     board = engine.create_board(BOARD_WIDTH, BOARD_HEIGHT)
     stats_scroll = engine.create_stats_scroll(player, BOARD_HEIGHT)
     engine.put_player_on_board(board, player)
-    npcs = NPCS.copy() 
+    npcs = NPCS.deepcopy() 
     engine.put_npcs_on_board(board, npcs)
-    items = ITEMS.copy()
+    items = ITEMS.deepcopy()
     engine.put_items_on_board(board, items)
     util.clear_screen()
 
     is_running = True
     while is_running:
+        if player["energy"] <= 0:
+            break
         ui.display_board(board, stats_scroll)
-
         key = util.key_pressed().upper()
         if key == 'Q':
             is_running = False
         else:
-            engine.player_move(board, key)
+            engine.move(player, board, key)
+            for npc in npcs:
+                engine.move(npc, board, get_npc_direction())
+            
         util.clear_screen()
 
 

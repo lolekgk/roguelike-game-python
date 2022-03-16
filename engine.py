@@ -86,14 +86,11 @@ def move(character, board, key):
     else:
         new_row, new_column = row, column
     if is_move_valid(board, new_row, new_column):
+        board[row][column] = " "
         character["field"] = (new_row, new_column)
-        
-
-
-
-def npc_move():
-    pass
-  
+        board[new_row][new_column] = character["icon"]
+       
+ 
 
 def is_interaction_with_item(board, player):
     if board(player["field"]) in ICONS:
@@ -115,11 +112,4 @@ def interaction_with_item(board, player):
         player["energy"] += item["effect"]["energy"]
         player["knowledge"] += item["effect"]["knowledge"]
          
-
-
-def get_npc_direction(npc, board):
-    dirction = "WASD"
-    key = random.choice(dirction)
-    #move(npc, board, key)
-    return key
 
