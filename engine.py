@@ -21,6 +21,21 @@ def create_board(width, height):
     return board
 
 
+def create_stats_scroll(player, height) -> list:
+    stats_scroll = ['  _______________________', '=(__    ___      __     _)=', '  |                     |']
+    for k in player:
+        row = f'  | {k}: {player[k]}'
+        while len(row) != len(' _______________________'):
+            row += ' '
+        row += '|'
+        stats_scroll.append(row)
+    stats_scroll.append('  |__    ___   __    ___|')
+    stats_scroll.append('=(_______________________)=')
+    while len(stats_scroll) != height:
+        stats_scroll.append('')
+    return stats_scroll
+
+
 def put_player_on_board(board, player):
     '''
     Modifies the game board by placing the player icon at its coordinates.
@@ -100,13 +115,13 @@ def move(character, board, key):
         new_row, new_column = row, column
     if is_move_valid(board, new_row, new_column):
         character["field"] = (new_row, new_column)
-
+        
 
 items = ITEMS.deepcopy()
 
 def npc_move():
     pass
- 
+  
 
 def is_interaction_with_item(player, board):
     if board(player["field"]) in ICONS:
