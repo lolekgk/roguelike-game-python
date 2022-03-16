@@ -1,3 +1,5 @@
+PLAYER = {"position": (3, 3), "icon": '☻'}
+
 #the value for "effect" is a tuple containing info about which studen's attribute is affected and how
 ITEMS = [{"name": "nerd's notes", "icon": "◘", "total amount": 4, "effect": ("knowledge", +1) },
         {"name": "last year's test", "icon": "T", "total amount": 2, "effect": ("knowledge", +3) },

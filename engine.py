@@ -1,6 +1,5 @@
 from items_and_characters import ITEMS
 import random
-import items_and_characters
 
 
 WALLS = ['░']
@@ -32,7 +31,8 @@ def put_player_on_board(board, player):
     Returns:
     Nothing
     '''
-    board[PLAYER_START_X][PLAYER_START_Y] = PLAYER_ICON
+    row, column = player["position"][ROW], player["position"][COLUMN]
+    board[row][column] = player["icon"]
   
 
 
