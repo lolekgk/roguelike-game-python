@@ -1,11 +1,13 @@
 from items_and_characters import ITEMS
 import random
+from copy import deepcopy
 
 
 WALLS = ['░']
 ROW = 0
 COLUMN = 1
 ICONS = [item["icon"] for item in ITEMS]
+items = ITEMS.deepcopy()
 
 
 def create_board(width, height):
@@ -37,53 +39,23 @@ def create_stats_scroll(player, height) -> list:
 
 
 def put_player_on_board(board, player):
-    '''
-    Modifies the game board by placing the player icon at its coordinates.
-
-    Args:
-    list: The game board
-    dictionary: The player information containing the icon and coordinates
-
-    Returns:
-    Nothing
-    '''
     row, column = player["position"][ROW], player["position"][COLUMN]
     board[row][column] = player["icon"]
   
 
 
 def put_npc_on_board(board, npc):
-    '''
-    Modifies the game board by placing the NPC icons at their coordinates.
-
-    Args:
-    list: The game board
-    list of dictionaries: The NPC information containing the icons and coordinates
-
-    Returns:
-    Nothing
-    '''
     for i in range(len(npc)):
         row, column = npc[i]["position"][ROW], npc[i]["position"][COLUMN]
         board[row][column] = npc[i]["icon"]
   
 
 def put_items_on_board(board, item):
-    '''
-    Modifies the game board by placing the items icons at their coordinates.
-
-    Args:
-    list: The game board
-    list of dictionaries: The items information containing the icons and coordinates
-
-    Returns:
-    Nothing
-    '''
     for i in range(len(item)):
         for num in range(item[i]['total amount']):
             while True:
-                column = random.randint(0, len(board[ROW])-1)
-                row = random.randint(0, len(board)-1)
+                column = random.randint(1, len(board[ROW])-1)
+                row = random.randint(1, len(board)-1)
                 if is_put_on_board_valid(board, row, column):
                     board[row][column] = item[i]['icon']
                     break 
@@ -117,7 +89,7 @@ def move(character, board, key):
         character["field"] = (new_row, new_column)
         
 
-items = ITEMS.deepcopy()
+
 
 def npc_move():
     pass
