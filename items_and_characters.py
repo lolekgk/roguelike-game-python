@@ -16,4 +16,4 @@ COMPLEX_ITEM = {"name": "fridge", "icon": "[]", "total amount": 1, "items_list":
 # each tuple cointains item name and probability of getting that item upon interaction
 # probabilieties sum up to 1
 CHARACTERS = [{"name": "best student", "icon": "B", "attributes": [("nerd's notes", 1)]},
-            {"name": "perpetual student", "icon": "S", "attributes": [("last year's test", 0.5), ("beer", 0.5)}]
+            {"name": "perpetual student", "icon": "S", "attributes": [("last year's test", 0.5), ("beer", 0.5)]}]
