@@ -4,7 +4,8 @@ import items_and_characters
 
 
 WALLS = ['░']
-
+ROW = 0
+COLUMN = 1
 '''for tests only'''
 PLAYER_ICON = '☻'
 PLAYER_START_X = 3
@@ -26,7 +27,6 @@ def create_board(width, height):
 
 
 def put_player_on_board(board, player):
-    board[PLAYER_START_X][PLAYER_START_Y] = PLAYER_ICON
     '''
     Modifies the game board by placing the player icon at its coordinates.
 
@@ -37,23 +37,41 @@ def put_player_on_board(board, player):
     Returns:
     Nothing
     '''
+    board[PLAYER_START_X][PLAYER_START_Y] = PLAYER_ICON
+  
 
 
 def put_npc_on_board(board, npc):
-    while True:
-        column = random.randint(0, len(board[0])-1)
-        row = random.randint(0, len(board)-1)
-        if board[row][column] == ' ':
-            board[row][column] = '‼'
-            break 
+    '''
+    Modifies the game board by placing the NPC icons at their coordinates.
 
+    Args:
+    list: The game board
+    list of dictionaries: The NPC information containing the icons and coordinates
+
+    Returns:
+    Nothing
+    '''
+    for i in range(len(npc)):
+        row, column = npc[i]["position"][ROW], npc[i]["position"][COLUMN]
+        board[row][column] = npc[i]["icon"]
+  
 
 def put_items_on_board(board, item):
-    '''randomowe rozmieszczenie przedmiotow'''
+    '''
+    Modifies the game board by placing the items icons at their coordinates.
+
+    Args:
+    list: The game board
+    list of dictionaries: The items information containing the icons and coordinates
+
+    Returns:
+    Nothing
+    '''
     for i in range(len(item)):
         for num in range(item[i]['total amount']):
             while True:
-                column = random.randint(0, len(board[0])-1)
+                column = random.randint(0, len(board[ROW])-1)
                 row = random.randint(0, len(board)-1)
                 if is_put_on_board_valid(board, row, column):
                     board[row][column] = item[i]['icon']
@@ -103,7 +121,7 @@ def display_board(board):
         print(''.join(row))
 
 # player = {"field":(2,2)}
-put_npc_on_board(board, 1)
+put_npc_on_board(board, items_and_characters.NPC)
 # put_items_on_board(board, items_and_characters.ITEMS[2])
 put_items_on_board(board, items_and_characters.ITEMS)
 display_board(board)      

@@ -15,9 +15,9 @@ COMPLEX_ITEM = {"name": "fridge", "icon": "[]", "total amount": 1, "items_list":
 # the value for "attributes" is a list of tuples; 
 # each tuple cointains item name and probability of getting that item upon interaction
 # probabilieties sum up to 1
-NPC = [{"name": "best student", "icon": "♥", "position": (20, 15),
+NPC = [{"name": "best student", "icon": "♥", "position": (18, 2),
              "attributes": [("nerd's notes", 1)]},
-            {"name": "perpetual student", "icon": "‼", "position": (25, 10),
+            {"name": "perpetual student", "icon": "‼", "position": (12, 15),
              "attributes": [("last year's test", 0.5), ("beer", 0.5)]}]
 
 
