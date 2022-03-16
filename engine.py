@@ -44,20 +44,20 @@ def put_player_on_board(board, player):
   
 
 
-def put_npc_on_board(board, npc):
-    for i in range(len(npc)):
-        row, column = npc[i]["position"][ROW], npc[i]["position"][COLUMN]
-        board[row][column] = npc[i]["icon"]
+def put_npcs_on_board(board, npcs):
+    for npc in npcs:
+        (row, column) = npc["field"]
+        board[row][column] = npc["icon"]
   
 
-def put_items_on_board(board, item):
-    for i in range(len(item)):
-        for num in range(item[i]['total amount']):
+def put_items_on_board(board, items):
+    for item in items:
+        for num in range(item['total amount']):
             while True:
                 column = random.randint(1, len(board[ROW])-1)
                 row = random.randint(1, len(board)-1)
                 if is_put_on_board_valid(board, row, column):
-                    board[row][column] = item[i]['icon']
+                    board[row][column] = item['icon']
                     break 
 
 
