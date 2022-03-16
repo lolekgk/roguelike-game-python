@@ -1,7 +1,9 @@
 from items_and_characters import ITEMS
 import random
+import copy
 
 
+PLAYER = {"position": (3, 3), "icon": '☻'}
 WALLS = ['░']
 ROW = 0
 COLUMN = 1
@@ -102,7 +104,7 @@ def is_move_valid(board, new_row, new_column):
 
 
 def move(character, board, key):
-    (row, column) = character["field"]
+    (row, column) = character["position"]
     if key == "W":
         new_row, new_column = row - 1, column
     elif key == "A":
@@ -114,10 +116,10 @@ def move(character, board, key):
     else:
         new_row, new_column = row, column
     if is_move_valid(board, new_row, new_column):
-        character["field"] = (new_row, new_column)
+        character["position"] = (new_row, new_column)
         
 
-items = ITEMS.deepcopy()
+items = copy.deepcopy(ITEMS)
 
 def npc_move():
     pass
