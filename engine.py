@@ -1,13 +1,11 @@
 from items_and_characters import ITEMS
 import random
-from copy import deepcopy
 
 
 WALLS = ['░']
 ROW = 0
 COLUMN = 1
 ICONS = [item["icon"] for item in ITEMS]
-items = ITEMS.deepcopy()
 
 
 def create_board(width, height):
@@ -39,7 +37,7 @@ def create_stats_scroll(player, height) -> list:
 
 
 def put_player_on_board(board, player):
-    row, column = player["position"][ROW], player["position"][COLUMN]
+    (row, column) = player["field"]
     board[row][column] = player["icon"]
   
 

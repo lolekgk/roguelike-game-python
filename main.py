@@ -8,7 +8,7 @@ import random
 
 BOARD_WIDTH = 30
 BOARD_HEIGHT = 20
-
+PLAYER_ICON = "P"
 PLAYER_START_COORDS = (1,1)
 
 
@@ -41,12 +41,13 @@ def main():
     player = create_player(player_type)
     player['name'] = name
     player['field'] = PLAYER_START_COORDS
+    player['icon'] = PLAYER_ICON
     board = engine.create_board(BOARD_WIDTH, BOARD_HEIGHT)
     stats_scroll = engine.create_stats_scroll(player, BOARD_HEIGHT)
     engine.put_player_on_board(board, player)
-    npcs = NPCS.deepcopy() 
+    npcs = deepcopy(NPCS) 
     engine.put_npcs_on_board(board, npcs)
-    items = ITEMS.deepcopy()
+    items = deepcopy(ITEMS)
     engine.put_items_on_board(board, items)
     util.clear_screen()
 
