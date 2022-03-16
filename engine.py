@@ -95,25 +95,31 @@ def npc_move():
     pass
   
 
-def is_interaction_with_item(player, board):
+def is_interaction_with_item(board, player):
     if board(player["field"]) in ICONS:
         return True
     return False
 
 
-def get_item(coords, board):
+def get_item(board, coords):
     if board[coords[0]][coords[1]] in ICONS:
         for item in items:
             if board[coords[0]][coords[1]] == item["icon"]:
                 return item
 
 
-def interaction_with_item(board, item):
-    pass 
+def interaction_with_item(board, player):
+    if is_interaction_with_item(board, player):
+        item = get_item(board, player["field"])
+        item["total amount"] -= 1
+        player["energy"] += item["effect"]["energy"]
+        player["knowledge"] += item["effect"]["knowledge"]
+         
 
 
-def npc_move(npc, board):
+def get_npc_direction(npc, board):
     dirction = "WASD"
     key = random.choice(dirction)
-    move(npc, board, key)
+    #move(npc, board, key)
+    return key
 
