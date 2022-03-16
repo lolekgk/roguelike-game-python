@@ -1,5 +1,5 @@
 
-from characters_and_items import ITEMS
+from items_and_characters import ITEMS
 import random
 
 
@@ -58,11 +58,8 @@ def move(character, board, key):
 
     
 
-<<<<<<< HEAD
-def npc_move():
-    pass
 
-def is_interaction_with_item(board):
+def is_interaction_with_item(player, board):
     icons = [item["icon"] for item in ITEMS]
     if board(player["field"]) in icons:
         return True
@@ -70,9 +67,10 @@ def is_interaction_with_item(board):
 
 def interaction_with_item(board):
     pass
-=======
-def npc_move(icon, board):
+
+
+def npc_move(npc, board):
     dirction = "WASD"
     key = random.choice(dirction)
-    move(icon, board, key)
->>>>>>> development
+    move(npc, board, key)
+
