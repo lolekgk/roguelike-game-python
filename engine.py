@@ -5,6 +5,7 @@ import random
 WALLS = ['░']
 ROW = 0
 COLUMN = 1
+ICONS = [item["icon"] for item in ITEMS]
 
 
 def create_board(width, height):
@@ -100,21 +101,28 @@ def move(character, board, key):
     if is_move_valid(board, new_row, new_column):
         character["field"] = (new_row, new_column)
 
-    
+
+items = ITEMS.deepcopy()
 
 def npc_move():
     pass
  
 
 def is_interaction_with_item(player, board):
-    icons = [item["icon"] for item in ITEMS]
-    if board(player["field"]) in icons:
+    if board(player["field"]) in ICONS:
         return True
     return False
 
 
-def interaction_with_item(board):
-    pass
+def get_item(coords, board):
+    if board[coords[0]][coords[1]] in ICONS:
+        for item in items:
+            if board[coords[0]][coords[1]] == item["icon"]:
+                return item
+
+
+def interaction_with_item(board, item):
+    pass 
 
 
 def npc_move(npc, board):
