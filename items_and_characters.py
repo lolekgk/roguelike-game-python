@@ -22,7 +22,7 @@ CHARACTERS = [{"name": "best student", "icon": "B", "attributes": [("nerd's note
 # a dictionary of dictionaries with type name as key
 # the value is a dictionary with a character's parameters
 PLAYER_TYPES = {
-        'Nerd': {'knowledge': 10, 'smartness': 2, 'energy': 20, 'exams': None}, 
-        'Laid-back': {'knowledge': 1, 'smartness': 6, 'energy': 20, 'exams': None},
-        'Average': {'knowledge': 5, 'smartness': 4, 'energy': 20, 'exams': None}
+        'Nerd': {'class': 'Nerd', 'name': None, 'knowledge': 10, 'smartness': 2, 'energy': 20, 'exams': None}, 
+        'Laid-back': {'class': 'Laid-back', 'name': None, 'knowledge': 1, 'smartness': 6, 'energy': 20, 'exams': None},
+        'Average': {'class': 'Average', 'name': None, 'knowledge': 5, 'smartness': 4, 'energy': 20, 'exams': None}
         }
