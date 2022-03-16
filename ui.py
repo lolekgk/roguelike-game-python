@@ -1,13 +1,13 @@
 TYPES = ['Nerd', 'Laid-back', 'Average']
 
 
-def display_board(board):
-    for row in board:
-        print(''.join(row))
+def display_board(board, stats_scroll):
+    for row, line in zip(board, stats_scroll):
+        print(''.join(row), f'   {line}')
 
 
 def get_player_type() -> str:
-    print("Welcome to the game!")
+    print("> Choose your student type <")
     list_of_types = [f'{i + 1}. - {TYPES[i]}' for i in range(len(TYPES))]
     while True:
         player_type = input(f"Select your student: {list_of_types} > ")
@@ -16,4 +16,15 @@ def get_player_type() -> str:
             continue
         break
     return TYPES[int(player_type) - 1]
+
+
+def get_player_name():
+    print("> What's your name, student? <")
+    while True:
+        name = input('Please type your name: ')
+        if len(name) > 13:
+            print("The name is too long! (max 13 characters)")
+            continue
+        break
+    return name
 

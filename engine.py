@@ -1,9 +1,10 @@
-
 from items_and_characters import ITEMS
 import random
 
 
 WALLS = ['░']
+ROW = 0
+COLUMN = 1
 ICONS = [item["icon"] for item in ITEMS]
 
 
@@ -20,6 +21,21 @@ def create_board(width, height):
     return board
 
 
+def create_stats_scroll(player, height) -> list:
+    stats_scroll = ['  _______________________', '=(__    ___      __     _)=', '  |                     |']
+    for k in player:
+        row = f'  | {k}: {player[k]}'
+        while len(row) != len(' _______________________'):
+            row += ' '
+        row += '|'
+        stats_scroll.append(row)
+    stats_scroll.append('  |__    ___   __    ___|')
+    stats_scroll.append('=(_______________________)=')
+    while len(stats_scroll) != height:
+        stats_scroll.append('')
+    return stats_scroll
+
+
 def put_player_on_board(board, player):
     '''
     Modifies the game board by placing the player icon at its coordinates.
@@ -31,9 +47,52 @@ def put_player_on_board(board, player):
     Returns:
     Nothing
     '''
-    pass
+    row, column = player["position"][ROW], player["position"][COLUMN]
+    board[row][column] = player["icon"]
+  
 
-#player = {"field":(2,2)}
+
+def put_npc_on_board(board, npc):
+    '''
+    Modifies the game board by placing the NPC icons at their coordinates.
+
+    Args:
+    list: The game board
+    list of dictionaries: The NPC information containing the icons and coordinates
+
+    Returns:
+    Nothing
+    '''
+    for i in range(len(npc)):
+        row, column = npc[i]["position"][ROW], npc[i]["position"][COLUMN]
+        board[row][column] = npc[i]["icon"]
+  
+
+def put_items_on_board(board, item):
+    '''
+    Modifies the game board by placing the items icons at their coordinates.
+
+    Args:
+    list: The game board
+    list of dictionaries: The items information containing the icons and coordinates
+
+    Returns:
+    Nothing
+    '''
+    for i in range(len(item)):
+        for num in range(item[i]['total amount']):
+            while True:
+                column = random.randint(0, len(board[ROW])-1)
+                row = random.randint(0, len(board)-1)
+                if is_put_on_board_valid(board, row, column):
+                    board[row][column] = item[i]['icon']
+                    break 
+
+
+def is_put_on_board_valid(board, row, column):
+    if board[row][column] == ' ':
+        return True
+    return False
 
 
 def is_move_valid(board, new_row, new_column):
@@ -56,10 +115,13 @@ def move(character, board, key):
         new_row, new_column = row, column
     if is_move_valid(board, new_row, new_column):
         character["field"] = (new_row, new_column)
-
+        
 
 items = ITEMS.deepcopy()
 
+def npc_move():
+    pass
+  
 
 def is_interaction_with_item(player, board):
     if board(player["field"]) in ICONS:
