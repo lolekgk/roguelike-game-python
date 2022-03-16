@@ -3,10 +3,6 @@ import engine
 import ui
 
 
-PLAYER_ICON = '@'
-PLAYER_START_X = 3
-PLAYER_START_Y = 3
-
 BOARD_WIDTH = 30
 BOARD_HEIGHT = 20
 
