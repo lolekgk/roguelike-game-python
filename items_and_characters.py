@@ -14,13 +14,12 @@ ITEMS = [{"name": "nerd's notes", "icon": "◘", "total amount": 4, "effect": ("
 COMPLEX_ITEM = {"name": "fridge", "icon": "[]", "total amount": 1, "items_list": [("Red Bull", 0.8), ("beer", 0.2)]}
 
 
+# a dictionary of dictionaries with npc type as key
 # the value for "attributes" is a list of tuples; 
 # each tuple cointains item name and probability of getting that item upon interaction
 # probabilieties sum up to 1
-NPC = [{"name": "best student", "icon": "♥", "position": (18, 2),
-             "attributes": [("nerd's notes", 1)]},
-            {"name": "perpetual student", "icon": "‼", "position": (12, 15),
-             "attributes": [("last year's test", 0.5), ("beer", 0.5)]}]
+NPC = {best_student: {"name": "best student", "icon": "♥", "position": (18, 2),"attributes": [("nerd's notes", 1)]},
+       perpetual_student: {"name": "perpetual student", "icon": "‼", "position": (12, 15),"attributes": [("last year's test", 0.5), ("beer", 0.5)]}}
 
 
 # a dictionary of dictionaries with type name as key
