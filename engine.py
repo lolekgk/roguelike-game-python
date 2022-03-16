@@ -15,9 +15,8 @@ def create_board(width, height):
         row.append('░')
         board.append(row)
     board.append(['░' for i in range(width)])
-    board[random.randint(1, height-2)][-1] = 'B'
+    board[-2][-1] = 'B'
     return board
-
 
 
 def put_player_on_board(board, player):
