@@ -23,9 +23,6 @@ def create_player():
 
 
 def main():
-    player = {"field":(2,2)}  #create_player()
-    npc = {"field":(3,3)}
-    print(f"player to-----: {player}")
     board = engine.create_board(BOARD_WIDTH, BOARD_HEIGHT)
 
     #util.clear_screen()
@@ -38,7 +35,7 @@ def main():
         if key == 'Q':
             is_running = False
         else:
-            engine.icon_move(player, board, key)
+            engine.move(player, board, key)
             engine.npc_move(npc, board)
         #util.clear_screen()
 
