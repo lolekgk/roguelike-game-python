@@ -92,7 +92,7 @@ def move(character, board, key, player, items):
     new_row, new_column = get_new_coords(row, column, key)
     obstacles = PLAYER_WALLS if character == player else NPC_WALLS
     if is_move_valid(board, new_row, new_column, obstacles):
-        if board[new_row][new_column] in ICONS:
+        if board[new_row][new_column] in ICONS and character == player:
             interaction_with_item(board, player, items, new_row, new_column)
         board[row][column] = " "
         character["field"] = (new_row, new_column)
