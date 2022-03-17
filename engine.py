@@ -9,6 +9,7 @@ COLUMN = 1
 ICONS = [item["icon"] for item in ITEMS]
 NPC_ICONS = ["♥", "‼"]
 
+
 def create_board(width, height):
     board = []
     board.append(['░' for i in range(width)])

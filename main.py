@@ -36,7 +36,6 @@ def setup_start_board(board, player, npcs, items):
 def main():
     player = create_player()
     board = engine.create_board(BOARD_WIDTH, BOARD_HEIGHT)
-    stats_scroll = engine.create_stats_scroll(player, BOARD_HEIGHT)
     npcs = deepcopy(NPCS) 
     items = deepcopy(ITEMS)
     setup_start_board(board, player, npcs, items)
@@ -45,7 +44,7 @@ def main():
     while is_running:
         if player["energy"] <= 0:
             break
-        ui.display_board(board, stats_scroll)
+        ui.display_board(board, player)
         key = util.key_pressed().upper()
         if key == 'Q':
             is_running = False
