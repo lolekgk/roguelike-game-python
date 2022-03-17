@@ -2,11 +2,12 @@ from items_and_characters import ITEMS
 import random
 
 
-WALLS = ['░']
+PLAYER_WALLS = ['░', "♥", "‼"]
+NPC_WALLS = ['░', "♥", "‼", "B", "P"]
 ROW = 0
 COLUMN = 1
 ICONS = [item["icon"] for item in ITEMS]
-
+NPC_ICONS = ["♥", "‼"]
 
 def create_board(width, height):
     board = []
@@ -65,8 +66,8 @@ def is_put_on_board_valid(board, row, column):
     return False
 
 
-def is_move_valid(board, new_row, new_column):
-    if board[new_row][new_column] in WALLS:
+def is_move_valid(board, new_row, new_column, type_walls):
+    if board[new_row][new_column] in type_walls:
         return False
     return True
 
@@ -83,10 +84,16 @@ def move(character, board, key):
         new_row, new_column = row, column + 1
     else:
         new_row, new_column = row, column
-    if is_move_valid(board, new_row, new_column):
-        board[row][column] = " "
-        character["field"] = (new_row, new_column)
-        board[new_row][new_column] = character["icon"]
+    if character["icon"] == "P":
+        if is_move_valid(board, new_row, new_column, PLAYER_WALLS):
+            board[row][column] = " "
+            character["field"] = (new_row, new_column)
+            board[new_row][new_column] = character["icon"]
+    elif character["icon"] in NPC_ICONS:
+        if is_move_valid(board, new_row, new_column, NPC_WALLS):
+            board[row][column] = " "
+            character["field"] = (new_row, new_column)
+            board[new_row][new_column] = character["icon"]
        
 
 def is_interaction_with_item(board, player):

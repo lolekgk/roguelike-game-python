@@ -33,7 +33,6 @@ def setup_start_board(board, player, npcs, items):
     engine.put_items_on_board(board, items)
     engine.put_npcs_on_board(board, npcs)
 
-
 def main():
     player = create_player()
     board = engine.create_board(BOARD_WIDTH, BOARD_HEIGHT)
