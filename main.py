@@ -1,3 +1,4 @@
+from items_and_characters import PLAYER_TYPES
 import util
 import engine
 import ui
@@ -8,21 +9,8 @@ BOARD_HEIGHT = 20
 
 
 def create_player():
-    '''
-    Creates a 'player' dictionary for storing all player related informations - i.e. player icon, player position.
-    Fell free to extend this dictionary!
-
-    Returns:
-    dictionary
-    '''
-    player_types = {
-        'Nerd': {'class': 'Nerd', 'name': None, 'knowledge': 10, 'smartness': 2, 'energy': 20, 'exams': None}, 
-        'Laid-back': {'class': 'Laid-back', 'name': None, 'knowledge': 1, 'smartness': 6, 'energy': 20, 'exams': None},
-        'Average': {'class': 'Average', 'name': None, 'knowledge': 5, 'smartness': 4, 'energy': 20, 'exams': None}
-        }
-
     player_type = ui.get_player_type()
-    player = player_types[player_type]
+    player = PLAYER_TYPES[player_type]
     player["name"] = ui.get_player_name()
     return player
 
