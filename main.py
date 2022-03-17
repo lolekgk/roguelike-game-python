@@ -15,7 +15,6 @@ PLAYER_START_COORDS = (1,1)
 def create_player():
     player_type = ui.get_player_type()
     player = deepcopy(PLAYER_TYPES[player_type])
-    print(player)
     name = ui.get_player_name()
     player['name'] = name
     player['field'] = PLAYER_START_COORDS
@@ -38,7 +37,6 @@ def setup_start_board(board, player, npcs, items):
 def main():
     player = create_player()
     board = engine.create_board(BOARD_WIDTH, BOARD_HEIGHT)
-    stats_scroll = engine.create_stats_scroll(player, BOARD_HEIGHT)
     npcs = deepcopy(NPCS) 
     items = deepcopy(ITEMS)
     setup_start_board(board, player, npcs, items)
@@ -47,6 +45,7 @@ def main():
     while is_running:
         if player["energy"] <= 0:
             break
+        stats_scroll = engine.create_stats_scroll(player, BOARD_HEIGHT)
         ui.display_board(board, stats_scroll)
         key = util.key_pressed().upper()
         if key == 'Q':
