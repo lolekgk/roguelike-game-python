@@ -1,7 +1,10 @@
+import engine
+
 TYPES = ['Nerd', 'Laid-back', 'Average']
 
 
-def display_board(board, stats_scroll):
+def display_board(board, player_info):
+    stats_scroll = engine.create_stats_scroll(player_info, len(board))
     for row, line in zip(board, stats_scroll):
         print(''.join(row), f'   {line}')
 
