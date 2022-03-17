@@ -91,6 +91,8 @@ def move(character, board, key):
     (row, column) = character["field"]
     new_row, new_column = get_new_coords(row, column, key)
     if is_move_valid(board, new_row, new_column):
+        if board[new_row][new_column] in ICONS:
+            interaction_with_item(board, player, items, new_row, new_column)
         board[row][column] = " "
         character["field"] = (new_row, new_column)
         board[new_row][new_column] = character["icon"]
