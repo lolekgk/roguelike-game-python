@@ -87,7 +87,7 @@ def get_new_coords(row, column, key):
     return new_row, new_column
 
 
-def move(character, board, key):
+def move(character, board, key, player, items):
     (row, column) = character["field"]
     new_row, new_column = get_new_coords(row, column, key)
     if is_move_valid(board, new_row, new_column):
