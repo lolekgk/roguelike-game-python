@@ -1,40 +1,59 @@
+from items_and_characters import PLAYER_TYPES
 import util
 import engine
 import ui
+from items_and_characters import ITEMS, NPCS, PLAYER_TYPES
+from copy import deepcopy
+import random
 
 PLAYER_POSITION = {"position": (3, 3), "icon": '☻'}
 BOARD_WIDTH = 30
 BOARD_HEIGHT = 20
+PLAYER_ICON = "P"
+PLAYER_START_COORDS = (1,1)
 
 
 def create_player():
-
-    player_types = {
-        'Nerd': {'class': 'Nerd', 'name': None, 'knowledge': 10, 'smartness': 2, 'energy': 20, 'exams': None}, 
-        'Laid-back': {'class': 'Laid-back', 'name': None, 'knowledge': 1, 'smartness': 6, 'energy': 20, 'exams': None},
-        'Average': {'class': 'Average', 'name': None, 'knowledge': 5, 'smartness': 4, 'energy': 20, 'exams': None}
-        }
-
     player_type = ui.get_player_type()
-    player = player_types[player_type]
-    player["name"] = ui.get_player_name()
+    player = deepcopy(PLAYER_TYPES[player_type])
+    name = ui.get_player_name()
+    player['name'] = name
+    player['field'] = PLAYER_START_COORDS
+    player['icon'] = PLAYER_ICON
     return player
 
 
+def get_npc_direction():
+    direction = "WASD"
+    key = random.choice(direction)
+    return key
+
+
+def setup_start_board(board, player, npcs, items):
+    engine.put_player_on_board(board, player)
+    engine.put_items_on_board(board, items)
+    engine.put_npcs_on_board(board, npcs)
+
 def main():
-    player_info = create_player()
+    player = create_player()
     board = engine.create_board(BOARD_WIDTH, BOARD_HEIGHT)
+    npcs = deepcopy(NPCS) 
+    items = deepcopy(ITEMS)
+    setup_start_board(board, player, npcs, items)
     util.clear_screen()
     is_running = True
     while is_running:
-        engine.put_player_on_board(board, PLAYER_POSITION)
-        ui.display_board(board, player_info)
-
+        if player["energy"] <= 0:
+            break
+        ui.display_board(board, player)
         key = util.key_pressed().upper()
         if key == 'Q':
             is_running = False
         else:
-            engine.move(PLAYER_POSITION, board, key)
+            engine.move(player, board, key, player, items)
+            # engine.interaction_with_item(board, player, items)
+            for npc in npcs:
+                engine.move(npc, board, get_npc_direction(), player, items)
         util.clear_screen()
 
 
