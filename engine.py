@@ -109,7 +109,7 @@ def interaction_with_item(board, player, items):
         player["energy"] += item["effect"]["energy"]
         player["knowledge"] += item["effect"]["knowledge"]
          
-
+'''
 def is_interaction_with_npc(player, board):
     (row, column) = player["position"]
     if board(row -1, column) in NPC_ICONS or board(row +1, column) in NPC_ICONS \
@@ -121,3 +121,4 @@ def is_interaction_with_npc(player, board):
 def interaction_with_npc(board, player):
     if is_interaction_with_npc(player):
         pass
+'''

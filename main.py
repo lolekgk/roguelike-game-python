@@ -15,6 +15,7 @@ PLAYER_START_COORDS = (1,1)
 def create_player():
     player_type = ui.get_player_type()
     player = deepcopy(PLAYER_TYPES[player_type])
+    print(player)
     name = ui.get_player_name()
     player['name'] = name
     player['field'] = PLAYER_START_COORDS
