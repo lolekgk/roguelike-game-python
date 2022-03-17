@@ -52,6 +52,7 @@ def main():
             is_running = False
         else:
             engine.move(player, board, key)
+            engine.interaction_with_item(board, player, items)
             for npc in npcs:
                 engine.move(npc, board, get_npc_direction())
         util.clear_screen()
