@@ -1,6 +1,6 @@
 from items_and_characters import ITEMS
 import random
-
+import copy
 
 WALLS = ['░']
 ROW = 0
@@ -72,7 +72,7 @@ def is_move_valid(board, new_row, new_column):
     return True
 
 
-def move(character, board, key):
+def move(character, board, key, player, items):
     (row, column) = character["field"]
     if key == "W":
         new_row, new_column = row - 1, column
@@ -85,34 +85,29 @@ def move(character, board, key):
     else:
         new_row, new_column = row, column
     if is_move_valid(board, new_row, new_column):
+        if board[new_row][new_column] in ICONS:
+            interaction_with_item(board, player, items, new_row, new_column)
         board[row][column] = " "
         character["field"] = (new_row, new_column)
         board[new_row][new_column] = character["icon"]
        
 
-def is_interaction_with_item(board, player):
-    if board[player["field"][0]][player["field"][1]] in ICONS:
-        return True
-    return False
-
-
-def get_item(board, coords, items):
-    if board[coords[0]][coords[1]] in ICONS:
+def get_item(board, row, col, items):
+    if board[row][col] in ICONS:
         for item in items:
-            if board[coords[0]][coords[1]] == item["icon"]:
+            if board[row][col] == item["icon"]:
                 return item
 
 
-def interaction_with_item(board, player, items):
-    if is_interaction_with_item(board, player):
-        item = get_item(board, player["field"], items)
-        item["total amount"] -= 1
-        player["energy"] += item["effect"]["energy"]
-        player["knowledge"] += item["effect"]["knowledge"]
+def interaction_with_item(board, player, items, row, col):
+    item = get_item(board, row, col, items)
+    item["total amount"] -= 1
+    player["energy"] += item["effect"]["energy"]
+    player["knowledge"] += item["effect"]["knowledge"]
          
 
 def is_interaction_with_npc(player, board):
-    (row, column) = player["position"]
+    (row, column) = player["field"]
     if board(row -1, column) in NPC_ICONS or board(row +1, column) in NPC_ICONS \
         or board(row, column - 1) in NPC_ICONS or board(row, column + 1) in NPC_ICONS:
         return True

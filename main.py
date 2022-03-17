@@ -1,3 +1,4 @@
+from items_and_characters import PLAYER_TYPES
 import util
 import engine
 import ui
@@ -5,7 +6,7 @@ from items_and_characters import ITEMS, NPCS, PLAYER_TYPES
 from copy import deepcopy
 import random
 
-
+PLAYER_POSITION = {"position": (3, 3), "icon": '☻'}
 BOARD_WIDTH = 30
 BOARD_HEIGHT = 20
 PLAYER_ICON = "P"
@@ -50,10 +51,10 @@ def main():
         if key == 'Q':
             is_running = False
         else:
-            engine.move(player, board, key)
-            engine.interaction_with_item(board, player, items)
+            engine.move(player, board, key, player, items)
+            # engine.interaction_with_item(board, player, items)
             for npc in npcs:
-                engine.move(npc, board, get_npc_direction())
+                engine.move(npc, board, get_npc_direction(), player, items)
         util.clear_screen()
 
 

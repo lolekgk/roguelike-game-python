@@ -1,9 +1,9 @@
 
 #the value for "effect" is a tuple containing info about which studen's attribute is affected and how
-ITEMS = [{"name": "nerd's notes", "icon": "◘", "total amount": 4, "effect": {"knowledge": 1} },
-        {"name": "last year's test", "icon": "T", "total amount": 2, "effect": {"knowledge": 3} },
+ITEMS = [{"name": "nerd's notes", "icon": "◘", "total amount": 4, "effect": {'energy': 0, "knowledge": 1} },
+        {"name": "last year's test", "icon": "T", "total amount": 2, "effect": {'energy': 0, "knowledge": 3} },
         {"name": "Red Bull", "icon": "E", "total amount": 8, "effect": {"energy": 4, "knowledge": 1}},
-        {"name": "instant noodles", "icon": "§", "total amount": 6, "effect": {"energy": 2}},
+        {"name": "instant noodles", "icon": "§", "total amount": 6, "effect": {"energy": 2, 'knowledge': 0}},
         {"name": "beer", "icon": "%", "total amount": 6, "effect": {"energy": 2, "knowledge": -3}}]
 
 
