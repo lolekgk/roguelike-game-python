@@ -90,37 +90,37 @@ def get_new_coords(row, column, key):
 def move(character, board, key, player, items):
     (row, column) = character["field"]
     new_row, new_column = get_new_coords(row, column, key)
-    if is_move_valid(board, new_row, new_column):
+    obstacles = PLAYER_WALLS if character == player else NPC_WALLS
+    if is_move_valid(board, new_row, new_column, obstacles):
         if board[new_row][new_column] in ICONS:
             interaction_with_item(board, player, items, new_row, new_column)
         board[row][column] = " "
         character["field"] = (new_row, new_column)
         board[new_row][new_column] = character["icon"]
-    if character["icon"] == "P":
-        if is_move_valid(board, new_row, new_column, PLAYER_WALLS):
+    '''if character == player:
+        if is_move_valid(board, new_row, new_column, obstacles):
             board[row][column] = " "
             character["field"] = (new_row, new_column)
             board[new_row][new_column] = character["icon"]
-    elif character["icon"] in NPC_ICONS:
-        if is_move_valid(board, new_row, new_column, NPC_WALLS):
+    else:
+        if is_move_valid(board, new_row, new_column, obstacles):
             board[row][column] = " "
             character["field"] = (new_row, new_column)
             board[new_row][new_column] = character["icon"]
+    '''
 
-
-def get_item(board, coords, items):
-    if board[coords[0]][coords[1]] in ICONS:
+def get_item(board, row, col, items):
+    if board[row][col] in ICONS:
         for item in items:
-            if board[coords[0]][coords[1]] == item["icon"]:
+            if board[row][col] == item["icon"]:
                 return item
 
 
-def interaction_with_item(board, player, items):
-    item = get_item(board, player["field"], items)
+def interaction_with_item(board, player, items, row, col):
+    item = get_item(board, row, col, items)
     item["total amount"] -= 1
     player["energy"] += item["effect"]["energy"]
     player["knowledge"] += item["effect"]["knowledge"]
-         
 
 def is_interaction_with_npc(player, board):
     (row, column) = player["position"]
