@@ -8,6 +8,7 @@ WALLS = ['░']
 ROW = 0
 COLUMN = 1
 ICONS = [item["icon"] for item in ITEMS]
+NPC_ICONS = ["♥", "‼"]
 
 
 def create_board(width, height):
@@ -39,55 +40,25 @@ def create_stats_scroll(player, height) -> list:
 
 
 def put_player_on_board(board, player):
-    '''
-    Modifies the game board by placing the player icon at its coordinates.
-
-    Args:
-    list: The game board
-    dictionary: The player information containing the icon and coordinates
-
-    Returns:
-    Nothing
-    '''
-    row, column = player["position"][ROW], player["position"][COLUMN]
+    (row, column) = player["field"]
     board[row][column] = player["icon"]
   
 
 
-def put_npc_on_board(board, npc):
-    '''
-    Modifies the game board by placing the NPC icons at their coordinates.
-
-    Args:
-    list: The game board
-    list of dictionaries: The NPC information containing the icons and coordinates
-
-    Returns:
-    Nothing
-    '''
-    for i in range(len(npc)):
-        row, column = npc[i]["position"][ROW], npc[i]["position"][COLUMN]
-        board[row][column] = npc[i]["icon"]
+def put_npcs_on_board(board, npcs):
+    for npc in npcs:
+        (row, column) = npc["field"]
+        board[row][column] = npc["icon"]
   
 
-def put_items_on_board(board, item):
-    '''
-    Modifies the game board by placing the items icons at their coordinates.
-
-    Args:
-    list: The game board
-    list of dictionaries: The items information containing the icons and coordinates
-
-    Returns:
-    Nothing
-    '''
-    for i in range(len(item)):
-        for num in range(item[i]['total amount']):
+def put_items_on_board(board, items):
+    for item in items:
+        for num in range(item['total amount']):
             while True:
-                column = random.randint(0, len(board[ROW])-1)
-                row = random.randint(0, len(board)-1)
+                column = random.randint(1, len(board[ROW])-1)
+                row = random.randint(1, len(board)-1)
                 if is_put_on_board_valid(board, row, column):
-                    board[row][column] = item[i]['icon']
+                    board[row][column] = item['icon']
                     break 
 
 
@@ -104,7 +75,7 @@ def is_move_valid(board, new_row, new_column):
 
 
 def move(character, board, key):
-    (row, column) = character["position"]
+    (row, column) = character["field"]
     if key == "W":
         new_row, new_column = row - 1, column
     elif key == "A":
@@ -116,34 +87,40 @@ def move(character, board, key):
     else:
         new_row, new_column = row, column
     if is_move_valid(board, new_row, new_column):
-        character["position"] = (new_row, new_column)
-        
+        board[row][column] = " "
+        character["field"] = (new_row, new_column)
+        board[new_row][new_column] = character["icon"]
+       
 
-items = copy.deepcopy(ITEMS)
-
-def npc_move():
-    pass
-  
-
-def is_interaction_with_item(player, board):
-    if board(player["field"]) in ICONS:
+def is_interaction_with_item(board, player):
+    if board[player["field"][0]][player["field"][1]] in ICONS:
         return True
     return False
 
 
-def get_item(coords, board):
+def get_item(board, coords, items):
     if board[coords[0]][coords[1]] in ICONS:
         for item in items:
             if board[coords[0]][coords[1]] == item["icon"]:
                 return item
 
 
-def interaction_with_item(board, item):
-    pass 
+def interaction_with_item(board, player, items):
+    if is_interaction_with_item(board, player):
+        item = get_item(board, player["field"], items)
+        item["total amount"] -= 1
+        player["energy"] += item["effect"]["energy"]
+        player["knowledge"] += item["effect"]["knowledge"]
+         
+
+def is_interaction_with_npc(player, board):
+    (row, column) = player["field"]
+    if board(row -1, column) in NPC_ICONS or board(row +1, column) in NPC_ICONS \
+        or board(row, column - 1) in NPC_ICONS or board(row, column + 1) in NPC_ICONS:
+        return True
+    return False
 
 
-def npc_move(npc, board):
-    dirction = "WASD"
-    key = random.choice(dirction)
-    move(npc, board, key)
-
+def interaction_with_npc(board, player):
+    if is_interaction_with_npc(player):
+        pass
