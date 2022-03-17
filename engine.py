@@ -98,7 +98,7 @@ def move(character, board, key, player, items):
         character["field"] = (new_row, new_column)
         board[new_row][new_column] = character["icon"]
     
-
+    
 def get_item(board, row, col, items):
     if board[row][col] in ICONS:
         for item in items:
@@ -111,7 +111,7 @@ def interaction_with_item(board, player, items, row, col):
     item["total amount"] -= 1
     player["energy"] += item["effect"]["energy"]
     player["knowledge"] += item["effect"]["knowledge"]
-
+    
 
 def is_interaction_with_npc(player, board):
     (row, column) = player["position"]
