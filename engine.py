@@ -96,15 +96,15 @@ def is_interaction_with_item(board, player):
     return False
 
 
-def get_item(board, coords):
+def get_item(board, coords, items):
     if board[coords[0]][coords[1]] in ICONS:
         for item in items:
             if board[coords[0]][coords[1]] == item["icon"]:
                 return item
 
 
-def interaction_with_item(board, player):
-    if is_interaction_with_item(board, player):
+def interaction_with_item(board, player, items):
+    if is_interaction_with_item(board, player, items):
         item = get_item(board, player["field"])
         item["total amount"] -= 1
         player["energy"] += item["effect"]["energy"]
