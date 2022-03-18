@@ -6,10 +6,10 @@ from items_and_characters import ITEMS, NPCS, PLAYER_TYPES
 from copy import deepcopy
 import random
 
-PLAYER_POSITION = {"position": (3, 3), "icon": '☻'}
+
 BOARD_WIDTH = 30
 BOARD_HEIGHT = 20
-PLAYER_ICON = "P"
+PLAYER_ICON = "☻"
 PLAYER_START_COORDS = (1,1)
 
 
