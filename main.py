@@ -6,10 +6,10 @@ from items_and_characters import ITEMS, NPCS, PLAYER_TYPES
 from copy import deepcopy
 import random
 
-PLAYER_POSITION = {"position": (3, 3), "icon": '☻'}
+
 BOARD_WIDTH = 30
 BOARD_HEIGHT = 20
-PLAYER_ICON = "P"
+PLAYER_ICON = "☻"
 PLAYER_START_COORDS = (1,1)
 
 
@@ -33,7 +33,6 @@ def setup_start_board(board, player, npcs, items):
     engine.put_player_on_board(board, player)
     engine.put_items_on_board(board, items)
     engine.put_npcs_on_board(board, npcs)
-
 
 def main():
     player = create_player()

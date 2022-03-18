@@ -1,8 +1,9 @@
 from items_and_characters import ITEMS
 import random
-import copy
 
-WALLS = ['░']
+
+PLAYER_WALLS = ['░', "♥", "‼"]
+NPC_WALLS = ['░', "♥", "‼", "\\", "☻"]
 ROW = 0
 COLUMN = 1
 ICONS = [item["icon"] for item in ITEMS]
@@ -18,7 +19,7 @@ def create_board(width, height):
         row.append('░')
         board.append(row)
     board.append(['░' for i in range(width)])
-    board[-2][-1] = 'B'
+    board[-2][-1] = '\\'
     return board
 
 
@@ -66,14 +67,13 @@ def is_put_on_board_valid(board, row, column):
     return False
 
 
-def is_move_valid(board, new_row, new_column):
-    if board[new_row][new_column] in WALLS:
+def is_move_valid(board, new_row, new_column, type_walls):
+    if board[new_row][new_column] in type_walls:
         return False
     return True
 
 
-def move(character, board, key, player, items):
-    (row, column) = character["field"]
+def get_new_coords(row, column, key):
     if key == "W":
         new_row, new_column = row - 1, column
     elif key == "A":
@@ -84,13 +84,20 @@ def move(character, board, key, player, items):
         new_row, new_column = row, column + 1
     else:
         new_row, new_column = row, column
-    if is_move_valid(board, new_row, new_column):
-        if board[new_row][new_column] in ICONS:
+    return new_row, new_column
+
+
+def move(character, board, key, player, items):
+    (row, column) = character["field"]
+    new_row, new_column = get_new_coords(row, column, key)
+    obstacles = PLAYER_WALLS if character == player else NPC_WALLS
+    if is_move_valid(board, new_row, new_column, obstacles):
+        if board[new_row][new_column] in ICONS and character == player:
             interaction_with_item(board, player, items, new_row, new_column)
         board[row][column] = " "
         character["field"] = (new_row, new_column)
         board[new_row][new_column] = character["icon"]
-       
+
 
 def get_item(board, row, col, items):
     if board[row][col] in ICONS:
@@ -104,10 +111,9 @@ def interaction_with_item(board, player, items, row, col):
     item["total amount"] -= 1
     player["energy"] += item["effect"]["energy"]
     player["knowledge"] += item["effect"]["knowledge"]
-         
 
 def is_interaction_with_npc(player, board):
-    (row, column) = player["field"]
+    (row, column) = player["position"]
     if board(row -1, column) in NPC_ICONS or board(row +1, column) in NPC_ICONS \
         or board(row, column - 1) in NPC_ICONS or board(row, column + 1) in NPC_ICONS:
         return True
