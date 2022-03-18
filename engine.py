@@ -4,6 +4,7 @@ import random
 
 PLAYER_WALLS = ['░', "♥", "‼"]
 NPC_WALLS = ['░', "♥", "‼", "\\", "☻"]
+
 ROW = 0
 COLUMN = 1
 ICONS = [item["icon"] for item in ITEMS]
@@ -112,6 +113,7 @@ def interaction_with_item(board, player, items, row, col):
     player["energy"] += item["effect"]["energy"]
     player["knowledge"] += item["effect"]["knowledge"]
 
+    
 def is_interaction_with_npc(player, board):
     (row, column) = player["position"]
     if board(row -1, column) in NPC_ICONS or board(row +1, column) in NPC_ICONS \
