@@ -3,7 +3,7 @@ import random
 
 
 PLAYER_WALLS = ['░', "♥", "‼"]
-NPC_WALLS = ['░', "♥", "‼", "B", "P"]
+NPC_WALLS = ['░', "♥", "‼", "\\", "☻"]
 ROW = 0
 COLUMN = 1
 ICONS = [item["icon"] for item in ITEMS]
@@ -19,7 +19,7 @@ def create_board(width, height):
         row.append('░')
         board.append(row)
     board.append(['░' for i in range(width)])
-    board[-2][-1] = 'B'
+    board[-2][-1] = '\\'
     return board
 
 
@@ -92,22 +92,12 @@ def move(character, board, key, player, items):
     new_row, new_column = get_new_coords(row, column, key)
     obstacles = PLAYER_WALLS if character == player else NPC_WALLS
     if is_move_valid(board, new_row, new_column, obstacles):
-        if board[new_row][new_column] in ICONS:
+        if board[new_row][new_column] in ICONS and character == player:
             interaction_with_item(board, player, items, new_row, new_column)
         board[row][column] = " "
         character["field"] = (new_row, new_column)
         board[new_row][new_column] = character["icon"]
-    '''if character == player:
-        if is_move_valid(board, new_row, new_column, obstacles):
-            board[row][column] = " "
-            character["field"] = (new_row, new_column)
-            board[new_row][new_column] = character["icon"]
-    else:
-        if is_move_valid(board, new_row, new_column, obstacles):
-            board[row][column] = " "
-            character["field"] = (new_row, new_column)
-            board[new_row][new_column] = character["icon"]
-    '''
+
 
 def get_item(board, row, col, items):
     if board[row][col] in ICONS:
