@@ -3,7 +3,8 @@ import random
 
 
 PLAYER_WALLS = ['░', "♥", "‼"]
-NPC_WALLS = ['░', "♥", "‼", "B", "P"]
+NPC_WALLS = ['░', "♥", "‼", "\\", "☻"]
+
 ROW = 0
 COLUMN = 1
 ICONS = [item["icon"] for item in ITEMS]
@@ -19,7 +20,7 @@ def create_board(width, height):
         row.append('░')
         board.append(row)
     board.append(['░' for i in range(width)])
-    board[-2][-1] = 'B'
+    board[-2][-1] = '\\'
     return board
 
 
@@ -97,8 +98,13 @@ def move(character, board, key, player, items):
         board[row][column] = " "
         character["field"] = (new_row, new_column)
         board[new_row][new_column] = character["icon"]
+<<<<<<< HEAD
     
     
+=======
+
+
+>>>>>>> 80a8947f8c717e6ea6a81f9643f0bd0ebef74da4
 def get_item(board, row, col, items):
     if board[row][col] in ICONS:
         for item in items:
@@ -113,6 +119,7 @@ def interaction_with_item(board, player, items, row, col):
     player["knowledge"] += item["effect"]["knowledge"]
     
 
+    
 def is_interaction_with_npc(player, board):
     (row, column) = player["position"]
     if board(row -1, column) in NPC_ICONS or board(row +1, column) in NPC_ICONS \
