@@ -98,13 +98,8 @@ def move(character, board, key, player, items):
         board[row][column] = " "
         character["field"] = (new_row, new_column)
         board[new_row][new_column] = character["icon"]
-<<<<<<< HEAD
-    
-    
-=======
 
 
->>>>>>> 80a8947f8c717e6ea6a81f9643f0bd0ebef74da4
 def get_item(board, row, col, items):
     if board[row][col] in ICONS:
         for item in items:
