@@ -141,16 +141,13 @@ def get_new_coords(row, column, key):
 def move(character, board, key, player, items):
     row, column = character["field"]
     new_row, new_column = get_new_coords(row, column, key)
-    obstacles = PLAYER_WALLS if character == player else NPC_WALLS
+    obstacles = PLAYER_OBSTACLES if character == player else NPC_OBSTACLES
     if is_move_valid(board, new_row, new_column, obstacles):
         if board[new_row][new_column] in ICONS and character == player:
             interaction_with_item(board, player, items, new_row, new_column)
         board[row][column] = EMPTY
         character["field"] = (new_row, new_column)
-        board[new_row][new_column] = character["icon"]
-
-        
-        
+        board[new_row][new_column] = character["icon"] 
 
 
 def get_item(board, row, col, items):
