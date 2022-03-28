@@ -99,8 +99,8 @@ def move(character, board, key, player, items, npcs):
         board[row][column] = EMPTY
         character["field"] = (new_row, new_column)
         board[new_row][new_column] = character["icon"]
-    if is_interaction_with_npc(player, board):
-        interaction_with_npc(board, player, npcs)
+
+        
         
 
 

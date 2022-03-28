@@ -46,6 +46,8 @@ def main():
         if player["energy"] <= 0:
             break
         ui.display_board(board, player)
+        engine.interaction_with_npc(board, player, npcs)
+        ui.display_board(board, player)
         key = util.key_pressed().upper()
         if key == 'Q':
             is_running = False
