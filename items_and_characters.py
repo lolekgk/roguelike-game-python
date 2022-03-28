@@ -20,8 +20,8 @@ COMPLEX_ITEM = {"name": "fridge", "icon": "[]", "total amount": 1, "items_list":
 # each tuple cointains item name and probability of getting that item upon interaction of player with smartness 0 without any wheapon in inventory
 # the probability increase with smartness and "wheapon"
 NPCS = [ 
-        {"name": "best student",       "icon": "♥", "field": ( 3, 2), "attribute": ("nerd's notes", 0.25), "energy damage": -3},
-        {"name": "perpetual student",  "icon": "‼", "field": (18,14), "attribute": ("last year's test", 0), "energy damage": -5}
+        {"name": "best student",       "icon": "♥", "field": ( 3, 2), "attribute": "nerd's notes", "probability": 0, "energy damage": -3},
+        {"name": "perpetual student",  "icon": "‼", "field": (18,14), "attribute": "last year's test", "probability": 0, "energy damage": -5}
         ]
 
 
@@ -30,5 +30,5 @@ NPCS = [
 PLAYER_TYPES = {
         'Nerd':         {'class': 'Nerd',       'knowledge': 10, 'smartness': 0, 'energy': 20, 'exams': 0, "inventory": {"beer": 0}}, 
         'Average':      {'class': 'Average',    'knowledge': 5,  'smartness': 1, 'energy': 20, 'exams': 0, "inventory": {"beer": 0}},
-        'Laid-back':    {'class': 'Laid-back',  'knowledge': 1,  'smartness': 2, 'energy': 20, 'exams': 0, "inventory": {"beer": 0}}
+        'Laid-back':    {'class': 'Laid-back',  'knowledge': 1,  'smartness': 2, 'energy': 20, 'exams': 0, "inventory": {"beer": 1}}
         }

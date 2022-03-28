@@ -96,11 +96,12 @@ def move(character, board, key, player, items, npcs):
     if is_move_valid(board, new_row, new_column, obstacles):
         if board[new_row][new_column] in ICONS and character == player:
             interaction_with_item(board, player, items, new_row, new_column)
-        elif is_interaction_with_npc(player, board):
-            interaction_with_npc(board, player, npcs)
         board[row][column] = EMPTY
         character["field"] = (new_row, new_column)
         board[new_row][new_column] = character["icon"]
+    if is_interaction_with_npc(player, board):
+        interaction_with_npc(board, player, npcs)
+        
 
 
 def get_item(board, row, col, items):
@@ -112,7 +113,7 @@ def get_item(board, row, col, items):
 
 def interaction_with_item(board, player, items, row, col):
     item = get_item(board, row, col, items)  
-    item["total amount"] -= 1
+    item["total amount"] -= 1 # total amount is used only here
     update_player(player, item)
     
 
@@ -141,10 +142,10 @@ def get_npc(player, npcs):
 
 def will_player_succeed(player, npc, weapon):
     smartness = player["smartness"]
-    basic_prob = npc["attribute"][1]
+    basic_prob = npc["probability"]
     weapon_amount = weapon[1]
     success_prob = min(1, (smartness + weapon_amount) * 0.25 + basic_prob)
-    failure_prob = max(0, 1 - (smartness + weapon_amount) * 0.25 + basic_prob)
+    failure_prob = max(0, 1 - ((smartness + weapon_amount) * 0.25 + basic_prob))
     result = [True, False]
     weights = [success_prob, failure_prob]
     return random.choices(result, weights)
@@ -155,6 +156,7 @@ def find_item_by_name(name):
         if item["name"] == name:
             return item
 
+
 def interaction_with_npc(board, player, npcs):
     if is_interaction_with_npc(player, board):
         npc = get_npc(player, npcs)
@@ -162,7 +164,7 @@ def interaction_with_npc(board, player, npcs):
         # player choose wheapon
         weapon = ui.choose_weapon(player)
         if will_player_succeed(player, npc, weapon):
-            name = npc["attribute"][0]
+            name = npc["attribute"]
             item = find_item_by_name(name)
             update_player(player, item)
             row, column = npc["field"] 
