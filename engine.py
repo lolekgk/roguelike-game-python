@@ -50,7 +50,7 @@ def walls_level_1(board):
     board[11][22] = "░"
 
 
-def walls_level_2(board):   
+def walls_level_3(board):   
     for i in range(len(board[0])):
         if i < 14 or i > 16:
             board[5][i] = "░"
@@ -61,7 +61,7 @@ def walls_level_2(board):
             board[i][8] = "░"
     
 
-def walls_level_3(board):  
+def walls_level_2(board):  
     for i in range(len(board)):
         if i % 4 == 0:
             for j in range(len(board[0]) - 1):
