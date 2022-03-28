@@ -55,10 +55,10 @@ def main():
         if key == 'Q':
             is_running = False
         else:
-            engine.move(player, board, key, player, items, npcs)
+            engine.move(player, board, key, player, items)
             # engine.interaction_with_item(board, player, items)
             for npc in npcs:
-                engine.move(npc, board, get_npc_direction(), player, items, npcs)
+                engine.move(npc, board, get_npc_direction(), player, items)
         util.clear_screen()
 
 if __name__ == "__main__":
