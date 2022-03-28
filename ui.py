@@ -9,6 +9,21 @@ def display_board(board, player_info):
         print(''.join(row), f'   {line}')
 
 
+def display_inventory(player):
+    inventory_scroll = ['   ______________________________',' / \                             \.','|   |      Player inventory      |.',' \_ |                            |.','    |                            |.'] 
+    for k in player['inventory']:
+        row = f"    |  {k}: {player['inventory'][k]} "
+        while len(row) < len(' \_ |                            '):
+            row += ' '
+        row += '|.'
+        inventory_scroll.append(row)
+    inventory_scroll.append('    |   _________________________|___')
+    inventory_scroll.append('    |  /                            /.')
+    inventory_scroll.append('    \_/____________________________/.')
+    for row in inventory_scroll:
+        print(row)
+
+
 def get_player_type() -> str:
     print("> Choose your student type <")
     list_of_types = [f'{i + 1}. - {TYPES[i]}' for i in range(len(TYPES))]
