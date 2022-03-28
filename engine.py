@@ -3,8 +3,8 @@ import random
 import ui
 
 
-PLAYER_WALLS = ['░', "♥", "‼"]
-NPC_WALLS = ['░', "♥", "‼", "\\", "☻"]
+PLAYER_WALLS = ['░', "♥", "‼", 'P']
+NPC_WALLS = ['░', "♥", "‼", "\\", "☻", 'P']
 EMPTY = " "
 ROW = 0
 ICONS = [item["icon"] for item in ITEMS]
@@ -171,6 +171,7 @@ def interaction_with_npc(board, player, npcs):
             board[row][column] = EMPTY 
             npcs.remove(npc)
         player["energy"] += npc["energy damage"]
+
 
 def put_boss_on_board(board):
     row, column = BOSS['field']
