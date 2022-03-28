@@ -34,6 +34,7 @@ def setup_start_board(board, player, npcs, items):
     engine.put_items_on_board(board, items)
     engine.put_npcs_on_board(board, npcs)
 
+
 def main():
     player = create_player()
     board = engine.create_board(BOARD_WIDTH, BOARD_HEIGHT)
@@ -44,18 +45,25 @@ def main():
     is_running = True
     while is_running:
         if player["energy"] <= 0:
+            print("GAME OVER")
             break
+        ui.display_board(board, player)
+        engine.interaction_with_npc(board, player, npcs)
+        #util.clear_screen() # uncomment in final version
         ui.display_board(board, player)
         key = util.key_pressed().upper()
         if key == 'Q':
             is_running = False
+        elif key == 'I':
+            util.clear_screen()
+            ui.display_inventory(player)
         else:
-            engine.move(player, board, key, player, items, npcs)
+            engine.move(player, board, key, player, items)
             # engine.interaction_with_item(board, player, items)
             for npc in npcs:
-                engine.move(npc, board, get_npc_direction(), player, items, npcs)
+                engine.move(npc, board, get_npc_direction(), player, items)
         util.clear_screen()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

@@ -1,5 +1,6 @@
 
-#the value for "effect" is a tuple containing info about which studen's attribute is affected and how
+# the value for "effect" is a tuple containing info about which studen's attribute is affected and how
+# please don't add a new item with a name longer than 16 characters, as it will mess up the inventory! ~~Sebastian
 ITEMS = [
         {"name": "notes",               "icon": "█", "total amount": 4, "effect": {"energy": 0, "knowledge": 1} },
         {"name": "Red Bull",            "icon": "E", "total amount": 8, "effect": {"energy": 4, "knowledge": 1} },
@@ -20,8 +21,8 @@ COMPLEX_ITEM = {"name": "fridge", "icon": "[]", "total amount": 1, "items_list":
 # each tuple cointains item name and probability of getting that item upon interaction of player with smartness 0 without any wheapon in inventory
 # the probability increase with smartness and "wheapon"
 NPCS = [ 
-        {"name": "best student",       "icon": "♥", "field": ( 3, 2), "attribute": "nerd's notes", "probability": 0, "energy damage": -3},
-        {"name": "perpetual student",  "icon": "‼", "field": (18,14), "attribute": "last year's test", "probability": 0, "energy damage": -5}
+        {"name": "best student",       "icon": "♥", "field": ( 3, 2), "attribute": "nerd's notes", "probability": 0.5, "energy damage": 5},
+        {"name": "perpetual student",  "icon": "‼", "field": (18,14), "attribute": "last year's test", "probability": 0, "energy damage": 10}
         ]
 
 
