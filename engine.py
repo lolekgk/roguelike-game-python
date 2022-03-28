@@ -142,13 +142,19 @@ def get_npc(player, npcs):
 
 def will_player_succeed(player, npc, weapon):
     smartness = player["smartness"]
+    print("smartness ", smartness)
     basic_prob = npc["probability"]
     weapon_amount = weapon[1]
+    print("weapon ", weapon)
     success_prob = min(1, (smartness + weapon_amount) * 0.25 + basic_prob)
+    print("probability of success ", success_prob)
     failure_prob = max(0, 1 - ((smartness + weapon_amount) * 0.25 + basic_prob))
+    print("probability of failure ", failure_prob)
     result = [True, False]
     weights = [success_prob, failure_prob]
-    return random.choices(result, weights)
+    success = random.choices(result, weights)
+    print("success ", success)
+    return success[0]
 
 
 def find_item_by_name(name):
@@ -166,7 +172,10 @@ def interaction_with_npc(board, player, npcs):
         if will_player_succeed(player, npc, weapon):
             name = npc["attribute"]
             item = find_item_by_name(name)
+            print("player before interaction  ", player)
             update_player(player, item)
+            player["inventory"][weapon[0]] -= weapon[1]
+            print("player after interaction  ", player)
             row, column = npc["field"] 
             board[row][column] = EMPTY 
             npcs.remove(npc)
