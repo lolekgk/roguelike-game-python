@@ -1,5 +1,6 @@
 
-#the value for "effect" is a tuple containing info about which studen's attribute is affected and how
+# the value for "effect" is a tuple containing info about which studen's attribute is affected and how
+# please don't add a new item with a name longer than 16 characters, as it will mess up the inventory! ~~Sebastian
 ITEMS = [
         {"name": "notes",               "icon": "█", "total amount": 4, "effect": {"energy": 0, "knowledge": 1} },
         {"name": "Red Bull",            "icon": "E", "total amount": 8, "effect": {"energy": 4, "knowledge": 1} },

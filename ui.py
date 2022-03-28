@@ -1,4 +1,5 @@
 import engine
+from items_and_characters import ITEMS
 
 TYPES = ['Nerd', 'Laid-back', 'Average']
 
@@ -10,9 +11,16 @@ def display_board(board, player_info):
 
 
 def display_inventory(player):
-    inventory_scroll = ['   ______________________________',' / \                             \.','|   |      Player inventory      |.',' \_ |                            |.','    |                            |.'] 
+    inventory_scroll = ['   ______________________________',
+    ' / \                             \.',
+    '|   |      Player inventory      |.',
+    ' \_ |                            |.',
+    '    |                            |.'] 
     for k in player['inventory']:
-        row = f"    |  {k}: {player['inventory'][k]} "
+        for item in ITEMS:
+            if item['name'] == k:
+                icon = item['icon']
+        row = f"    |  {icon} - {k}: {player['inventory'][k]} "
         while len(row) < len(' \_ |                            '):
             row += ' '
         row += '|.'
@@ -22,7 +30,8 @@ def display_inventory(player):
     inventory_scroll.append('    \_/____________________________/.')
     for row in inventory_scroll:
         print(row)
-
+    input("\nPress enter to exit inventory > ")
+    
 
 def get_player_type() -> str:
     print("> Choose your student type <")

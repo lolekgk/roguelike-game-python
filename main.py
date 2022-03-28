@@ -53,7 +53,6 @@ def main():
         elif key == 'I':
             util.clear_screen()
             ui.display_inventory(player)
-            input("\nPress enter to exit inventory > ")
         else:
             engine.move(player, board, key, player, items, npcs)
             # engine.interaction_with_item(board, player, items)
