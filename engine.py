@@ -1,4 +1,4 @@
-from items_and_characters import ITEMS
+from items_and_characters import ITEMS, BOSS
 import random
 import ui
 
@@ -172,4 +172,8 @@ def interaction_with_npc(board, player, npcs):
             npcs.remove(npc)
         player["energy"] += npc["energy damage"]
 
-        
+def put_boss_on_board(board):
+    row, column = BOSS['field']
+    for x in range(5):
+        for y in range(5):
+            board[row + x][column + y] = BOSS['icon']

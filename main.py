@@ -31,8 +31,9 @@ def get_npc_direction():
 
 def setup_start_board(board, player, npcs, items):
     engine.put_player_on_board(board, player)
-    engine.put_items_on_board(board, items)
-    engine.put_npcs_on_board(board, npcs)
+    #engine.put_items_on_board(board, items)
+    #engine.put_npcs_on_board(board, npcs)
+    engine.put_boss_on_board(board)
 
 
 def main():
@@ -56,8 +57,8 @@ def main():
         else:
             engine.move(player, board, key, player, items, npcs)
             # engine.interaction_with_item(board, player, items)
-            for npc in npcs:
-                engine.move(npc, board, get_npc_direction(), player, items, npcs)
+            #for npc in npcs:                                                 # This needs to be changed, npc appear out of nowhere if we don't put them on board
+                #engine.move(npc, board, get_npc_direction(), player, items, npcs)
         util.clear_screen()
 
 
