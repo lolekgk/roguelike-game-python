@@ -31,3 +31,16 @@ def get_player_name():
         break
     return name
 
+
+def choose_weapon(player):
+    #display_inventory(player)
+    while True:
+        weapon_no = input("Choose wheapon number ")
+        if weapon_no == "1":     # hardcoded for test of level 1
+            weapon_kind = "beer"
+            break
+    while True:
+        amount = int(input("Choose amount "))
+        if amount in range(0, player["inventory"][weapon_kind] + 1):
+            return (weapon_kind, amount)
+        
