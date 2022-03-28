@@ -54,6 +54,9 @@ def main():
         key = util.key_pressed().upper()
         if key == 'Q':
             is_running = False
+        elif key == 'I':
+            util.clear_screen()
+            ui.display_inventory(player)
         else:
             engine.move(player, board, key, player, items)
             # engine.interaction_with_item(board, player, items)
