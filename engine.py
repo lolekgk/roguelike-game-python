@@ -23,7 +23,7 @@ def create_board(width, height):
         board.append(row)
     board.append(['░' for i in range(width)])
     board[-2][-1] = '\\'
-    add_walls(board, level = 2)    #Dodać wywoływanie odpowiedniego levelu
+    add_walls(board, level = 1)    #Dodać wywoływanie odpowiedniego levelu
     return board
 
 
