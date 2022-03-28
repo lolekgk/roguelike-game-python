@@ -15,12 +15,34 @@ PLAYER_ICON = "☻"
 PLAYER_START_COORDS = (1,1)
 
 intro_level1 = ["You are a young, more or less brilliant student",
-                "who is about to finish their first year at local University.",
+                "who is about to finish their first year of studies.",
                 "You have spend the whole year studying / partying",
                 "and enjoying the student's life.",
                 "Unfortunately all good things come to an end...",
                 "Ahead of you is the most dreadful period for any student...",
-                "THE EXAMS!" ]
+                "THE EXAMS!" ,
+                "Your first task is to prepare for them the best you can.",
+                "Increase your knowledge or use less honorable ways",
+                "to increase your chances of passing all final exams."]
+
+intro_level2 = ["You have done the best you can",
+                "to prepare yourself for the final exams",
+                "in the little time you had.",
+                "Your next challange is to defeat the 3 professors",
+                "and actually pass the exams",
+                "This task won't be easy, having good knowledge helps",
+                "but as all students know there are other ways",
+                "to get what you need from the noble members of Academia..."]
+
+intro_level3 = ["Congratulations!",
+                "You have passed the final exams and you are getting",
+                "ready for some well-deserved vacation.",
+                "Little do you know that your fight is far from over!",
+                "Your ultimate enemy is the lady from the Dean's office",
+                "the only person who can give you your Grade Transcript.",
+                "Only young, naive freshmen believe it's an easy task!",
+                "Catch the lady, be nice and if today is your lucky day",
+                "she might give you the Holy Graal of every student."]
 
 
 def create_player():
