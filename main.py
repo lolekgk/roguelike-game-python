@@ -56,6 +56,5 @@ def main():
                 engine.move(npc, board, get_npc_direction(), player, items, npcs)
         util.clear_screen()
 
-
 if __name__ == "__main__":
     main()
