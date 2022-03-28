@@ -3,10 +3,10 @@ import util
 import time
 
 
-from items_and_characters import ITEMS
+from items_and_characters import ITEMS, PLAYER_TYPES
 
 
-TYPES = ['Nerd', 'Laid-back', 'Average']
+TYPES = ['Nerd', 'Laid-back', 'Average'] # = [k for k in PLAYER_TYPES.keys()] 
 
 
 def display_board(board, player_info):

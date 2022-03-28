@@ -4,27 +4,45 @@ import ui
 from os.path import exists
 
 
-EMPTY = " "
+
 ROW = 0
+EMPTY = " "
+ENTRY = "↑"
+EXIT = "→"
+ENTRY_ROW, ENTRY_COLUMN = 0, 15
+EXIT_ROW, EXIT_COLUMN = -2, -1
+
+WALL = '░'
 ICONS = [item["icon"] for item in ITEMS]
 NPC_ICONS = [npc["icon"] for npc in NPCS]
-PLAYER_OBSTACLES = ['░'] + NPC_ICONS
-NPC_OBSTACLES = ['░', "\\", "☻"] + ICONS + NPC_ICONS
+PLAYER_OBSTACLES = [WALL] + NPC_ICONS
+NPC_OBSTACLES = [WALL, ENTRY, EXIT, "☻"] + ICONS + NPC_ICONS
 PLAYER_DATA_TO_DISPLAY = ["name", "class", 'knowledge', 'smartness', 'energy', 'exams']
 
 
-def create_board(width, height):
+def create_board(width, height, level):
     board = []
-    board.append(['░' for i in range(width)])
+    board.append([WALL for i in range(width)])
     for i in range(height - 2):
         row = [EMPTY for i in range(width - 2)]
-        row.insert(0, '░')
-        row.append('░')
+        row.insert(0, WALL)
+        row.append(WALL)
         board.append(row)
-    board.append(['░' for i in range(width)])
-    board[-2][-1] = '\\'
-    add_walls(board, level = 1)    #Dodać wywoływanie odpowiedniego levelu
+    board.append([WALL for i in range(width)])
+    add_walls(board, level)
+    add_entry(board, level)  
+    add_exit(board, level)
     return board
+
+
+def add_entry(board, level):
+    if level in [2, 3]:
+        board[ENTRY_ROW][ENTRY_COLUMN] = '↑'
+
+
+def add_exit(board, level):
+    if level in [1, 2]:
+        board[EXIT_ROW][EXIT_COLUMN] = '→' 
 
 
 def add_walls(board, level):
@@ -39,27 +57,27 @@ def add_walls(board, level):
 def walls_level_1(board):
     for i in range(len(board) - 1):
         if i %5 != 0 and i < 17 :
-            board[i][8] = "░"
+            board[i][8] = WALL
     for i in range(len(board[0]) - 1):
         if i >= 9:
-            board[16][i] = "░" 
-            board[12][i] = "░"
-            board[8][i] = "░"
+            board[16][i] = WALL 
+            board[12][i] = WALL
+            board[8][i] = WALL
             if i != 28 and i != 27:
-                board[3][i] = "░"
-    board[10][22] = "░"
-    board[11][22] = "░"
+                board[3][i] = WALL
+    board[10][22] = WALL
+    board[11][22] = WALL
 
 
 def walls_level_3(board):   
     for i in range(len(board[0])):
         if i < 14 or i > 16:
-            board[5][i] = "░"
+            board[5][i] = WALL
         if i <= 8 and i >= 2:
-            board[14][i] = "░"
+            board[14][i] = WALL
     for i in range(len(board)):
         if i > 14:
-            board[i][8] = "░"
+            board[i][8] = WALL
     
 
 def walls_level_2(board):  
@@ -67,12 +85,12 @@ def walls_level_2(board):
         if i % 4 == 0:
             for j in range(len(board[0]) - 1):
                 if j < 13 or j > 16:
-                    board[i][j] = "░"
+                    board[i][j] = WALL
         if i % 4 != 0 and i in range(0,16):
-            board[i + 2][12] = "░"
-            board[i + 2][17] = "░"
-    board[1][12] = "░"
-    board[1][17] = "░"
+            board[i + 2][12] = WALL
+            board[i + 2][17] = WALL
+    board[1][12] = WALL
+    board[1][17] = WALL
 
 
 def create_stats_scroll(player, height) -> list:
@@ -141,6 +159,14 @@ def get_new_coords(row, column, key):
 def move(character, board, key, player, items):
     row, column = character["field"]
     new_row, new_column = get_new_coords(row, column, key)
+    if (new_row, new_column) == (ENTRY_ROW, ENTRY_COLUMN) and player["level"] != 1:
+        player["level"] -= 1
+        player["field"] = (EXIT_ROW, EXIT_COLUMN - 1)
+        return
+    if (new_row, new_column) == (EXIT_ROW, EXIT_COLUMN) and player["level"] != 3:
+        player["level"] += 1
+        player["field"] = (ENTRY_ROW + 1, ENTRY_COLUMN)
+        return
     obstacles = PLAYER_OBSTACLES if character == player else NPC_OBSTACLES
     if is_move_valid(board, new_row, new_column, obstacles):
         if board[new_row][new_column] in ICONS and character == player:
@@ -148,9 +174,6 @@ def move(character, board, key, player, items):
         board[row][column] = EMPTY
         character["field"] = (new_row, new_column)
         board[new_row][new_column] = character["icon"]
-
-        
-        
 
 
 def get_item(board, row, col, items):

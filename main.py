@@ -13,6 +13,7 @@ BOARD_WIDTH = 30
 BOARD_HEIGHT = 20
 PLAYER_ICON = "☻"
 PLAYER_START_COORDS = (1,1)
+LEVELS = [1, 2, 3]
 
 
 def create_player():
@@ -22,6 +23,7 @@ def create_player():
     player['name'] = name
     player['field'] = PLAYER_START_COORDS
     player['icon'] = PLAYER_ICON
+    player['level'] = 1
     return player
 
 
@@ -31,36 +33,48 @@ def get_npc_direction():
     return key
 
 
-def setup_start_board(board, player, npcs, items):
-    engine.put_player_on_board(board, player)
-    engine.put_items_on_board(board, items)
-    engine.put_npcs_on_board(board, npcs)
+def setup_start_board(boards, player, npcs, items):
+    for level in LEVELS:
+        items_on_level = [item for item in items if item["level"] == level]
+        print(items_on_level)
+        npcs_on_level = [npc for npc in npcs if npc["level"] == level]
+        print(npcs_on_level)
+        engine.put_items_on_board(boards[level - 1], items_on_level)
+        engine.put_npcs_on_board(boards[level - 1], npcs_on_level)
+        ui.display_board(boards[level - 1], player)
+        if level == 1:
+            engine.put_player_on_board(boards[level - 1], player)
 
 
 def main():
     if engine.play_new_game():
         player = create_player()
-        board = engine.create_board(BOARD_WIDTH, BOARD_HEIGHT)
         npcs = deepcopy(NPCS) 
         items = deepcopy(ITEMS)
-        setup_start_board(board, player, npcs, items)
+        boards = [engine.create_board(BOARD_WIDTH, BOARD_HEIGHT, level) for level in LEVELS]
+        #for board in boards:
+        #    ui.display_board(board, player)
+        setup_start_board(boards, player, npcs, items)
+        #for board in boards:
+        #    ui.display_board(board, player)
     else:
-        board, items, npcs, player = gamesaves.load_game()
+        boards, items, npcs, player = gamesaves.load_game()
     util.clear_screen()
     is_running = True
     while is_running:
+        level = player["level"]
         if player["energy"] <= 0:
             print("GAME OVER")
             break
-        ui.display_board(board, player)
-        engine.interaction_with_npc(board, player, npcs)
+        ui.display_board(boards[level -1], player)
+        engine.interaction_with_npc(boards[level -1], player, npcs)
         #util.clear_screen() # uncomment in final version
-        ui.display_board(board, player)
+        ui.display_board(boards[level -1], player)
         key = util.key_pressed().upper()
         if key == 'Q':
             is_running = False
         elif key == 'V':
-            gamesaves.save_game(board, items, npcs, player)
+            gamesaves.save_game(boards, items, npcs, player)
             print("Saving game..")
             time.sleep(2)
 
@@ -69,10 +83,10 @@ def main():
             ui.display_inventory(player)
 
         else:
-            engine.move(player, board, key, player, items)
+            engine.move(player, boards[level -1], key, player, items)
             # engine.interaction_with_item(board, player, items)
             for npc in npcs:
-                engine.move(npc, board, get_npc_direction(), player, items)
+                engine.move(npc, boards[level -1], get_npc_direction(), player, items)
         util.clear_screen()
 
 
