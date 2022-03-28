@@ -112,11 +112,8 @@ def interaction_with_item(board, player, items, row, col):
     item["total amount"] -= 1
     player["energy"] += item["effect"]["energy"]
     player["knowledge"] += item["effect"]["knowledge"]
-<<<<<<< HEAD
-=======
     if item["name"] in player["inventory"]:
         player["inventory"][item["name"]] += 1
->>>>>>> 252071b9206b87c601f4ce05ca29154b2c8e7581
 
     
 def is_interaction_with_npc(player, board):
