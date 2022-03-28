@@ -1,7 +1,7 @@
 from items_and_characters import ITEMS
 import random
 import ui
-
+from os.path import exists
 
 PLAYER_WALLS = ['░', "♥", "‼"]
 NPC_WALLS = ['░', "♥", "‼", "\\", "☻"]
@@ -171,3 +171,10 @@ def interaction_with_npc(board, player, npcs):
             board[row][column] = EMPTY 
             npcs.remove(npc)
         player["energy"] += npc["energy damage"]
+
+
+def play_new_game():
+    if not exists('savegame.db'):   
+        return True
+    else:
+        return ui.select_game_state()
