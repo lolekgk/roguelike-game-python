@@ -22,7 +22,40 @@ def create_board(width, height):
         board.append(row)
     board.append(['░' for i in range(width)])
     board[-2][-1] = '\\'
+    add_walls(board, level = 1)    #Dodać wywoływanie odpowiedniego levelu
     return board
+
+
+def add_walls(board, level):
+    if level == 1:
+        walls_level_1(board)
+    elif level == 2:
+        walls_level_2(board)    
+    elif level == 3:
+        walls_level_3(board)
+
+
+def walls_level_1(board):
+    for i in range(len(board) - 1):
+        if i %5 != 0 and i < 17 :
+            board[i][8] = "░"
+    for i in range(len(board[0]) - 1):
+        if i >= 9:
+            board[16][i] = "░" 
+            board[12][i] = "░"
+            board[8][i] = "░"
+            if i != 28 and i != 27:
+                board[3][i] = "░"
+    board[10][22] = "░"
+    board[11][22] = "░"
+
+
+def walls_level_2(board):   #TODO
+    pass
+
+
+def walls_level_3(board):   #TODO
+    pass
 
 
 def create_stats_scroll(player, height) -> list:
@@ -121,7 +154,7 @@ def update_player(player, item):
     player["energy"] += item["effect"]["energy"]
     player["knowledge"] += item["effect"]["knowledge"]
     if item["name"] in player["inventory"]:
-        player["inventory"]["name"] += 1
+        player["inventory"][item["name"]] += 1
 
     
 def is_interaction_with_npc(player, board):
