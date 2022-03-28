@@ -14,6 +14,14 @@ BOARD_HEIGHT = 20
 PLAYER_ICON = "☻"
 PLAYER_START_COORDS = (1,1)
 
+intro_level1 = ["You are a young, more or less brilliant student",
+                "who is about to finish their first year at local University.",
+                "You have spend the whole year studying / partying",
+                "and enjoying the student's life.",
+                "Unfortunately all good things come to an end...",
+                "Ahead of you is the most dreadful period for any student...",
+                "THE EXAMS!" ]
+
 
 def create_player():
     player_type = ui.get_player_type()
@@ -39,6 +47,8 @@ def setup_start_board(board, player, npcs, items):
 
 def main():
     if engine.play_new_game():
+        intro_scroll = engine.create_intro_scroll(intro_level1)
+        ui.display_intro(intro_scroll)
         player = create_player()
         board = engine.create_board(BOARD_WIDTH, BOARD_HEIGHT)
         npcs = deepcopy(NPCS) 

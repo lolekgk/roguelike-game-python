@@ -191,6 +191,7 @@ def get_npc(player, npcs):
 
 def will_player_succeed(player, npc, weapon):
     smartness = player["smartness"]
+    print("smartness ", smartness)
     basic_prob = npc["probability"]
     weapon_amount = weapon[1]
     print("weapon ", weapon)
@@ -223,6 +224,7 @@ def interaction_with_npc(board, player, npcs):
         if will_player_succeed(player, npc, weapon):
             name = npc["attribute"]
             item = find_item_by_name(name)
+            print("player before interaction  ", player)
             update_player(player, item)
             # player["inventory"][weapon[0]] -= weapon[1] # uncomment this line (and comment the line before if-block) if we decide that user don't loose his "weapon" in case of failure but looses in case of success
             row, column = npc["field"] 
@@ -236,3 +238,17 @@ def play_new_game():
         return True
     else:
         return ui.select_game_state()
+
+def create_intro_scroll(intro_text):
+    line = "  " + "_"*66
+    roller ="=(" + "___  ___"*8 + "__)="
+    scroll = []
+    scroll.append(line)
+    scroll.append(roller)
+    scroll.append("  |" + " "*64 + '| ')
+    for line in intro_text:
+        row = "  |" + line.center(64) + '| '
+        scroll.append(row)
+    scroll.append("  |" + "___  ___"*8 + "|")
+    scroll.append('=(' + "_"*66 + ')=')
+    return scroll
