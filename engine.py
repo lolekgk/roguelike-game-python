@@ -76,11 +76,11 @@ def is_move_valid(board, new_row, new_column, type_walls):
 
 
 def get_new_coords(row, column, key):
-    if key == "W":
+    if key == "E":
         new_row, new_column = row - 1, column
-    elif key == "A":
-        new_row, new_column = row, column - 1
     elif key == "S":
+        new_row, new_column = row, column - 1
+    elif key == "X":
         new_row, new_column = row + 1, column
     elif key == "D":
         new_row, new_column = row, column + 1

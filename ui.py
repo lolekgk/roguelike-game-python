@@ -44,3 +44,12 @@ def choose_weapon(player):
         if amount in range(0, player["inventory"][weapon_kind] + 1):
             return (weapon_kind, amount)
         
+
+def meeting_npc(npc):
+    if npc["name"] == "best student":
+        message = "That's the best student in our group! Would be great if I could get his notes for the exam"
+    elif npc["name"] == "perpetual student":
+        message = "This dude has been around forever! I'm sure he has the last year's test!"
+    else:
+        pass
+    print(message)
