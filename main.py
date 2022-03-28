@@ -46,48 +46,54 @@ def setup_start_boards(boards, player, npcs, items):
             engine.put_player_on_board(boards[level - 1], player)
 
 
-def main():
+def initialize_game():
     if engine.play_new_game():
         player = create_player()
         npcs = deepcopy(NPCS) 
         items = deepcopy(ITEMS)
         boards = [engine.create_board(BOARD_WIDTH, BOARD_HEIGHT, level) for level in LEVELS]
-        for board in boards:
-            ui.display_board(board, player)
         setup_start_boards(boards, player, npcs, items)
-        for board in boards:
-            ui.display_board(board, player)
     else:
         boards, items, npcs, player = gamesaves.load_game()
+    return boards, items, npcs, player
+
+
+def react_on_key(boards, items, npcs, player, level, key):
+    if key == 'Q':
+        return False
+    elif key == 'V':
+        gamesaves.save_game(boards, items, npcs, player)
+        print("Saving game..")
+        time.sleep(2)
+        return False
+    elif key == 'I':
+        util.clear_screen()
+        ui.display_inventory(player)
+        return True
+    else:
+        engine.move(player, boards[level -1], key, player, items)
+        for npc in npcs:
+            if npc["level"] == level:
+                engine.move(npc, boards[level -1], get_npc_direction(), player, items)
+        return True
+
+
+def main():
+    boards, items, npcs, player = initialize_game()
     #util.clear_screen()
     is_running = True
     while is_running:
         level = player["level"]
+        ui.display_board(boards[level - 1], player)
+        engine.interaction_with_npc(boards[level -1], player, npcs)
         if player["energy"] <= 0:
             print("GAME OVER")
-            break
-        ui.display_board(boards[level -1], player)
-        engine.interaction_with_npc(boards[level -1], player, npcs)
-        #util.clear_screen() # uncomment in final version
-        ui.display_board(boards[level -1], player)
-        key = util.key_pressed().upper()
-        if key == 'Q':
             is_running = False
-        elif key == 'V':
-            gamesaves.save_game(boards, items, npcs, player)
-            print("Saving game..")
-            time.sleep(2)
-
-        elif key == 'I':
-            util.clear_screen()
-            ui.display_inventory(player)
-
-        else:
-            engine.move(player, boards[level -1], key, player, items)
-            # engine.interaction_with_item(board, player, items)
-            for npc in npcs:
-                if npc["level"] == level:
-                    engine.move(npc, boards[level -1], get_npc_direction(), player, items)
+            break
+        #util.clear_screen() # uncomment in final version
+        ui.display_board(boards[level - 1], player)
+        key = util.key_pressed().upper()
+        is_running = react_on_key(boards, items, npcs, player, level, key)
         #util.clear_screen()
 
 

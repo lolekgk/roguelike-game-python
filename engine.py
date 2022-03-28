@@ -260,7 +260,7 @@ def interaction_with_npc(board, player, npcs):
 
         
 def play_new_game():
-    if not exists('savegame.db'):   
+    if not exists('savegame.dat'):   
         return True
     else:
         return ui.select_game_state()
