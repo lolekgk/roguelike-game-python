@@ -121,7 +121,7 @@ def update_player(player, item):
     player["energy"] += item["effect"]["energy"]
     player["knowledge"] += item["effect"]["knowledge"]
     if item["name"] in player["inventory"]:
-        player["inventory"]["name"] += 1
+        player["inventory"][item["name"]] += 1
 
     
 def is_interaction_with_npc(player, board):
