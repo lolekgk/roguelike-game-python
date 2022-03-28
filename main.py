@@ -63,12 +63,18 @@ def main():
             gamesaves.save_game(board, items, npcs, player)
             print("Saving game..")
             time.sleep(2)
+
+        elif key == 'I':
+            util.clear_screen()
+            ui.display_inventory(player)
+
         else:
             engine.move(player, board, key, player, items)
             # engine.interaction_with_item(board, player, items)
             for npc in npcs:
                 engine.move(npc, board, get_npc_direction(), player, items)
         util.clear_screen()
+
 
 if __name__ == "__main__":
     main()

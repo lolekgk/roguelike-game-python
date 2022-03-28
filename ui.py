@@ -3,6 +3,9 @@ import util
 import time
 
 
+from items_and_characters import ITEMS
+
+
 TYPES = ['Nerd', 'Laid-back', 'Average']
 
 
@@ -11,6 +14,24 @@ def display_board(board, player_info):
     for row, line in zip(board, stats_scroll):
         print(''.join(row), f'   {line}')
 
+
+def display_inventory(player):
+    inventory_scroll = ['   ______________________________',' / \                             \.','|   |      Player inventory      |.',' \_ |                            |.'] 
+    for k in player['inventory']:
+        for item in ITEMS:
+            if item['name'] == k:
+                icon = item['icon']
+        row = f"    |  {icon} - {k}: {player['inventory'][k]} "
+        while len(row) < len(' \_ |                            '):
+            row += ' '
+        row += '|.'
+        inventory_scroll.append(row)
+    for line in ['    |   _________________________|___','    |  /                            /.','    \_/____________________________/.']:
+        inventory_scroll.append(line)
+    for row in inventory_scroll:
+        print(row)
+    input("\nPress enter to exit inventory > ")
+    
 
 def get_player_type() -> str:
     print("> Choose your student type <")
