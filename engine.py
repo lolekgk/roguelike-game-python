@@ -76,11 +76,11 @@ def is_move_valid(board, new_row, new_column, type_walls):
 
 
 def get_new_coords(row, column, key):
-    if key == "E":
+    if key == "W":
         new_row, new_column = row - 1, column
-    elif key == "S":
+    elif key == "A":
         new_row, new_column = row, column - 1
-    elif key == "X":
+    elif key == "S":
         new_row, new_column = row + 1, column
     elif key == "D":
         new_row, new_column = row, column + 1
@@ -99,8 +99,8 @@ def move(character, board, key, player, items, npcs):
         board[row][column] = EMPTY
         character["field"] = (new_row, new_column)
         board[new_row][new_column] = character["icon"]
-    if is_interaction_with_npc(player, board):
-        interaction_with_npc(board, player, npcs)
+
+        
         
 
 
@@ -121,7 +121,7 @@ def update_player(player, item):
     player["energy"] += item["effect"]["energy"]
     player["knowledge"] += item["effect"]["knowledge"]
     if item["name"] in player["inventory"]:
-        player["inventory"]["name"] += 1
+        player["inventory"][item["name"]] += 1
 
     
 def is_interaction_with_npc(player, board):
@@ -142,13 +142,19 @@ def get_npc(player, npcs):
 
 def will_player_succeed(player, npc, weapon):
     smartness = player["smartness"]
+    print("smartness ", smartness)
     basic_prob = npc["probability"]
     weapon_amount = weapon[1]
+    print("weapon ", weapon)
     success_prob = min(1, (smartness + weapon_amount) * 0.25 + basic_prob)
+    print("probability of success ", success_prob)
     failure_prob = max(0, 1 - ((smartness + weapon_amount) * 0.25 + basic_prob))
+    print("probability of failure ", failure_prob)
     result = [True, False]
     weights = [success_prob, failure_prob]
-    return random.choices(result, weights)
+    success = random.choices(result, weights)
+    print("success ", success)
+    return success[0]
 
 
 def find_item_by_name(name):
@@ -166,10 +172,26 @@ def interaction_with_npc(board, player, npcs):
         if will_player_succeed(player, npc, weapon):
             name = npc["attribute"]
             item = find_item_by_name(name)
+            print("player before interaction  ", player)
             update_player(player, item)
+            player["inventory"][weapon[0]] -= weapon[1]
+            print("player after interaction  ", player)
             row, column = npc["field"] 
             board[row][column] = EMPTY 
             npcs.remove(npc)
         player["energy"] += npc["energy damage"]
 
-        
+
+def create_intro_scroll(intro_text):
+    line = "  " + "_"*66
+    roller ="=(" + "___  ___"*8 + "__)="
+    scroll = []
+    scroll.append(line)
+    scroll.append(roller)
+    scroll.append("  |" + " "*64 + '| ')
+    for line in intro_text:
+        row = "  |" + line.center(64) + '| '
+        scroll.append(row)
+    scroll.append("  |" + "___  ___"*8 + "|")
+    scroll.append('=(' + "_"*66 + ')=')
+    return scroll

@@ -12,6 +12,14 @@ BOARD_HEIGHT = 20
 PLAYER_ICON = "☻"
 PLAYER_START_COORDS = (1,1)
 
+intro_level1 = ["You are a young, more or less brilliant student",
+                "who is about to finish their first year at local University.",
+                "You have spend the whole year studying / partying",
+                "and enjoying the student's life.",
+                "Unfortunately all good things come to an end...",
+                "Ahead of you is the most dreadful period for any student...",
+                "THE EXAMS!" ]
+
 
 def create_player():
     player_type = ui.get_player_type()
@@ -34,17 +42,23 @@ def setup_start_board(board, player, npcs, items):
     engine.put_items_on_board(board, items)
     engine.put_npcs_on_board(board, npcs)
 
+
 def main():
+    intro_scroll = engine.create_intro_scroll(intro_level1)
+    ui.display_intro(intro_scroll)
     player = create_player()
     board = engine.create_board(BOARD_WIDTH, BOARD_HEIGHT)
     npcs = deepcopy(NPCS) 
     items = deepcopy(ITEMS)
     setup_start_board(board, player, npcs, items)
-    util.clear_screen()
     is_running = True
     while is_running:
         if player["energy"] <= 0:
+            print("GAME OVER")
             break
+        ui.display_board(board, player)
+        engine.interaction_with_npc(board, player, npcs)
+        #util.clear_screen() # uncomment in final version
         ui.display_board(board, player)
         key = util.key_pressed().upper()
         if key == 'Q':
