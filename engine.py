@@ -1,4 +1,4 @@
-from items_and_characters import ITEMS
+from items_and_characters import ITEMS, NPCS
 import random
 import ui
 
