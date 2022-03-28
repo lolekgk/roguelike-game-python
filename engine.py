@@ -1,7 +1,7 @@
 from items_and_characters import ITEMS, NPCS
 import random
 import ui
-
+from os.path import exists
 
 
 EMPTY = " "
@@ -229,4 +229,10 @@ def interaction_with_npc(board, player, npcs):
             board[row][column] = EMPTY 
             npcs.remove(npc)
         print("player after interaction  ", player)
+
         
+def play_new_game():
+    if not exists('savegame.db'):   
+        return True
+    else:
+        return ui.select_game_state()

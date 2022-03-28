@@ -5,6 +5,8 @@ import ui
 from items_and_characters import ITEMS, NPCS, PLAYER_TYPES
 from copy import deepcopy
 import random
+import gamesaves
+import time
 
 
 BOARD_WIDTH = 30
@@ -36,11 +38,14 @@ def setup_start_board(board, player, npcs, items):
 
 
 def main():
-    player = create_player()
-    board = engine.create_board(BOARD_WIDTH, BOARD_HEIGHT)
-    npcs = deepcopy(NPCS) 
-    items = deepcopy(ITEMS)
-    setup_start_board(board, player, npcs, items)
+    if engine.play_new_game():
+        player = create_player()
+        board = engine.create_board(BOARD_WIDTH, BOARD_HEIGHT)
+        npcs = deepcopy(NPCS) 
+        items = deepcopy(ITEMS)
+        setup_start_board(board, player, npcs, items)
+    else:
+        board, items, npcs, player = gamesaves.load_game()
     util.clear_screen()
     is_running = True
     while is_running:
@@ -54,9 +59,15 @@ def main():
         key = util.key_pressed().upper()
         if key == 'Q':
             is_running = False
+        elif key == 'V':
+            gamesaves.save_game(board, items, npcs, player)
+            print("Saving game..")
+            time.sleep(2)
+
         elif key == 'I':
             util.clear_screen()
             ui.display_inventory(player)
+
         else:
             engine.move(player, board, key, player, items)
             # engine.interaction_with_item(board, player, items)

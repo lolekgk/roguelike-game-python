@@ -1,5 +1,10 @@
 import engine
+import util
+import time
+
+
 from items_and_characters import ITEMS
+
 
 TYPES = ['Nerd', 'Laid-back', 'Average']
 
@@ -63,4 +68,19 @@ def choose_weapon(player):
         amount = int(input("Choose amount "))
         if amount in range(0, player["inventory"][weapon_kind] + 1):
             return (weapon_kind, amount)
-        
+
+
+def select_game_state():
+    while True:
+        util.clear_screen()
+        print("1. New Game")
+        print("2. Load Game")
+        key = util.key_pressed().upper()
+        if key == '1':
+            return True
+        elif key == '2':
+            return False
+        else:
+            print('Wrong input')
+            time.sleep(2)
+    
