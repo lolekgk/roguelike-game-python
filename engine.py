@@ -10,7 +10,7 @@ EMPTY = " "
 ENTRY = "↑"
 EXIT = "→"
 ENTRY_ROW, ENTRY_COLUMN = 0, 15
-EXIT_ROW, EXIT_COLUMN = -2, -1
+EXIT_ROW, EXIT_COLUMN = 18, 29
 
 WALL = '░'
 ICONS = [item["icon"] for item in ITEMS]
@@ -162,11 +162,14 @@ def move(character, board, key, player, items):
     if (new_row, new_column) == (ENTRY_ROW, ENTRY_COLUMN) and player["level"] != 1:
         player["level"] -= 1
         player["field"] = (EXIT_ROW, EXIT_COLUMN - 1)
-        return
+        return None
     if (new_row, new_column) == (EXIT_ROW, EXIT_COLUMN) and player["level"] != 3:
         player["level"] += 1
+        level = player["level"]
         player["field"] = (ENTRY_ROW + 1, ENTRY_COLUMN)
-        return
+        coords = player["field"]
+        print(f"level = {level },  coords = {coords}")
+        return None
     obstacles = PLAYER_OBSTACLES if character == player else NPC_OBSTACLES
     if is_move_valid(board, new_row, new_column, obstacles):
         if board[new_row][new_column] in ICONS and character == player:
@@ -241,6 +244,8 @@ def interaction_with_npc(board, player, npcs):
         # print some dialog window
         # player choose wheapon
         weapon = ui.choose_weapon(player)
+        print("weapon amount", weapon[1])
+        print("amount of weapon in player inventory", player["inventory"][weapon[0]])
         player["inventory"][weapon[0]] -= weapon[1] # after the "weapon" is choosen it is removed from inventory
         player["energy"] -= npc["energy damage"]
         if will_player_succeed(player, npc, weapon):

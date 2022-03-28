@@ -33,7 +33,7 @@ def get_npc_direction():
     return key
 
 
-def setup_start_board(boards, player, npcs, items):
+def setup_start_boards(boards, player, npcs, items):
     for level in LEVELS:
         items_on_level = [item for item in items if item["level"] == level]
         print(items_on_level)
@@ -52,14 +52,14 @@ def main():
         npcs = deepcopy(NPCS) 
         items = deepcopy(ITEMS)
         boards = [engine.create_board(BOARD_WIDTH, BOARD_HEIGHT, level) for level in LEVELS]
-        #for board in boards:
-        #    ui.display_board(board, player)
-        setup_start_board(boards, player, npcs, items)
-        #for board in boards:
-        #    ui.display_board(board, player)
+        for board in boards:
+            ui.display_board(board, player)
+        setup_start_boards(boards, player, npcs, items)
+        for board in boards:
+            ui.display_board(board, player)
     else:
         boards, items, npcs, player = gamesaves.load_game()
-    util.clear_screen()
+    #util.clear_screen()
     is_running = True
     while is_running:
         level = player["level"]
@@ -86,8 +86,9 @@ def main():
             engine.move(player, boards[level -1], key, player, items)
             # engine.interaction_with_item(board, player, items)
             for npc in npcs:
-                engine.move(npc, boards[level -1], get_npc_direction(), player, items)
-        util.clear_screen()
+                if npc["level"] == level:
+                    engine.move(npc, boards[level -1], get_npc_direction(), player, items)
+        #util.clear_screen()
 
 
 if __name__ == "__main__":
