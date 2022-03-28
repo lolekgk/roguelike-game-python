@@ -23,7 +23,56 @@ def create_board(width, height):
         board.append(row)
     board.append(['░' for i in range(width)])
     board[-2][-1] = '\\'
+    add_walls(board, level = 1)    #Dodać wywoływanie odpowiedniego levelu
     return board
+
+
+def add_walls(board, level):
+    if level == 1:
+        walls_level_1(board)
+    elif level == 2:
+        walls_level_2(board)    
+    elif level == 3:
+        walls_level_3(board)
+
+
+def walls_level_1(board):
+    for i in range(len(board) - 1):
+        if i %5 != 0 and i < 17 :
+            board[i][8] = "░"
+    for i in range(len(board[0]) - 1):
+        if i >= 9:
+            board[16][i] = "░" 
+            board[12][i] = "░"
+            board[8][i] = "░"
+            if i != 28 and i != 27:
+                board[3][i] = "░"
+    board[10][22] = "░"
+    board[11][22] = "░"
+
+
+def walls_level_3(board):   
+    for i in range(len(board[0])):
+        if i < 14 or i > 16:
+            board[5][i] = "░"
+        if i <= 8 and i >= 2:
+            board[14][i] = "░"
+    for i in range(len(board)):
+        if i > 14:
+            board[i][8] = "░"
+    
+
+def walls_level_2(board):  
+    for i in range(len(board)):
+        if i % 4 == 0:
+            for j in range(len(board[0]) - 1):
+                if j < 13 or j > 16:
+                    board[i][j] = "░"
+        if i % 4 != 0 and i in range(0,16):
+            board[i + 2][12] = "░"
+            board[i + 2][17] = "░"
+    board[1][12] = "░"
+    board[1][17] = "░"
 
 
 def create_stats_scroll(player, height) -> list:
@@ -44,7 +93,6 @@ def create_stats_scroll(player, height) -> list:
 def put_player_on_board(board, player):
     (row, column) = player["field"]
     board[row][column] = player["icon"]
-  
 
 
 def put_npcs_on_board(board, npcs):
