@@ -83,4 +83,19 @@ def finding_items(item):
     else:
         pass
 
-
+def display_inventory(player):
+    inventory_scroll = ['   ______________________________',' / \                             \.','|   |      Player inventory      |.',' \_ |                            |.'] 
+    for k in player['inventory']:
+        for item in ITEMS:
+            if item['name'] == k:
+                icon = item['icon']
+        row = f"    |  {icon} - {k}: {player['inventory'][k]} "
+        while len(row) < len(' \_ |                            '):
+            row += ' '
+        row += '|.'
+        inventory_scroll.append(row)
+    for line in ['    |   _________________________|___','    |  /                            /.','    \_/____________________________/.']:
+        inventory_scroll.append(line)
+    for row in inventory_scroll:
+        print(row)
+    input("\nPress enter to exit inventory > ")
