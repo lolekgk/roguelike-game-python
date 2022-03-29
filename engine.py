@@ -1,26 +1,45 @@
-from items_and_characters import ITEMS, NPCS
+from socketserver import ThreadingUDPServer
 import random
-import ui
 from os.path import exists
 import os
-
+import time
+import util
+import ui
+import main
+from items_and_characters import ITEMS, NPCS, BOSS
 
 
 ROW = 0
+WALL = '░'
 EMPTY = " "
 ENTRY = "↑"
 EXIT = "→"
 ENTRY_ROW, ENTRY_COLUMN = 0, 15
 EXIT_ROW, EXIT_COLUMN = 18, 29
-
-WALL = '░'
-ICONS = [item["icon"] for item in ITEMS]
-NPC_ICONS = [npc["icon"] for npc in NPCS]
-PLAYER_OBSTACLES = [WALL] + NPC_ICONS
-NPC_OBSTACLES = [WALL, ENTRY, EXIT, "☻"] + ICONS + NPC_ICONS
+ITEM_ICONS = {item["icon"] for item in ITEMS}
+NPC_ICONS = {npc["icon"] for npc in NPCS}
+BOSS_FACE = ['^^^^^', '|O-O|', '| ^ |', '|===|', '-----']
+BOSS_ICONS = {row[k] for row in BOSS_FACE for k in range(len(BOSS_FACE)) if row[k] != EMPTY}
+PLAYER_OBSTACLES = {WALL} | NPC_ICONS | BOSS_ICONS
+NPC_OBSTACLES = {WALL, ENTRY, EXIT, "☻"} | ITEM_ICONS | NPC_ICONS
 PLAYER_DATA_TO_DISPLAY = ["name", "class", 'knowledge', 'smartness', 'energy', 'exams']
 
 
+def select_game_state():
+    while True:
+        util.clear_screen()
+        print("1. New Game")
+        print("2. Load Game")
+        key = util.key_pressed().upper()
+        if key == '1':
+            return True
+        elif key == '2':
+            return False
+        else:
+            print('Wrong input')
+            time.sleep(2)
+            
+            
 def create_board(width, height, level):
     board = []
     board.append([WALL for i in range(width)])
@@ -113,7 +132,6 @@ def put_player_on_board(board, player):
     (row, column) = player["field"]
     board[row][column] = player["icon"]
 
-
 def put_npcs_on_board(board, npcs):
     for npc in npcs:
         (row, column) = npc["field"]
@@ -166,14 +184,14 @@ def move(character, board, key, player, items):
         return None
     if (new_row, new_column) == (EXIT_ROW, EXIT_COLUMN) and player["level"] != 3:
         player["level"] += 1
-        level = player["level"]
+        #level = player["level"]
         player["field"] = (ENTRY_ROW + 1, ENTRY_COLUMN)
-        coords = player["field"]
-        print(f"level = {level },  coords = {coords}")
+        #coords = player["field"]
+        #print(f"level = {level },  coords = {coords}")
         return None
     obstacles = PLAYER_OBSTACLES if character == player else NPC_OBSTACLES
     if is_move_valid(board, new_row, new_column, obstacles):
-        if board[new_row][new_column] in ICONS and character == player:
+        if board[new_row][new_column] in ITEM_ICONS and character == player:
             interaction_with_item(board, player, items, new_row, new_column)
         board[row][column] = EMPTY
         character["field"] = (new_row, new_column)
@@ -181,7 +199,7 @@ def move(character, board, key, player, items):
 
 
 def get_item(board, row, col, items):
-    if board[row][col] in ICONS:
+    if board[row][col] in ITEM_ICONS:
         for item in items:
             if board[row][col] == item["icon"]:
                 return item
@@ -261,7 +279,42 @@ def interaction_with_npc(board, player, npcs):
             npcs.remove(npc)
         print("player after interaction  ", player)
 
-        
+
+def put_boss_on_board(board):
+    row, column = BOSS['field']
+    for x in range(5):
+        for y in range(5):
+            board[row + x][column + y] = BOSS_FACE[x][y]
+
+
+def move_boss(board, boss):
+    direction = main.get_npc_direction()
+    row, col = boss['field']
+    new_row, new_col = get_new_coords(row, col, direction)
+    if new_row > len(board) - 6 or new_col > len(board[0]) - 6: # This ensures no index error, len(board[0]) is the board's width
+        move_boss(board, boss)
+    else:
+        if check_valid_boss_move(board, new_row, new_col):
+            for x in range(len(board)):
+                for y in range(len(board[0])):
+                    if board[x][y] in boss['icon']:
+                        board[x][y] = EMPTY
+            for x in range(0, 5):
+                for y in range(0, 5):
+                    board[new_row + x][new_col + y] = BOSS_FACE[x][y]
+            boss['field'] = (new_row, new_col)
+        else:
+            move_boss(board, boss)
+
+
+def check_valid_boss_move(board, new_row, new_col):
+    for x in range(5):
+        for y in range(5):
+            if board[new_row + x][new_col + y] in NPC_OBSTACLES:
+                return False
+    return True
+
+
 def play_new_game():
     if os.name == "nt":
         file = 'savegame.dat'
@@ -271,6 +324,7 @@ def play_new_game():
         return True
     else:
         return ui.select_game_state()
+
 
 def create_intro_scroll(intro_text):
     line = "  " + "_"*66
