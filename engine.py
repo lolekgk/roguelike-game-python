@@ -20,7 +20,21 @@ PLAYER_OBSTACLES = [WALL] + NPC_ICONS
 NPC_OBSTACLES = [WALL, ENTRY, EXIT, "☻"] + ICONS + NPC_ICONS
 PLAYER_DATA_TO_DISPLAY = ["name", "class", 'knowledge', 'smartness', 'energy', 'exams']
 
-
+def select_game_state():
+    while True:
+        util.clear_screen()
+        print("1. New Game")
+        print("2. Load Game")
+        key = util.key_pressed().upper()
+        if key == '1':
+            return True
+        elif key == '2':
+            return False
+        else:
+            print('Wrong input')
+            time.sleep(2)
+            
+            
 def create_board(width, height, level):
     board = []
     board.append([WALL for i in range(width)])

@@ -114,4 +114,8 @@ def display_inventory(player):
         inventory_scroll.append(line)
     for row in inventory_scroll:
         print(row)
+<<<<<<< HEAD
     input("\nPress enter to exit inventory > ")
+=======
+    input("\nPress enter to exit inventory > ")
+>>>>>>> origin/development
