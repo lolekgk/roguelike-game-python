@@ -5,7 +5,7 @@ import ui
 import main
 
 
-PLAYER_WALLS = ['░', "♥", "‼", 'P', '^', '|', '-', 'O', '=']
+PLAYER_WALLS = ['░', "♥", "‼", 'P', '^']
 NPC_WALLS = ['░', "♥", "‼", "\\", "☻"]
 EMPTY = " "
 from items_and_characters import ITEMS, NPCS
@@ -26,7 +26,7 @@ EXIT_ROW, EXIT_COLUMN = 18, 29
 WALL = '░'
 ICONS = [item["icon"] for item in ITEMS]
 NPC_ICONS = [npc["icon"] for npc in NPCS]
-PLAYER_OBSTACLES = [WALL] + NPC_ICONS
+PLAYER_OBSTACLES = ['░' ,'^', '|', '-', 'O', '='] + NPC_ICONS
 NPC_OBSTACLES = [WALL, ENTRY, EXIT, "☻"] + ICONS + NPC_ICONS
 PLAYER_DATA_TO_DISPLAY = ["name", "class", 'knowledge', 'smartness', 'energy', 'exams']
 BOSS_FACE = ['^^^^^', '|O-O|', '| ^ |', '|===|', '-----']
@@ -302,7 +302,7 @@ def move_boss(board, boss):
 def check_valid_boss_move(board, new_row, new_col):
     for x in range(5):
         for y in range(5):
-            if board[new_row + x][new_col + y] in NPC_WALLS:
+            if board[new_row + x][new_col + y] in NPC_OBSTACLES:
                 return False
     return True
 

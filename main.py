@@ -74,6 +74,8 @@ def setup_start_boards(boards, player, npcs, items):
         ui.display_board(boards[level - 1], player)
         if level == 1:
             engine.put_player_on_board(boards[level - 1], player)
+        if level == 3:
+            engine.put_boss_on_board(boards[level - 1])
 
 
 def initialize_game():
@@ -116,9 +118,7 @@ def main():
         level = player["level"]
         ui.display_board(boards[level - 1], player)
         engine.interaction_with_npc(boards[level -1], player, npcs)
-        if level == boards[2]:
-            engine.put_boss_on_board()
-            engine.move_boss(boards[2], BOSS)
+        engine.move_boss(boards[2], BOSS)
         if player["energy"] <= 0:
             print("GAME OVER")
             is_running = False

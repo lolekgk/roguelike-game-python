@@ -32,7 +32,7 @@ NPCS = [
         ]
 
 
-BOSS = {"name": "Boss", "icon": '^|-O=', "field": (10, 15), "attribute": None, "probability": 0, "energy damage": 0}
+BOSS = {"name": "Boss", "icon": '^|-O=', "field": (15, 15), "attribute": None, "probability": 0, "energy damage": 0}
 
 
 # a dictionary of dictionaries with type name as key
