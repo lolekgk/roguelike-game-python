@@ -1,37 +1,29 @@
 from socketserver import ThreadingUDPServer
-from items_and_characters import ITEMS, BOSS
 import random
-import ui
-import main
-
-
-PLAYER_WALLS = ['░', "♥", "‼", 'P', '^']
-NPC_WALLS = ['░', "♥", "‼", "\\", "☻"]
-EMPTY = " "
-from items_and_characters import ITEMS, NPCS
-import random
-import ui
 from os.path import exists
 import os
-import util
 import time
-
+import util
+import ui
+import main
+from items_and_characters import ITEMS, NPCS, BOSS
 
 
 ROW = 0
+WALL = '░'
 EMPTY = " "
 ENTRY = "↑"
 EXIT = "→"
 ENTRY_ROW, ENTRY_COLUMN = 0, 15
 EXIT_ROW, EXIT_COLUMN = 18, 29
-
-WALL = '░'
-ICONS = [item["icon"] for item in ITEMS]
-NPC_ICONS = [npc["icon"] for npc in NPCS]
-PLAYER_OBSTACLES = ['░' ,'^', '|', '-', 'O', '='] + NPC_ICONS
-NPC_OBSTACLES = [WALL, ENTRY, EXIT, "☻"] + ICONS + NPC_ICONS
-PLAYER_DATA_TO_DISPLAY = ["name", "class", 'knowledge', 'smartness', 'energy', 'exams']
+ITEM_ICONS = {item["icon"] for item in ITEMS}
+NPC_ICONS = {npc["icon"] for npc in NPCS}
 BOSS_FACE = ['^^^^^', '|O-O|', '| ^ |', '|===|', '-----']
+BOSS_ICONS = {row[k] for row in BOSS_FACE for k in range(len(BOSS_FACE)) if row[k] != EMPTY}
+PLAYER_OBSTACLES = {WALL} | NPC_ICONS | BOSS_ICONS
+NPC_OBSTACLES = {WALL, ENTRY, EXIT, "☻"} | ITEM_ICONS | NPC_ICONS
+PLAYER_DATA_TO_DISPLAY = ["name", "class", 'knowledge', 'smartness', 'energy', 'exams']
+
 
 def select_game_state():
     while True:
@@ -199,7 +191,7 @@ def move(character, board, key, player, items):
         return None
     obstacles = PLAYER_OBSTACLES if character == player else NPC_OBSTACLES
     if is_move_valid(board, new_row, new_column, obstacles):
-        if board[new_row][new_column] in ICONS and character == player:
+        if board[new_row][new_column] in ITEM_ICONS and character == player:
             interaction_with_item(board, player, items, new_row, new_column)
         board[row][column] = EMPTY
         character["field"] = (new_row, new_column)
@@ -207,7 +199,7 @@ def move(character, board, key, player, items):
 
 
 def get_item(board, row, col, items):
-    if board[row][col] in ICONS:
+    if board[row][col] in ITEM_ICONS:
         for item in items:
             if board[row][col] == item["icon"]:
                 return item
