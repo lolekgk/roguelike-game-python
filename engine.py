@@ -2,6 +2,7 @@ from items_and_characters import ITEMS, NPCS
 import random
 import ui
 from os.path import exists
+import os
 
 
 
@@ -260,7 +261,11 @@ def interaction_with_npc(board, player, npcs):
 
         
 def play_new_game():
-    if not exists('savegame.dat'):   
+    if os.name == "nt":
+        file = 'savegame.dat'
+    else:
+        file = 'savegame.db'
+    if not exists(file):   
         return True
     else:
         return ui.select_game_state()
