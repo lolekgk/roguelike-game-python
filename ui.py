@@ -1,6 +1,12 @@
 import engine
+import util
+import time
 
-TYPES = ['Nerd', 'Laid-back', 'Average']
+
+from items_and_characters import ITEMS, PLAYER_TYPES
+
+
+TYPES = ['Nerd', 'Laid-back', 'Average'] # = [k for k in PLAYER_TYPES.keys()] 
 
 
 def display_intro(scroll):
