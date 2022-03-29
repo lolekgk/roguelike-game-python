@@ -120,7 +120,7 @@ def main():
             print("GAME OVER")
             is_running = False
             break
-        #util.clear_screen() # uncomment in final version
+        util.clear_screen() # uncomment in final version
         ui.display_board(boards[level - 1], player)
         key = util.key_pressed().upper()
         is_running = react_on_key(boards, items, npcs, player, level, key)
