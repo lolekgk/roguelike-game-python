@@ -66,14 +66,12 @@ def get_npc_direction():
 def setup_start_boards(boards, player, npcs, items):
     for level in LEVELS:
         items_on_level = [item for item in items if item["level"] == level]
-        print(items_on_level)
         npcs_on_level = [npc for npc in npcs if npc["level"] == level]
-        print(npcs_on_level)
         engine.put_items_on_board(boards[level - 1], items_on_level)
         engine.put_npcs_on_board(boards[level - 1], npcs_on_level)
-        ui.display_board(boards[level - 1], player)
-        if level == 1:
-            engine.put_player_on_board(boards[level - 1], player)
+        #ui.display_board(boards[level - 1], player)
+        #if level == 1:
+        #    engine.put_player_on_board(boards[level - 1], player)
 
 
 def initialize_game():
@@ -114,6 +112,7 @@ def main():
     is_running = True
     while is_running:
         level = player["level"]
+        engine.put_player_on_board(boards[level - 1], player) # ta funkcja jest koniecza przy zmianie poziomu, poza ty nie, ale nie przeszkadza 
         ui.display_board(boards[level - 1], player)
         engine.interaction_with_npc(boards[level -1], player, npcs)
         if player["energy"] <= 0:

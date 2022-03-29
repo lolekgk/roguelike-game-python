@@ -166,10 +166,10 @@ def move(character, board, key, player, items):
         return None
     if (new_row, new_column) == (EXIT_ROW, EXIT_COLUMN) and player["level"] != 3:
         player["level"] += 1
-        level = player["level"]
+        #level = player["level"]
         player["field"] = (ENTRY_ROW + 1, ENTRY_COLUMN)
-        coords = player["field"]
-        print(f"level = {level },  coords = {coords}")
+        #coords = player["field"]
+        #print(f"level = {level },  coords = {coords}")
         return None
     obstacles = PLAYER_OBSTACLES if character == player else NPC_OBSTACLES
     if is_move_valid(board, new_row, new_column, obstacles):

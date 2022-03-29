@@ -84,3 +84,34 @@ def finding_items(item):
         pass
 
 
+def select_game_state():
+    while True:
+        util.clear_screen()
+        print("1. New Game")
+        print("2. Load Game")
+        key = util.key_pressed().upper()
+        if key == '1':
+            return True
+        elif key == '2':
+            return False
+        else:
+            print('Wrong input')
+            time.sleep(2)
+
+
+def display_inventory(player):
+    inventory_scroll = ['   ______________________________',' / \                             \.','|   |      Player inventory      |.',' \_ |                            |.'] 
+    for k in player['inventory']:
+        for item in ITEMS:
+            if item['name'] == k:
+                icon = item['icon']
+        row = f"    |  {icon} - {k}: {player['inventory'][k]} "
+        while len(row) < len(' \_ |                            '):
+            row += ' '
+        row += '|.'
+        inventory_scroll.append(row)
+    for line in ['    |   _________________________|___','    |  /                            /.','    \_/____________________________/.']:
+        inventory_scroll.append(line)
+    for row in inventory_scroll:
+        print(row)
+    input("\nPress enter to exit inventory > ")
