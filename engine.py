@@ -1,15 +1,18 @@
+from socketserver import ThreadingUDPServer
 from items_and_characters import ITEMS, BOSS
 import random
 import ui
+import main
 
 
-PLAYER_WALLS = ['░', "♥", "‼", 'P']
+PLAYER_WALLS = ['░', "♥", "‼", 'P', '^', '|', '-', 'O', '=']
 NPC_WALLS = ['░', "♥", "‼", "\\", "☻", 'P']
 EMPTY = " "
 ROW = 0
 ICONS = [item["icon"] for item in ITEMS]
 NPC_ICONS = ["♥", "‼"]
 PLAYER_DATA_TO_DISPLAY = ["name", "class", 'knowledge', 'smartness', 'energy', 'exams']
+BOSS_FACE = ['^^^^^', '|O-O|', '| ^ |', '|===|', '-----']
 
 
 def create_board(width, height):
@@ -44,7 +47,6 @@ def put_player_on_board(board, player):
     (row, column) = player["field"]
     board[row][column] = player["icon"]
   
-
 
 def put_npcs_on_board(board, npcs):
     for npc in npcs:
@@ -101,7 +103,6 @@ def move(character, board, key, player, items, npcs):
         board[new_row][new_column] = character["icon"]
     if is_interaction_with_npc(player, board):
         interaction_with_npc(board, player, npcs)
-        
 
 
 def get_item(board, row, col, items):
@@ -177,4 +178,32 @@ def put_boss_on_board(board):
     row, column = BOSS['field']
     for x in range(5):
         for y in range(5):
-            board[row + x][column + y] = BOSS['icon']
+            board[row + x][column + y] = BOSS_FACE[x][y]
+
+
+def move_boss(board, boss):
+    direction = main.get_npc_direction()
+    row, col = boss['field']
+    new_row, new_col = get_new_coords(row, col, direction)
+    if new_row > len(board) - 6 or new_col > len(board[0]) - 6: # This ensures no index error, len(board[0]) is the board's width
+        move_boss(board, boss)
+    else:
+        if check_valid_boss_move(board, new_row, new_col):
+            for x in range(len(board)):
+                for y in range(len(board[0])):
+                    if board[x][y] in '^|-O=':
+                        board[x][y] = EMPTY
+            for x in range(0, 5):
+                for y in range(0, 5):
+                    board[new_row + x][new_col + y] = BOSS_FACE[x][y]
+            boss['field'] = (new_row, new_col)
+        else:
+            move_boss(board, boss)
+
+
+def check_valid_boss_move(board, new_row, new_col):
+    for x in range(5):
+        for y in range(5):
+            if board[new_row + x][new_col + y] in NPC_WALLS:
+                return False
+    return True

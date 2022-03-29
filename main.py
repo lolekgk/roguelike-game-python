@@ -1,4 +1,4 @@
-from items_and_characters import PLAYER_TYPES
+from items_and_characters import PLAYER_TYPES, BOSS
 import util
 import engine
 import ui
@@ -59,6 +59,7 @@ def main():
             # engine.interaction_with_item(board, player, items)
             #for npc in npcs:                                                 # This needs to be changed, npc appear out of nowhere if we don't put them on board
                 #engine.move(npc, board, get_npc_direction(), player, items, npcs)
+            engine.move_boss(board, BOSS)
         util.clear_screen()
 
 
