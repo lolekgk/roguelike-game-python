@@ -26,7 +26,8 @@ NPCS = [
         ]
 
 
-BOSS = {"name": "Professor", "icon": 'P', "field": (10, 15), "attribute": None, "probability": 0, "energy damage": 0}
+BOSS = {"name": "Boss", "icon": '^|-O=', "field": (10, 15), "attribute": None, "probability": 0, "energy damage": 0}
+
 
 # a dictionary of dictionaries with type name as key
 # the value is a dictionary with a character's parameters

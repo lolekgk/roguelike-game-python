@@ -6,7 +6,7 @@ import main
 
 
 PLAYER_WALLS = ['░', "♥", "‼", 'P', '^', '|', '-', 'O', '=']
-NPC_WALLS = ['░', "♥", "‼", "\\", "☻", 'P']
+NPC_WALLS = ['░', "♥", "‼", "\\", "☻"]
 EMPTY = " "
 ROW = 0
 ICONS = [item["icon"] for item in ITEMS]
@@ -191,7 +191,7 @@ def move_boss(board, boss):
         if check_valid_boss_move(board, new_row, new_col):
             for x in range(len(board)):
                 for y in range(len(board[0])):
-                    if board[x][y] in '^|-O=':
+                    if board[x][y] in boss['icon']:
                         board[x][y] = EMPTY
             for x in range(0, 5):
                 for y in range(0, 5):
