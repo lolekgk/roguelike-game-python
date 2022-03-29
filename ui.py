@@ -1,20 +1,10 @@
 import engine
 import util
 import time
-
+from items_and_characters import bcolors
 
 from items_and_characters import ITEMS, PLAYER_TYPES
 
-class bcolors:
-    HEADER = '\033[95m'
-    BLUE = '\033[94m'
-    CYAN = '\033[96m'
-    GREEN = '\033[92m'
-    YELLOW = '\033[93m'
-    RED = '\033[91m'
-    ENDC = '\033[0m'
-    BOLD = '\033[1m'
-    UNDERLINE = '\033[96m'
 
 
 TYPES = ['Nerd', 'Laid-back', 'Average'] # = [k for k in PLAYER_TYPES.keys()] 
@@ -51,7 +41,7 @@ def get_player_name():
         if len(name) > 13:
             print(f"{bcolors.RED}The name is too long! (max 13 characters){bcolors.ENDC}")
             continue
-        elif len(name) > 13:
+        elif len(name) < 4:
             print(f"{bcolors.RED}The name is too short! (min 4 characters){bcolors.ENDC}")
             continue
         break
