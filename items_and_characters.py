@@ -32,6 +32,9 @@ NPCS = [
         ]
 
 
+BOSS = {"name": "Boss", "icon": '^|-O=', "field": (15, 15), "attribute": None, "probability": 0, "energy damage": 0}
+
+
 # a dictionary of dictionaries with type name as key
 # the value is a dictionary with a character's parameters
 PLAYER_TYPES = {

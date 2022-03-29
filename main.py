@@ -1,4 +1,4 @@
-from items_and_characters import PLAYER_TYPES
+from items_and_characters import BOSS, PLAYER_TYPES
 import util
 import engine
 import ui
@@ -69,9 +69,9 @@ def setup_start_boards(boards, player, npcs, items):
         npcs_on_level = [npc for npc in npcs if npc["level"] == level]
         engine.put_items_on_board(boards[level - 1], items_on_level)
         engine.put_npcs_on_board(boards[level - 1], npcs_on_level)
-        #ui.display_board(boards[level - 1], player)
-        #if level == 1:
-        #    engine.put_player_on_board(boards[level - 1], player)
+        ui.display_board(boards[level - 1], player)
+        if level == 3:
+            engine.put_boss_on_board(boards[level - 1])
 
 
 def initialize_game():
@@ -115,6 +115,7 @@ def main():
         engine.put_player_on_board(boards[level - 1], player) # ta funkcja jest koniecza przy zmianie poziomu, poza ty nie, ale nie przeszkadza 
         ui.display_board(boards[level - 1], player)
         engine.interaction_with_npc(boards[level -1], player, npcs)
+        engine.move_boss(boards[2], BOSS)
         if player["energy"] <= 0:
             print("GAME OVER")
             is_running = False
