@@ -9,29 +9,17 @@ from items_and_characters import ITEMS, PLAYER_TYPES
 TYPES = ['Nerd', 'Laid-back', 'Average'] # = [k for k in PLAYER_TYPES.keys()] 
 
 
+def display_intro(scroll):
+    for row in scroll:
+        print(row)
+    print()
+    
+
 def display_board(board, player_info):
     stats_scroll = engine.create_stats_scroll(player_info, len(board))
     for row, line in zip(board, stats_scroll):
         print(''.join(row), f'   {line}')
 
-
-def display_inventory(player):
-    inventory_scroll = ['   ______________________________',' / \                             \.','|   |      Player inventory      |.',' \_ |                            |.'] 
-    for k in player['inventory']:
-        for item in ITEMS:
-            if item['name'] == k:
-                icon = item['icon']
-        row = f"    |  {icon} - {k}: {player['inventory'][k]} "
-        while len(row) < len(' \_ |                            '):
-            row += ' '
-        row += '|.'
-        inventory_scroll.append(row)
-    for line in ['    |   _________________________|___','    |  /                            /.','    \_/____________________________/.']:
-        inventory_scroll.append(line)
-    for row in inventory_scroll:
-        print(row)
-    input("\nPress enter to exit inventory > ")
-    
 
 def get_player_type() -> str:
     print("> Choose your student type <")
@@ -58,9 +46,8 @@ def get_player_name():
 
 def choose_weapon(player):
     #display_inventory(player)
-    print("players inventory" , player["inventory"])
     while True:
-        weapon_no = input("Choose weapon number ")
+        weapon_no = input("Choose wheapon number ")
         if weapon_no == "1":     # hardcoded for test of level 1
             weapon_kind = "beer"
             break
@@ -68,19 +55,32 @@ def choose_weapon(player):
         amount = int(input("Choose amount "))
         if amount in range(0, player["inventory"][weapon_kind] + 1):
             return (weapon_kind, amount)
+        
+
+def meeting_npc(npc):
+    if npc["name"] == "best student":
+        message = "That's the best student in our group! Would be great if I could get his notes for the exam"
+    elif npc["name"] == "perpetual student":
+        message = "This dude has been around forever! I'm sure he has the last year's test!"
+    else:
+        pass
+    return message
 
 
-def select_game_state():
-    while True:
-        util.clear_screen()
-        print("1. New Game")
-        print("2. Load Game")
-        key = util.key_pressed().upper()
-        if key == '1':
-            return True
-        elif key == '2':
-            return False
-        else:
-            print('Wrong input')
-            time.sleep(2)
-    
+def finding_items(item):
+    if item == "notes":
+        message = "Cool! Somebody left their notes here."
+    elif item == "Red Bull":
+        message == "I was getting a bit sllepy. This energy drink comes right in time!"
+    elif item == "instant noodles":
+        message = "My favourite instant noodles! Just as I was gettinh hungry!"
+    elif item == "beer":
+        message == "Someone left a beer in the University dorm! That's crazy! Should I drink it now... Nah, I'll keep it in my backpack. "
+    elif item == "nerd's notes":
+        message = "Thank's man! With these notes the exam will be a breeze!"
+    elif item == "last year's test":
+        message = "Dude, you're the best! Now let's hope the professor uses the exact same test this year!"
+    else:
+        pass
+
+
