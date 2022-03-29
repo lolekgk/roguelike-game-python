@@ -10,7 +10,7 @@ from items_and_characters import ITEMS, NPCS, BOSS
 
 
 ROW = 0
-WALL = '░'
+WALL = f'{ui.bcolors.GRAY}░{ui.bcolors.ENDC}'
 EMPTY = " "
 ENTRY = "↑"
 EXIT = "→"
@@ -21,7 +21,7 @@ NPC_ICONS = {npc["icon"] for npc in NPCS}
 BOSS_FACE = ['^^^^^', '|O-O|', '| ^ |', '|===|', '-----']
 BOSS_ICONS = {row[k] for row in BOSS_FACE for k in range(len(BOSS_FACE)) if row[k] != EMPTY}
 PLAYER_OBSTACLES = {WALL} | NPC_ICONS | BOSS_ICONS
-NPC_OBSTACLES = {WALL, ENTRY, EXIT, "☻"} | ITEM_ICONS | NPC_ICONS
+NPC_OBSTACLES = {WALL, ENTRY, EXIT, main.PLAYER_ICON} | ITEM_ICONS | NPC_ICONS
 PLAYER_DATA_TO_DISPLAY = ["name", "class", 'knowledge', 'smartness', 'energy', 'exams']
 
 
@@ -57,12 +57,12 @@ def create_board(width, height, level):
 
 def add_entry(board, level):
     if level in [2, 3]:
-        board[ENTRY_ROW][ENTRY_COLUMN] = '↑'
+        board[ENTRY_ROW][ENTRY_COLUMN] = f'{ui.bcolors.RED}↑{ui.bcolors.ENDC}'
 
 
 def add_exit(board, level):
     if level in [1, 2]:
-        board[EXIT_ROW][EXIT_COLUMN] = '→' 
+        board[EXIT_ROW][EXIT_COLUMN] = f'{ui.bcolors.GREEN}→{ui.bcolors.ENDC}' 
 
 
 def add_walls(board, level):
