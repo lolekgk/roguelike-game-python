@@ -1,30 +1,49 @@
 from items_and_characters import ITEMS, NPCS
 import random
 import ui
+from os.path import exists
+import os
 
 
 
-EMPTY = " "
 ROW = 0
+EMPTY = " "
+ENTRY = "↑"
+EXIT = "→"
+ENTRY_ROW, ENTRY_COLUMN = 0, 15
+EXIT_ROW, EXIT_COLUMN = 18, 29
+
+WALL = '░'
 ICONS = [item["icon"] for item in ITEMS]
 NPC_ICONS = [npc["icon"] for npc in NPCS]
-PLAYER_OBSTACLES = ['░'] + NPC_ICONS
-NPC_OBSTACLES = ['░', "\\", "☻"] + ICONS + NPC_ICONS
+PLAYER_OBSTACLES = [WALL] + NPC_ICONS
+NPC_OBSTACLES = [WALL, ENTRY, EXIT, "☻"] + ICONS + NPC_ICONS
 PLAYER_DATA_TO_DISPLAY = ["name", "class", 'knowledge', 'smartness', 'energy', 'exams']
 
 
-def create_board(width, height):
+def create_board(width, height, level):
     board = []
-    board.append(['░' for i in range(width)])
+    board.append([WALL for i in range(width)])
     for i in range(height - 2):
         row = [EMPTY for i in range(width - 2)]
-        row.insert(0, '░')
-        row.append('░')
+        row.insert(0, WALL)
+        row.append(WALL)
         board.append(row)
-    board.append(['░' for i in range(width)])
-    board[-2][-1] = '\\'
-    add_walls(board, level = 1)    #Dodać wywoływanie odpowiedniego levelu
+    board.append([WALL for i in range(width)])
+    add_walls(board, level)
+    add_entry(board, level)  
+    add_exit(board, level)
     return board
+
+
+def add_entry(board, level):
+    if level in [2, 3]:
+        board[ENTRY_ROW][ENTRY_COLUMN] = '↑'
+
+
+def add_exit(board, level):
+    if level in [1, 2]:
+        board[EXIT_ROW][EXIT_COLUMN] = '→' 
 
 
 def add_walls(board, level):
@@ -39,27 +58,27 @@ def add_walls(board, level):
 def walls_level_1(board):
     for i in range(len(board) - 1):
         if i %5 != 0 and i < 17 :
-            board[i][8] = "░"
+            board[i][8] = WALL
     for i in range(len(board[0]) - 1):
         if i >= 9:
-            board[16][i] = "░" 
-            board[12][i] = "░"
-            board[8][i] = "░"
+            board[16][i] = WALL 
+            board[12][i] = WALL
+            board[8][i] = WALL
             if i != 28 and i != 27:
-                board[3][i] = "░"
-    board[10][22] = "░"
-    board[11][22] = "░"
+                board[3][i] = WALL
+    board[10][22] = WALL
+    board[11][22] = WALL
 
 
 def walls_level_3(board):   
     for i in range(len(board[0])):
         if i < 14 or i > 16:
-            board[5][i] = "░"
+            board[5][i] = WALL
         if i <= 8 and i >= 2:
-            board[14][i] = "░"
+            board[14][i] = WALL
     for i in range(len(board)):
         if i > 14:
-            board[i][8] = "░"
+            board[i][8] = WALL
     
 
 def walls_level_2(board):  
@@ -67,12 +86,12 @@ def walls_level_2(board):
         if i % 4 == 0:
             for j in range(len(board[0]) - 1):
                 if j < 13 or j > 16:
-                    board[i][j] = "░"
+                    board[i][j] = WALL
         if i % 4 != 0 and i in range(0,16):
-            board[i + 2][12] = "░"
-            board[i + 2][17] = "░"
-    board[1][12] = "░"
-    board[1][17] = "░"
+            board[i + 2][12] = WALL
+            board[i + 2][17] = WALL
+    board[1][12] = WALL
+    board[1][17] = WALL
 
 
 def create_stats_scroll(player, height) -> list:
@@ -141,13 +160,24 @@ def get_new_coords(row, column, key):
 def move(character, board, key, player, items):
     row, column = character["field"]
     new_row, new_column = get_new_coords(row, column, key)
+    if (new_row, new_column) == (ENTRY_ROW, ENTRY_COLUMN) and player["level"] != 1:
+        player["level"] -= 1
+        player["field"] = (EXIT_ROW, EXIT_COLUMN - 1)
+        return None
+    if (new_row, new_column) == (EXIT_ROW, EXIT_COLUMN) and player["level"] != 3:
+        player["level"] += 1
+        level = player["level"]
+        player["field"] = (ENTRY_ROW + 1, ENTRY_COLUMN)
+        coords = player["field"]
+        print(f"level = {level },  coords = {coords}")
+        return None
     obstacles = PLAYER_OBSTACLES if character == player else NPC_OBSTACLES
     if is_move_valid(board, new_row, new_column, obstacles):
         if board[new_row][new_column] in ICONS and character == player:
             interaction_with_item(board, player, items, new_row, new_column)
         board[row][column] = EMPTY
         character["field"] = (new_row, new_column)
-        board[new_row][new_column] = character["icon"] 
+        board[new_row][new_column] = character["icon"]
 
 
 def get_item(board, row, col, items):
@@ -188,6 +218,7 @@ def get_npc(player, npcs):
 
 def will_player_succeed(player, npc, weapon):
     smartness = player["smartness"]
+    print("smartness ", smartness)
     basic_prob = npc["probability"]
     weapon_amount = weapon[1]
     print("weapon ", weapon)
@@ -215,15 +246,42 @@ def interaction_with_npc(board, player, npcs):
         # print some dialog window
         # player choose wheapon
         weapon = ui.choose_weapon(player)
+        print("weapon amount", weapon[1])
+        print("amount of weapon in player inventory", player["inventory"][weapon[0]])
         player["inventory"][weapon[0]] -= weapon[1] # after the "weapon" is choosen it is removed from inventory
         player["energy"] -= npc["energy damage"]
         if will_player_succeed(player, npc, weapon):
             name = npc["attribute"]
             item = find_item_by_name(name)
+            print("player before interaction  ", player)
             update_player(player, item)
             # player["inventory"][weapon[0]] -= weapon[1] # uncomment this line (and comment the line before if-block) if we decide that user don't loose his "weapon" in case of failure but looses in case of success
             row, column = npc["field"] 
             board[row][column] = EMPTY 
             npcs.remove(npc)
         print("player after interaction  ", player)
+
         
+def play_new_game():
+    if os.name == "nt":
+        file = 'savegame.dat'
+    else:
+        file = 'savegame.db'
+    if not exists(file):   
+        return True
+    else:
+        return ui.select_game_state()
+
+def create_intro_scroll(intro_text):
+    line = "  " + "_"*66
+    roller ="=(" + "___  ___"*8 + "__)="
+    scroll = []
+    scroll.append(line)
+    scroll.append(roller)
+    scroll.append("  |" + " "*64 + '| ')
+    for line in intro_text:
+        row = "  |" + line.center(64) + '| '
+        scroll.append(row)
+    scroll.append("  |" + "___  ___"*8 + "|")
+    scroll.append('=(' + "_"*66 + ')=')
+    return scroll
