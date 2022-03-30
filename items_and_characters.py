@@ -19,8 +19,8 @@ ITEMS = [
         {"name": "beer",                "level": 1, "icon": f"{bcolors.YELLOW}%{bcolors.ENDC}", "total amount": 6, "effect": {"energy": 0, "knowledge": 0} },
         {"name": "nerd's notes",        "level": 1, "icon": "◘", "total amount": 0, "effect": {"energy": 1, "knowledge": 3} },
         {"name": "last year's test",    "level": 1, "icon": "T", "total amount": 0, "effect": {"energy": 2, "knowledge": 6} }, 
-        {"name": "flowers",             "level": 2, "icon": "*", "total amount": 3, "effect": {"energy": 0, "knowledge": 0} },
-        {"name": "chocolade",           "level": 2, "icon": "#", "total amount": 3, "effect": {"energy": 0, "knowledge": 0} },
+        {"name": "flowers",             "level": 2, "icon": "*", "total amount": 4, "effect": {"energy": 0, "knowledge": 0} },
+        {"name": "chocolates",          "level": 2, "icon": "#", "total amount": 4, "effect": {"energy": 0, "knowledge": 0} },
         {"name": "Red Bull",            "level": 2, "icon": f"{bcolors.BLUE}E{bcolors.ENDC}", "total amount": 3, "effect": {"energy": 4, "knowledge": 0} },
         {"name": "exam",                "level": 2, "icon": "X", "total amount": 0, "effect": {"energy": 2, "knowledge": 0, "exams": 1 } },
         {"name": "key",                 "level": 1, "icon": f"{bcolors.CYAN}¬{bcolors.ENDC}", "total amount": 0, "effect": {"energy": 0, "knowledge": 0} }
@@ -51,7 +51,7 @@ BOSS = {"name": "Boss", "icon": '^|-O=', "face": ['^^^^^', '|O-O|', '| ^ |', '|=
 # a dictionary of dictionaries with type name as key
 # the value is a dictionary with a character's parameters
 PLAYER_TYPES = {
-        'Nerd':         {'class': 'Nerd',       'knowledge': 10, 'smartness': 0, 'energy': 20, 'exams': 0, "inventory": {"beer": 0, "key": 0, "flower": 0, "chocolate": 1}}, 
-        'Average':      {'class': 'Average',    'knowledge': 5,  'smartness': 1, 'energy': 20, 'exams': 0, "inventory": {"beer": 0, "key": 0, "flower": 0, "chocolate": 0}},
-        'Laid-back':    {'class': 'Laid-back',  'knowledge': 1,  'smartness': 2, 'energy': 20, 'exams': 0, "inventory": {"beer": 1, "key": 0, "flower": 0, "chocolate": 0}}
+        'Nerd':         {'class': 'Nerd',       'knowledge': 10, 'smartness': 0, 'energy': 20, 'exams': 0, "inventory": {"beer": 0, "key": 0, "flowers": 0, "chocolates": 1}}, 
+        'Average':      {'class': 'Average',    'knowledge': 5,  'smartness': 1, 'energy': 20, 'exams': 0, "inventory": {"beer": 0, "key": 0, "flowers": 0, "chocolates": 0}},
+        'Laid-back':    {'class': 'Laid-back',  'knowledge': 1,  'smartness': 2, 'energy': 20, 'exams': 0, "inventory": {"beer": 1, "key": 0, "flowers": 0, "chocolates": 0}}
         }

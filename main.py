@@ -15,8 +15,8 @@ BOARD_HEIGHT = 20
 PLAYER_ICON = f"{ui.bcolors.GREEN}☻{ui.bcolors.ENDC}"
 PLAYER_START_COORDS = (1,1)
 LEVELS = [1, 2, 3]
-KNOWLEDGE_TO_GET_KEY = 15     #Zmienić na 15
-EXAMS_TO_GET_KEY = 3          #Zmienić na 3
+KNOWLEDGE_TO_GET_KEY = 10     #Zmienić na 15
+EXAMS_TO_GET_KEY = 0          #Zmienić na 3
 
 intro_level1 = ["You are a young, more or less brilliant student",
                 "who is about to finish their first year of studies.",

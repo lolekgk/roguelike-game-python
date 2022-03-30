@@ -104,14 +104,11 @@ def get_npc(player, npcs):
 
 def will_player_succeed(player, npc, weapon):
     smartness = player["smartness"]
-    print("smartness ", smartness)
     basic_prob = npc["probability"]
     weapon_amount = weapon[1]
-    print("weapon ", weapon)
     success_prob = min(1, (smartness + weapon_amount) * 0.25 + basic_prob)
     print("probability of success ", success_prob)
     failure_prob = max(0, 1 - ((smartness + weapon_amount) * 0.25 + basic_prob))
-    print("probability of failure ", failure_prob)
     result = [True, False]
     weights = [success_prob, failure_prob]
     success = random.choices(result, weights)
@@ -127,25 +124,20 @@ def find_item_by_name(name):
 
 def interaction_with_student(board, player, npcs):
     if is_interaction_with_npc(player, board):
-        print("player before interaction  ", player)
+        print("player inventory  ", player["inventory"])
         npc = get_npc(player, npcs)
-        # print some dialog window
-        # player choose wheapon
         weapon = ui.choose_weapon(player)
-        print("weapon amount", weapon[1])
-        print("amount of weapon in player inventory", player["inventory"][weapon[0]])
         player["inventory"][weapon[0]] -= weapon[1] # after the "weapon" is choosen it is removed from inventory
         player["energy"] -= npc["energy damage"]
         if will_player_succeed(player, npc, weapon):
             name = npc["attribute"]
             item = find_item_by_name(name)
-            print("player before interaction  ", player)
             update_player(player, item)
             # player["inventory"][weapon[0]] -= weapon[1] # uncomment this line (and comment the line before if-block) if we decide that user don't loose his "weapon" in case of failure but looses in case of success
             row, column = npc["field"] 
             board[row][column] = EMPTY 
             npcs.remove(npc)
-        print("player after interaction  ", player)
+        print("player after interaction  ", player["inventory"])
 
 
 def interaction_with_professor(board, player, npcs):
