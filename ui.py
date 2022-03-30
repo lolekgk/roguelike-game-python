@@ -7,7 +7,7 @@ from items_and_characters import ITEMS, PLAYER_TYPES
 
 
 
-TYPES = ['Nerd', 'Laid-back', 'Average'] # = [k for k in PLAYER_TYPES.keys()] 
+TYPES = ['Nerd', 'Average', 'Laid-back'] # = [k for k in PLAYER_TYPES.keys()] 
 
 
 def display_intro(scroll):
@@ -110,7 +110,7 @@ def display_inventory(player):
             if item['name'] == k:
                 icon = item['icon']
         row = f"    |  {icon} - {k}: {player['inventory'][k]} "
-        while len(row) < len(' \_ |                            '):
+        while len(row) < len(' \_ |                                     '):
             row += ' '
         row += '|.'
         inventory_scroll.append(row)
