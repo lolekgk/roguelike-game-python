@@ -22,7 +22,8 @@ ITEMS = [
         {"name": "flowers",             "level": 2, "icon": "*", "total amount": 3, "effect": {"energy": 0, "knowledge": 0} },
         {"name": "chocolade",           "level": 2, "icon": "#", "total amount": 3, "effect": {"energy": 0, "knowledge": 0} },
         {"name": "Red Bull",            "level": 2, "icon": f"{bcolors.BLUE}E{bcolors.ENDC}", "total amount": 3, "effect": {"energy": 4, "knowledge": 0} },
-        {"name": "exam",                "level": 2, "icon": "X", "total amount": 0, "effect": {"energy": 2, "knowledge": 0, "exams": 1 } }
+        {"name": "exam",                "level": 2, "icon": "X", "total amount": 0, "effect": {"energy": 2, "knowledge": 0, "exams": 1 } },
+        {"name": "key",                 "level": 1, "icon": f"{bcolors.CYAN}¬{bcolors.ENDC}", "total amount": 0, "effect": {"energy": 0, "knowledge": 0} }
         ]
 
 
@@ -44,13 +45,13 @@ NPCS = [
         ]
 
 
-BOSS = {"name": "Boss", "icon": '^|-O=', "field": (15, 15), "attribute": None, "probability": 0, "energy damage": 0}
+BOSS = {"name": "Boss", "icon": '^|-O=', "face": ['^^^^^', '|O-O|', '| ^ |', '|===|', '-----'],  "field": (15, 15), "attribute": None, "probability": 0, "energy damage": 0}
 
 
 # a dictionary of dictionaries with type name as key
 # the value is a dictionary with a character's parameters
 PLAYER_TYPES = {
-        'Nerd':         {'class': 'Nerd',       'knowledge': 10, 'smartness': 0, 'energy': 20, 'exams': 0, "inventory": {"beer": 0}}, 
-        'Average':      {'class': 'Average',    'knowledge': 5,  'smartness': 1, 'energy': 20, 'exams': 0, "inventory": {"beer": 0}},
-        'Laid-back':    {'class': 'Laid-back',  'knowledge': 1,  'smartness': 2, 'energy': 20, 'exams': 0, "inventory": {"beer": 1}}
+        'Nerd':         {'class': 'Nerd',       'knowledge': 10, 'smartness': 0, 'energy': 20, 'exams': 0, "inventory": {"beer": 0, "key": 0}}, 
+        'Average':      {'class': 'Average',    'knowledge': 5,  'smartness': 1, 'energy': 20, 'exams': 0, "inventory": {"beer": 0, "key": 0}},
+        'Laid-back':    {'class': 'Laid-back',  'knowledge': 1,  'smartness': 2, 'energy': 20, 'exams': 0, "inventory": {"beer": 1, "key": 0}}
         }

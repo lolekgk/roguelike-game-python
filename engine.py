@@ -18,8 +18,7 @@ ENTRY_ROW, ENTRY_COLUMN = 0, 15
 EXIT_ROW, EXIT_COLUMN = 18, 29
 ITEM_ICONS = {item["icon"] for item in ITEMS}
 NPC_ICONS = {npc["icon"] for npc in NPCS}
-BOSS_FACE = ['^^^^^', '|O-O|', '| ^ |', '|===|', '-----']
-BOSS_ICONS = {row[k] for row in BOSS_FACE for k in range(len(BOSS_FACE)) if row[k] != EMPTY}
+BOSS_ICONS = {char for char in BOSS["icon"]}
 PLAYER_OBSTACLES = {WALL} | NPC_ICONS | BOSS_ICONS
 NPC_OBSTACLES = {WALL, ENTRY, EXIT, main.PLAYER_ICON} | ITEM_ICONS | NPC_ICONS
 PLAYER_DATA_TO_DISPLAY = ["name", "class", 'knowledge', 'smartness', 'energy', 'exams']
@@ -132,6 +131,7 @@ def put_player_on_board(board, player):
     (row, column) = player["field"]
     board[row][column] = player["icon"]
 
+
 def put_npcs_on_board(board, npcs):
     for npc in npcs:
         (row, column) = npc["field"]
@@ -141,12 +141,17 @@ def put_npcs_on_board(board, npcs):
 def put_items_on_board(board, items):
     for item in items:
         for num in range(item['total amount']):
-            while True:
-                column = random.randint(1, len(board[ROW])-1)
-                row = random.randint(1, len(board)-1)
-                if is_put_on_board_valid(board, row, column):
-                    board[row][column] = item['icon']
-                    break 
+            item_to_put = item['icon']
+            put_item(board, item_to_put)
+
+
+def put_item(board, item):
+    while True:
+        column = random.randint(1, len(board[ROW])-1)
+        row = random.randint(1, len(board)-1)
+        if is_put_on_board_valid(board, row, column):
+            board[row][column] = item
+            break 
 
 
 def is_put_on_board_valid(board, row, column):
@@ -182,12 +187,13 @@ def move(character, board, key, player, items):
         player["level"] -= 1
         player["field"] = (EXIT_ROW, EXIT_COLUMN - 1)
         return None
-    if (new_row, new_column) == (EXIT_ROW, EXIT_COLUMN) and player["level"] != 3:
-        player["level"] += 1
-        #level = player["level"]
-        player["field"] = (ENTRY_ROW + 1, ENTRY_COLUMN)
-        #coords = player["field"]
-        #print(f"level = {level },  coords = {coords}")
+    if (new_row, new_column) == (EXIT_ROW, EXIT_COLUMN) and player["inventory"]["key"] >= 1 and player["level"] == 1:
+        go_through_gate(player)
+        return None
+    elif (new_row, new_column) == (EXIT_ROW, EXIT_COLUMN) and player["inventory"]["key"] >= 2 and player["level"] == 2:
+        go_through_gate(player)
+        return None
+    elif (new_row, new_column) == (EXIT_ROW, EXIT_COLUMN) and player["level"] != 3:
         return None
     obstacles = PLAYER_OBSTACLES if character == player else NPC_OBSTACLES
     if is_move_valid(board, new_row, new_column, obstacles):
@@ -196,6 +202,14 @@ def move(character, board, key, player, items):
         board[row][column] = EMPTY
         character["field"] = (new_row, new_column)
         board[new_row][new_column] = character["icon"]
+
+
+def go_through_gate(player):
+    player["level"] += 1
+    level = player["level"]
+    player["field"] = ( ENTRY_ROW + 1, ENTRY_COLUMN)
+    coords = player["field"]
+    print(f"level = {level}, coords = {coords}")
 
 
 def get_item(board, row, col, items):
@@ -257,7 +271,7 @@ def find_item_by_name(name):
             return item
 
 
-def interaction_with_npc(board, player, npcs):
+def interaction_with_student(board, player, npcs):
     if is_interaction_with_npc(player, board):
         print("player before interaction  ", player)
         npc = get_npc(player, npcs)
@@ -279,12 +293,19 @@ def interaction_with_npc(board, player, npcs):
             npcs.remove(npc)
         print("player after interaction  ", player)
 
+def interaction_with_professor(board, player, npcs):
+    pass
 
-def put_boss_on_board(board):
-    row, column = BOSS['field']
+
+def interaction_with_boss(board, player, boss):
+    pass
+
+
+def put_boss_on_board(board, boss):
+    row, column = boss['field']
     for x in range(5):
         for y in range(5):
-            board[row + x][column + y] = BOSS_FACE[x][y]
+            board[row + x][column + y] = boss["face"][x][y]
 
 
 def move_boss(board, boss):
@@ -301,7 +322,7 @@ def move_boss(board, boss):
                         board[x][y] = EMPTY
             for x in range(0, 5):
                 for y in range(0, 5):
-                    board[new_row + x][new_col + y] = BOSS_FACE[x][y]
+                    board[new_row + x][new_col + y] = boss["face"][x][y]
             boss['field'] = (new_row, new_col)
         else:
             move_boss(board, boss)
