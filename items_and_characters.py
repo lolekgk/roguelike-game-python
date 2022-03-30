@@ -8,22 +8,24 @@ class bcolors:
     BOLD = '\033[1m'
     GRAY = "\033[100m"
     ENDC = '\033[0m'
+    PURPLE = "\033[1;35m"
+    BRAUN = "\033[0;33;47m" #nie jest brązowy :(
 
 
 # the value for "effect" is a tuple containing info about which studen's attribute is affected and how
 # please don't add a new item with a name longer than 16 characters, as it will mess up the inventory! ~~Sebastian
 ITEMS = [
-        {"name": "notes",               "level": 1, "icon": "█", "total amount": 4, "effect": {"energy": 0, "knowledge": 1} },
-        {"name": "Red Bull",            "level": 1, "icon": f"{bcolors.BLUE}E{bcolors.ENDC}", "total amount": 8, "effect": {"energy": 4, "knowledge": 1} },
-        {"name": "instant noodles",     "level": 1, "icon": "§", "total amount": 6, "effect": {"energy": 2, 'knowledge': 0} },
-        {"name": "beer",                "level": 1, "icon": f"{bcolors.YELLOW}%{bcolors.ENDC}", "total amount": 6, "effect": {"energy": 0, "knowledge": 0} },
-        {"name": "nerd's notes",        "level": 1, "icon": "◘", "total amount": 0, "effect": {"energy": 1, "knowledge": 3} },
-        {"name": "last year's test",    "level": 1, "icon": "T", "total amount": 0, "effect": {"energy": 2, "knowledge": 6} }, 
-        {"name": "flowers",             "level": 2, "icon": "*", "total amount": 4, "effect": {"energy": 0, "knowledge": 0} },
-        {"name": "chocolates",          "level": 2, "icon": "#", "total amount": 4, "effect": {"energy": 0, "knowledge": 0} },
-        {"name": "Red Bull",            "level": 2, "icon": f"{bcolors.BLUE}E{bcolors.ENDC}", "total amount": 3, "effect": {"energy": 4, "knowledge": 0} },
-        {"name": "exam",                "level": 2, "icon": "X", "total amount": 0, "effect": {"energy": 2, "knowledge": 0, "exams": 1 } },
-        {"name": "key",                 "level": 1, "icon": f"{bcolors.CYAN}¬{bcolors.ENDC}", "total amount": 0, "effect": {"energy": 0, "knowledge": 0} }
+        {"name": "notes",               "level": 1, "icon": "█",                                "total amount": 4, "effect": {"knowledge": 1} },
+        {"name": "Red Bull",            "level": 1, "icon": f"{bcolors.BLUE}E{bcolors.ENDC}",   "total amount": 8, "effect": {"energy": 4, "knowledge": 1} },
+        {"name": "instant noodles",     "level": 1, "icon": "§",                                "total amount": 6, "effect": {"energy": 2} },
+        {"name": "beer",                "level": 1, "icon": f"{bcolors.YELLOW}%{bcolors.ENDC}", "total amount": 6, "effect": {} },
+        {"name": "nerd's notes",        "level": 1, "icon": "◘",                                "total amount": 0, "effect": {"energy": 1, "knowledge": 3} },
+        {"name": "last year's test",    "level": 1, "icon": "T",                                "total amount": 0, "effect": {"energy": 2, "knowledge": 6} }, 
+        {"name": "flowers",             "level": 2, "icon": f"{bcolors.PURPLE}*{bcolors.ENDC}", "total amount": 4, "effect": {} },
+        {"name": "chocolates",          "level": 2, "icon": f"{bcolors.BRAUN}#{bcolors.ENDC}",  "total amount": 4, "effect": {} },
+        {"name": "Red Bull",            "level": 2, "icon": f"{bcolors.BLUE}E{bcolors.ENDC}",   "total amount": 3, "effect": {"energy": 4} },
+        {"name": "exam",                "level": 2, "icon": "X",                                "total amount": 0, "effect": {"energy": 2, "exams": 1 } },
+        {"name": "key",                 "level": 1, "icon": f"{bcolors.CYAN}¬{bcolors.ENDC}",   "total amount": 0, "effect": {} }
         ]
 
 

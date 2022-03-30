@@ -80,8 +80,9 @@ def interaction_with_item(board, player, items, row, col):
     
 
 def update_player(player, item):
-    player["energy"] += item["effect"]["energy"]
-    player["knowledge"] += item["effect"]["knowledge"]
+    for effect in item["effect"].keys():
+        player[effect] += item["effect"][effect]
+        #player["knowledge"] += item["effect"]["knowledge"]
     if item["name"] in player["inventory"]:
         player["inventory"][item["name"]] += 1
 
