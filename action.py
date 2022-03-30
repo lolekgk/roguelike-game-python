@@ -107,12 +107,12 @@ def will_player_succeed(player, npc, weapon):
     basic_prob = npc["probability"]
     weapon_amount = weapon[1]
     success_prob = min(1, (smartness + weapon_amount) * 0.25 + basic_prob)
-    print("probability of success ", success_prob)
+    print("\nThe probability of success was ", success_prob)
     failure_prob = max(0, 1 - ((smartness + weapon_amount) * 0.25 + basic_prob))
     result = [True, False]
     weights = [success_prob, failure_prob]
     success = random.choices(result, weights)
-    print("success ", success[0])
+    ui.display_interaction_effect(success[0])
     return success[0] #success is one-element list that contains the result
 
 
@@ -124,8 +124,8 @@ def find_item_by_name(name):
 
 def interaction_with_student(board, player, npcs):
     if is_interaction_with_npc(player, board):
-        print("player inventory  ", player["inventory"])
         npc = get_npc(player, npcs)
+        print(ui.meeting_npc(npc))
         weapon = ui.choose_weapon(player, npc)
         player["inventory"][weapon[0]] -= weapon[1] # after the "weapon" is choosen it is removed from inventory
         player["energy"] -= npc["energy damage"]
@@ -137,11 +137,13 @@ def interaction_with_student(board, player, npcs):
             row, column = npc["field"] 
             board[row][column] = EMPTY 
             npcs.remove(npc)
-        print("player after interaction  ", player["inventory"])
 
 
 def interaction_with_professor(board, player, npcs):
-    pass
+    if is_interaction_with_npc(player, board):
+        npc = get_npc(player, npcs)
+        #power = choose_attack_power()
+        pass
 
 
 def interaction_with_boss(board, player, boss):
