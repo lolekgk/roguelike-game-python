@@ -80,9 +80,8 @@ def interaction_with_item(board, player, items, row, col):
     
 
 def update_player(player, item):
-    for effect in item["effect"].keys():
-        player[effect] += item["effect"][effect]
-        #player["knowledge"] += item["effect"]["knowledge"]
+    for parameter in item["effect"].keys():
+        player[parameter] += item["effect"][parameter]
     if item["name"] in player["inventory"]:
         player["inventory"][item["name"]] += 1
 
@@ -127,7 +126,7 @@ def interaction_with_student(board, player, npcs):
     if is_interaction_with_npc(player, board):
         print("player inventory  ", player["inventory"])
         npc = get_npc(player, npcs)
-        weapon = ui.choose_weapon(player)
+        weapon = ui.choose_weapon(player, npc)
         player["inventory"][weapon[0]] -= weapon[1] # after the "weapon" is choosen it is removed from inventory
         player["energy"] -= npc["energy damage"]
         if will_player_succeed(player, npc, weapon):

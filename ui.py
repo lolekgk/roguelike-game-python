@@ -3,7 +3,7 @@ import util
 import time
 from items_and_characters import bcolors
 
-from items_and_characters import ITEMS, PLAYER_TYPES
+from items_and_characters import ITEMS, PLAYER_TYPES, NPCS
 
 
 
@@ -48,13 +48,13 @@ def get_player_name():
     return name
 
 
-def choose_weapon(player):
-    #display_inventory(player)
-    while True:
-        weapon_no = input("Choose wheapon number ")
-        if weapon_no == "1":     # hardcoded for test of level 1
-            weapon_kind = "beer"
-            break
+def choose_weapon(player, opponent):
+    name = opponent["name"]
+    attribute = opponent["attribute"]
+    weapon_kind = ""
+    if opponent["name"] in [npc["name"] for npc in NPCS if npc["level"] == 1]:
+        weapon_kind = "beer"
+    print(f"Use {weapon_kind} to convince the { name } to give you the { attribute }")
     while True:
         amount = int(input("Choose amount "))
         if amount in range(0, player["inventory"][weapon_kind] + 1):
