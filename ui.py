@@ -3,7 +3,7 @@ import util
 import time
 from items_and_characters import bcolors
 
-from items_and_characters import ITEMS, PLAYER_TYPES
+from items_and_characters import ITEMS, PLAYER_TYPES, NPCS
 
 
 
@@ -48,24 +48,30 @@ def get_player_name():
     return name
 
 
-def choose_weapon(player):
-    #display_inventory(player)
+def choose_weapon(player, opponent):
+    weapon_kind = ""
+    if opponent["name"] in [npc["name"] for npc in NPCS if npc["level"] == 1]:
+        weapon_kind = "beer"
+    attribute = opponent["attribute"]
+    max_amount = player["inventory"][weapon_kind]
+    print(f"\nTIP: You may use {weapon_kind} to get {attribute}.")
     while True:
-        weapon_no = input("Choose weapon number ")
-        if weapon_no == "1":     # hardcoded for test of level 1
-            weapon_kind = "beer"
-            break
-    while True:
-        amount = int(input("Choose amount "))
-        if amount in range(0, player["inventory"][weapon_kind] + 1):
+        amount = int(input(f"Choose amount (max {max_amount}): "))
+        if amount in range(0, max_amount + 1):
             return (weapon_kind, amount)
         
 
+def display_interaction_effect(success):
+    if success:
+        print("\nYOU DID IT!")
+    else:
+        print("\nNOT THIS TIME")
+
 def meeting_npc(npc):
     if npc["name"] == "best student":
-        message = "That's the best student in our group! Would be great if I could get his notes for the exam"
+        message = "\nThat's the best student in our group! Would be great if I could get his notes for the exam"
     elif npc["name"] == "perpetual student":
-        message = "This dude has been around forever! I'm sure he has the last year's test!"
+        message = "\nThis dude has been around forever! I'm sure he has the last year's test!"
     else:
         pass
     return message
