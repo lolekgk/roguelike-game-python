@@ -23,7 +23,7 @@ ITEMS = [
         {"name": "chocolade",           "level": 2, "icon": "#", "total amount": 3, "effect": {"energy": 0, "knowledge": 0} },
         {"name": "Red Bull",            "level": 2, "icon": f"{bcolors.BLUE}E{bcolors.ENDC}", "total amount": 3, "effect": {"energy": 4, "knowledge": 0} },
         {"name": "exam",                "level": 2, "icon": "X", "total amount": 0, "effect": {"energy": 2, "knowledge": 0, "exams": 1 } },
-        {"name": "key",                 "level": 1, "icon": "¬", "total amount": 0, "effect": {"energy": 0, "knowledge": 0} }
+        {"name": "key",                 "level": 1, "icon": f"{bcolors.CYAN}¬{bcolors.ENDC}", "total amount": 0, "effect": {"energy": 0, "knowledge": 0} }
         ]
 
 
