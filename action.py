@@ -102,13 +102,26 @@ def get_npc(player, npcs):
             return npc
 
 
-def will_player_succeed(player, npc, weapon):
+def will_player_beat_student(player, npc, weapon):
     smartness = player["smartness"]
     basic_prob = npc["probability"]
     weapon_amount = weapon[1]
     success_prob = min(1, (smartness + weapon_amount) * 0.25 + basic_prob)
+    return get_boolean_with_given_probability(success_prob)
+
+
+def will_player_pass_exam(player, npc, energy, knowledge):
+    sum = npc["exam requirement"]["energy"] + npc["exam requirement"]["knowledge"]
+    success_prob = (energy + knowledge) / sum 
+    print(success_prob)
+    result = get_boolean_with_given_probability(success_prob)
+    print(result)
+    return result[0]
+
+
+def get_boolean_with_given_probability(success_prob):
     print("\nThe probability of success was ", success_prob)
-    failure_prob = max(0, 1 - ((smartness + weapon_amount) * 0.25 + basic_prob))
+    failure_prob = 1 - success_prob
     result = [True, False]
     weights = [success_prob, failure_prob]
     success = random.choices(result, weights)
@@ -123,27 +136,33 @@ def find_item_by_name(name):
 
 
 def interaction_with_student(board, player, npcs):
-    if is_interaction_with_npc(player, board):
-        npc = get_npc(player, npcs)
-        print(ui.meeting_npc(npc))
-        weapon = ui.choose_weapon(player, npc)
-        player["inventory"][weapon[0]] -= weapon[1] # after the "weapon" is choosen it is removed from inventory
-        player["energy"] -= npc["energy damage"]
-        if will_player_succeed(player, npc, weapon):
-            name = npc["attribute"]
-            item = find_item_by_name(name)
-            update_player(player, item)
-            # player["inventory"][weapon[0]] -= weapon[1] # uncomment this line (and comment the line before if-block) if we decide that user don't loose his "weapon" in case of failure but looses in case of success
-            row, column = npc["field"] 
-            board[row][column] = EMPTY 
-            npcs.remove(npc)
+    npc = get_npc(player, npcs)
+    print(ui.meeting_npc(npc))
+    weapon = ui.choose_weapon(player, npc)
+    player["inventory"][weapon[0]] -= weapon[1] # after the "weapon" is choosen it is removed from inventory
+    player["energy"] -= npc["energy damage"]
+    if will_player_beat_student(player, npc, weapon):
+        name = npc["attribute"]
+        item = find_item_by_name(name)
+        update_player(player, item)
+        # player["inventory"][weapon[0]] -= weapon[1] # uncomment this line (and comment the line before if-block) if we decide that user don't loose his "weapon" in case of failure but looses in case of success
+        row, column = npc["field"] 
+        board[row][column] = EMPTY 
+        npcs.remove(npc)
 
 
 def interaction_with_professor(board, player, npcs):
-    if is_interaction_with_npc(player, board):
-        npc = get_npc(player, npcs)
-        #power = choose_attack_power()
-        pass
+    npc = get_npc(player, npcs)
+    energy, knowledge = ui.choose_energy_and_knowledge(player, npc)
+    player["energy"] -= energy
+    player["knowledge"] -= knowledge
+    if will_player_pass_exam:
+        name = npc["attribute"]
+        item = find_item_by_name(name)
+        update_player(player, item)
+        row, column = npc["field"] 
+        board[row][column] = EMPTY 
+        npcs.remove(npc)
 
 
 def interaction_with_boss(board, player, boss):

@@ -56,7 +56,7 @@ def create_player():
     player['name'] = name
     player['field'] = PLAYER_START_COORDS
     player['icon'] = PLAYER_ICON
-    player['level'] = 1
+    player['level'] = 2
     return player
 
 
@@ -91,12 +91,13 @@ def initialize_game():
 
 
 def interaction_with_bot(boards, player, npcs, boss, level):
-    if level == 1:
-        action.interaction_with_student(boards[level - 1], player, npcs)
-    elif level == 2:
-        action.interaction_with_professor(boards[level - 1], player, npcs)
-    else:
-        action.interaction_with_boss(boards[level - 1], player, boss)
+    if action.is_interaction_with_npc(player, boards[level - 1]):
+        if level == 1:
+            action.interaction_with_student(boards[level - 1], player, npcs)
+        elif level == 2:
+            action.interaction_with_professor(boards[level - 1], player, npcs)
+    elif level == 3:
+            action.interaction_with_boss(boards[level - 1], player, boss)
 
 
 def react_on_key(boards, player, items, npcs, boss, level, key):
@@ -123,7 +124,7 @@ def react_on_key(boards, player, items, npcs, boss, level, key):
 
 def add_next_level_key_if_possible(boards, player, level, items):
     if level == 1 and player["knowledge"] >= KNOWLEDGE_TO_GET_KEY \
-       or level == 2 and player["exams"] >= EXAMS_TO_GET_KEY:
+       or level == 2 and player["exam"] >= EXAMS_TO_GET_KEY:
             engine.put_item(boards[level - 1], items[10]['icon'])
             return True
     else:

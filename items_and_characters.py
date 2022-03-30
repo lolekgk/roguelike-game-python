@@ -24,7 +24,7 @@ ITEMS = [
         {"name": "flowers",             "level": 2, "icon": f"{bcolors.PURPLE}*{bcolors.ENDC}", "total amount": 4, "effect": {} },
         {"name": "chocolates",          "level": 2, "icon": f"{bcolors.BRAUN}#{bcolors.ENDC}",  "total amount": 4, "effect": {} },
         {"name": "Red Bull",            "level": 2, "icon": f"{bcolors.BLUE}E{bcolors.ENDC}",   "total amount": 3, "effect": {"energy": 4} },
-        {"name": "exam",                "level": 2, "icon": "X",                                "total amount": 0, "effect": {"energy": 2, "exams": 1 } },
+        {"name": "exam",                "level": 2, "icon": "X",                                "total amount": 0, "effect": {"energy": 2, "exam": 1 } },
         {"name": "key",                 "level": 1, "icon": f"{bcolors.CYAN}¬{bcolors.ENDC}",   "total amount": 0, "effect": {} }
         ]
 
@@ -41,9 +41,9 @@ COMPLEX_ITEM = {"name": "fridge", "icon": "[]", "total amount": 1, "items_list":
 NPCS = [ 
         {"name": "best student",        "level": 1, "icon": f"{bcolors.RED}♥{bcolors.ENDC}",     "field": ( 2,20), "attribute": "nerd's notes",         "probability": 0.5, "energy damage": 5},
         {"name": "perpetual student",   "level": 1, "icon": f"{bcolors.RED}‼{bcolors.ENDC}",     "field": (15,14), "attribute": "last year's test",     "probability": 0,   "energy damage": 10},
-        {"name": "math professor",      "level": 2, "icon": f"{bcolors.RED}π{bcolors.ENDC}",     "field": (14,21), "attribute": "exams",                "probability": 0,   "energy damage": 10},
-        {"name": "english professor",   "level": 2, "icon": f"{bcolors.RED}\u00E6{bcolors.ENDC}","field": (15, 6), "attribute": "exams",                "probability": 0.25,"energy damage": 8},
-        {"name": "philosophy professor","level": 2, "icon": f"{bcolors.RED}?{bcolors.ENDC}",     "field": (11, 7), "attribute": "exams",                "probability": 0.5, "energy damage": 6}
+        {"name": "math professor",      "level": 2, "icon": f"{bcolors.RED}π{bcolors.ENDC}",     "field": (14,21), "attribute": "exam",                "probability": 0,   "exam requirement" : {"knowledge": 12, "energy": 18}},
+        {"name": "english professor",   "level": 2, "icon": f"{bcolors.RED}\u00E6{bcolors.ENDC}","field": (15, 6), "attribute": "exam",                "probability": 0.25,"exam requirement" : {"knowledge": 8, "energy": 12}},
+        {"name": "philosophy professor","level": 2, "icon": f"{bcolors.RED}?{bcolors.ENDC}",     "field": (11, 7), "attribute": "exam",                "probability": 0.5, "exam requirement" : {"knowledge": 4, "energy": 6}}
         ]
 
 
@@ -53,7 +53,9 @@ BOSS = {"name": "Boss", "icon": '^|-O=', "face": ['^^^^^', '|O-O|', '| ^ |', '|=
 # a dictionary of dictionaries with type name as key
 # the value is a dictionary with a character's parameters
 PLAYER_TYPES = {
-        'Nerd':         {'class': 'Nerd',       'knowledge': 10, 'smartness': 0, 'energy': 20, 'exams': 0, "inventory": {"beer": 0, "key": 0, "flowers": 0, "chocolates": 1}}, 
-        'Average':      {'class': 'Average',    'knowledge': 5,  'smartness': 1, 'energy': 20, 'exams': 0, "inventory": {"beer": 0, "key": 0, "flowers": 0, "chocolates": 0}},
-        'Laid-back':    {'class': 'Laid-back',  'knowledge': 1,  'smartness': 2, 'energy': 20, 'exams': 0, "inventory": {"beer": 1, "key": 0, "flowers": 0, "chocolates": 0}}
+        'Nerd':         {'class': 'Nerd',       'knowledge': 10, 'smartness': 0, 'energy': 20, 'exam': 0, "inventory": {"beer": 0, "key": 0, "flowers": 0, "chocolates": 1}}, 
+        'Average':      {'class': 'Average',    'knowledge': 5,  'smartness': 1, 'energy': 20, 'exam': 0, "inventory": {"beer": 0, "key": 0, "flowers": 0, "chocolates": 0}},
+        'Laid-back':    {'class': 'Laid-back',  'knowledge': 1,  'smartness': 2, 'energy': 20, 'exam': 0, "inventory": {"beer": 1, "key": 0, "flowers": 0, "chocolates": 0}}
         }
+
+
