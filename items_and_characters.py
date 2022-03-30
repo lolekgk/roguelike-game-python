@@ -36,10 +36,11 @@ COMPLEX_ITEM = {"name": "fridge", "icon": "[]", "total amount": 1, "items_list":
 # each tuple cointains item name and probability of getting that item upon interaction of player with smartness 0 without any wheapon in inventory
 # the probability increase with smartness and "wheapon"
 NPCS = [ 
-        {"name": "best student",       "level": 1, "icon": f"{bcolors.RED}♥{bcolors.ENDC}", "field": ( 2,20), "attribute": "nerd's notes",         "probability": 0.5,  "energy damage": 5},
-        {"name": "perpetual student",  "level": 1, "icon": f"{bcolors.RED}‼{bcolors.ENDC}", "field": (15,14), "attribute": "last year's test",     "probability": 0,    "energy damage": 10},
-        {"name": "math professor",     "level": 2, "icon": f"{bcolors.RED}P{bcolors.ENDC}", "field": (14,21), "attribute": "exams",                "probability": 0,    "energy damage": 10},
-        {"name": "english professor",  "level": 2, "icon": f"{bcolors.RED}P{bcolors.ENDC}", "field": (11, 7), "attribute": "exams",                "probability": 0.25, "energy damage": 6}
+        {"name": "best student",        "level": 1, "icon": f"{bcolors.RED}♥{bcolors.ENDC}", "field": ( 2,20), "attribute": "nerd's notes",         "probability": 0.5,  "energy damage": 5},
+        {"name": "perpetual student",   "level": 1, "icon": f"{bcolors.RED}‼{bcolors.ENDC}", "field": (15,14), "attribute": "last year's test",     "probability": 0,    "energy damage": 10},
+        {"name": "math professor",      "level": 2, "icon": f"{bcolors.RED}π{bcolors.ENDC}", "field": (14,21), "attribute": "exams",                "probability": 0,    "energy damage": 10},
+        {"name": "english professor",   "level": 2, "icon": f"{bcolors.RED}\u00E6{bcolors.ENDC}", "field": (15, 6), "attribute": "exams",                "probability": 0.25, "energy damage": 6},
+        {"name": "philosophy professor","level": 2, "icon": f"{bcolors.RED}?{bcolors.ENDC}", "field": (11, 7), "attribute": "exams",                "probability": 0.25, "energy damage": 6}
         ]
 
 
