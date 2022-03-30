@@ -1,6 +1,7 @@
 from items_and_characters import BOSS, PLAYER_TYPES
 import util
 import engine
+import action
 import ui
 from items_and_characters import ITEMS, NPCS, PLAYER_TYPES, BOSS
 from copy import deepcopy
@@ -91,11 +92,11 @@ def initialize_game():
 
 def interaction_with_bot(boards, player, npcs, boss, level):
     if level == 1:
-        engine.interaction_with_student(boards[level - 1], player, npcs)
+        action.interaction_with_student(boards[level - 1], player, npcs)
     elif level == 2:
-        engine.interaction_with_professor(boards[level - 1], player, npcs)
+        action.interaction_with_professor(boards[level - 1], player, npcs)
     else:
-        engine.interaction_with_boss(boards[level - 1], player, boss)
+        action.interaction_with_boss(boards[level - 1], player, boss)
 
 
 def react_on_key(boards, player, items, npcs, boss, level, key):
@@ -111,41 +112,42 @@ def react_on_key(boards, player, items, npcs, boss, level, key):
         ui.display_inventory(player)
         return True
     else:
-        engine.move(player, boards[level -1], key, player, items)
+        action.move(player, boards[level -1], key, player, items)
         for npc in npcs:
             if npc["level"] == level:
-                engine.move(npc, boards[level -1], get_npc_direction(), player, items)
+                action.move(npc, boards[level -1], get_npc_direction(), player, items)
             if level == 3:
-                engine.move_boss(boards[level - 1], boss)
+                action.move_boss(boards[level - 1], boss)
         return True
+
+
+def add_next_level_key_if_possible(boards, player, level, items):
+    if level == 1 and player["knowledge"] >= KNOWLEDGE_TO_GET_KEY \
+       or level == 2 and player["exams"] >= EXAMS_TO_GET_KEY:
+            engine.put_item(boards[level - 1], items[10]['icon'])
+            return True
+    else:
+        return False
 
 
 def main():
     boards, player, items, npcs, boss = initialize_game()
-    #util.clear_screen()
     is_running = True
-    is_key_on_board_level1 = False
-    is_key_on_board_level2 = False
+    is_key_on_board = [False for level in LEVELS]
     while is_running:
         level = player["level"]
         engine.put_player_on_board(boards[level - 1], player) # ta funkcja jest koniecza przy zmianie poziomu, poza ty nie, ale nie przeszkadza 
+        util.clear_screen() 
         ui.display_board(boards[level - 1], player)
         interaction_with_bot(boards, player, npcs, boss, level)
         if player["energy"] <= 0:
             print("GAME OVER")
             is_running = False
             break
-        if player["knowledge"] >= KNOWLEDGE_TO_GET_KEY and not is_key_on_board_level1:
-            engine.put_item(boards[level - 1], items[10]['icon'])
-            is_key_on_board_level1 = True
-        if player["exams"] >= EXAMS_TO_GET_KEY and not is_key_on_board_level2:
-            engine.put_item(boards[level - 1], items[10]['icon'])
-            is_key_on_board_level2 = True
-        util.clear_screen() # uncomment in final version
-        ui.display_board(boards[level - 1], player)
+        if not is_key_on_board[level - 1]:
+            is_key_on_board[level - 1] = add_next_level_key_if_possible(boards, player, level, items)
         key = util.key_pressed().upper()
         is_running = react_on_key(boards, player, items, npcs, boss, level, key)
-        #util.clear_screen()
 
 
 if __name__ == "__main__":
