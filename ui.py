@@ -51,7 +51,7 @@ def get_player_name():
 def choose_weapon(player):
     #display_inventory(player)
     while True:
-        weapon_no = input("Choose wheapon number ")
+        weapon_no = input("Choose weapon number ")
         if weapon_no == "1":     # hardcoded for test of level 1
             weapon_kind = "beer"
             break
