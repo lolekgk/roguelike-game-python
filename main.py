@@ -8,6 +8,7 @@ from copy import deepcopy
 import random
 import gamesaves
 import time
+import copy
 
 
 BOARD_WIDTH = 30
@@ -27,7 +28,9 @@ intro_level1 = ["You are a young, more or less brilliant student",
                 "THE EXAMS!" ,
                 "Your first task is to prepare for them the best you can.",
                 "Increase your knowledge or use less honorable ways",
-                "to increase your chances of passing all final exams."]
+                "to increase your chances of passing all final exams.",
+                "",
+                "(press ENTER to start)"]
 
 intro_level2 = ["You have done the best you can",
                 "to prepare yourself for the final exams",
@@ -36,7 +39,9 @@ intro_level2 = ["You have done the best you can",
                 "and actually pass the exams",
                 "This task won't be easy, having good knowledge helps",
                 "but as all students know there are other ways",
-                "to get what you need from the noble members of Academia..."]
+                "to get what you need from the noble members of Academia...",
+                "",
+                "(press ENTER to continue"]
 
 intro_level3 = ["Congratulations!",
                 "You have passed the final exams and you are getting",
@@ -46,7 +51,9 @@ intro_level3 = ["Congratulations!",
                 "the only person who can give you your Grade Transcript.",
                 "Only young, naive freshmen believe it's an easy task!",
                 "Catch the lady, be nice and if today is your lucky day",
-                "she might give you the Holy Graal of every student."]
+                "she might give you the Holy Graal of every student.",
+                "",
+                "(press ENTER to continue"]
 
 
 def create_player():
@@ -130,7 +137,18 @@ def add_next_level_key_if_possible(boards, player, level, items):
         return False
 
 
+def intro(level):
+    text_dict = {1: copy.copy(intro_level1), 2: copy.copy(intro_level2), 3: copy.copy(intro_level3)}
+    if text_dict[level]:
+        text_list = text_dict[level]
+        scroll = engine.create_intro_scroll(text_list)
+        ui.display_intro(scroll)
+        input()
+        util.clear_screen()
+
+
 def main():
+    intro(1)
     boards, player, items, npcs, boss = initialize_game()
     is_running = True
     is_key_on_board = [False for level in LEVELS]
