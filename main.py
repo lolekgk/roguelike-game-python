@@ -88,7 +88,7 @@ def initialize_game():
     return boards, player, items, npcs, boss
 
 
-def interaction_with_npc(boards, player, npcs, boss, level):
+def interaction_with_bot(boards, player, npcs, boss, level):
     if level == 1:
         engine.interaction_with_student(boards[level - 1], player, npcs)
     elif level == 2:
@@ -128,7 +128,7 @@ def main():
         level = player["level"]
         engine.put_player_on_board(boards[level - 1], player) # ta funkcja jest koniecza przy zmianie poziomu, poza ty nie, ale nie przeszkadza 
         ui.display_board(boards[level - 1], player)
-        interaction_with_npc(boards, player, npcs, boss, level)
+        interaction_with_bot(boards, player, npcs, boss, level)
         if player["energy"] <= 0:
             print("GAME OVER")
             is_running = False
