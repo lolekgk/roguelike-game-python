@@ -36,20 +36,27 @@ def get_new_coords(row, column, key):
     return new_row, new_column
 
 
+def go_through_gate(player):
+    player["level"] += 1
+    player["field"] = ( ENTRY_ROW + 1, ENTRY_COLUMN)
+    
+
+def go_back_through_gate(player):
+    player["level"] -= 1
+    player["field"] = (EXIT_ROW, EXIT_COLUMN - 1)
+
+
+
 def move(character, board, key, player, items):
     row, column = character["field"]
     new_row, new_column = get_new_coords(row, column, key)
     if (new_row, new_column) == (ENTRY_ROW, ENTRY_COLUMN) and player["level"] != 1:
-        player["level"] -= 1
-        player["field"] = (EXIT_ROW, EXIT_COLUMN - 1)
+        go_back_through_gate(player)
         return None
-    if (new_row, new_column) == (EXIT_ROW, EXIT_COLUMN) and player["inventory"]["key"] >= 1 and player["level"] == 1:
-        go_through_gate(player)
-        return None
-    elif (new_row, new_column) == (EXIT_ROW, EXIT_COLUMN) and player["inventory"]["key"] >= 2 and player["level"] == 2:
-        go_through_gate(player)
-        return None
-    elif (new_row, new_column) == (EXIT_ROW, EXIT_COLUMN) and player["level"] != 3:
+    if (new_row, new_column) == (EXIT_ROW, EXIT_COLUMN) \
+        and character == player and player["level"] != 3:
+        if player["inventory"]["key"] >= player["level"]:
+            go_through_gate(player)
         return None
     obstacles = PLAYER_OBSTACLES if character == player else NPC_OBSTACLES
     if is_move_valid(board, new_row, new_column, obstacles):
@@ -58,14 +65,6 @@ def move(character, board, key, player, items):
         board[row][column] = EMPTY
         character["field"] = (new_row, new_column)
         board[new_row][new_column] = character["icon"]
-
-
-def go_through_gate(player):
-    player["level"] += 1
-    level = player["level"]
-    player["field"] = ( ENTRY_ROW + 1, ENTRY_COLUMN)
-    coords = player["field"]
-    print(f"level = {level}, coords = {coords}")
 
 
 def get_item(board, row, col, items):
