@@ -1,9 +1,10 @@
 import engine
 import util
 import time
-
+from items_and_characters import bcolors
 
 from items_and_characters import ITEMS, PLAYER_TYPES
+
 
 
 TYPES = ['Nerd', 'Laid-back', 'Average'] # = [k for k in PLAYER_TYPES.keys()] 
@@ -22,23 +23,26 @@ def display_board(board, player_info):
 
 
 def get_player_type() -> str:
-    print("> Choose your student type <")
+    print(f"{bcolors.YELLOW}> Choose your student type <{bcolors.ENDC}")
     list_of_types = [f'{i + 1}. - {TYPES[i]}' for i in range(len(TYPES))]
     while True:
-        player_type = input(f"Select your student: {list_of_types} > ")
+        player_type = input(f"{bcolors.GREEN}Select your student:{bcolors.ENDC} {list_of_types} > ")
         if player_type not in [str(i + 1) for i in range(len(TYPES))]:
-            print("Wrong input!")
+            print(f"{bcolors.RED}Wrong input!{bcolors.ENDC}")
             continue
         break
     return TYPES[int(player_type) - 1]
 
 
 def get_player_name():
-    print("> What's your name, student? <")
+    print(f"{bcolors.YELLOW}> What's your name, student? <{bcolors.ENDC}")
     while True:
-        name = input('Please type your name: ')
+        name = input(f'{bcolors.GREEN}Please type your name: {bcolors.ENDC}')
         if len(name) > 13:
-            print("The name is too long! (max 13 characters)")
+            print(f"{bcolors.RED}The name is too long! (max 13 characters){bcolors.ENDC}")
+            continue
+        elif len(name) < 4:
+            print(f"{bcolors.RED}The name is too short! (min 4 characters){bcolors.ENDC}")
             continue
         break
     return name

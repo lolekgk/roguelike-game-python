@@ -11,7 +11,7 @@ import time
 
 BOARD_WIDTH = 30
 BOARD_HEIGHT = 20
-PLAYER_ICON = "☻"
+PLAYER_ICON = f"{ui.bcolors.GREEN}☻{ui.bcolors.ENDC}"
 PLAYER_START_COORDS = (1,1)
 LEVELS = [1, 2, 3]
 
