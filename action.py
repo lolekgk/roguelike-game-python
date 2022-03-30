@@ -16,12 +16,6 @@ PLAYER_OBSTACLES = {WALL} | NPC_ICONS | BOSS_ICONS
 NPC_OBSTACLES = {WALL, ENTRY, EXIT, main.PLAYER_ICON} | ITEM_ICONS | NPC_ICONS
 
 
-def is_move_valid(board, new_row, new_column, type_walls):
-    if board[new_row][new_column] in type_walls:
-        return False
-    return True
-
-
 def get_new_coords(row, column, key):
     if key == "W":
         new_row, new_column = row - 1, column
@@ -45,6 +39,11 @@ def go_back_through_gate(player):
     player["level"] -= 1
     player["field"] = (EXIT_ROW, EXIT_COLUMN - 1)
 
+
+def is_move_valid(board, new_row, new_column, type_walls):
+    if board[new_row][new_column] in type_walls:
+        return False
+    return True
 
 
 def move(character, board, key, player, items):

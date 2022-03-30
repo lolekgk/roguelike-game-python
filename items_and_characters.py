@@ -51,7 +51,7 @@ BOSS = {"name": "Boss", "icon": '^|-O=', "face": ['^^^^^', '|O-O|', '| ^ |', '|=
 # a dictionary of dictionaries with type name as key
 # the value is a dictionary with a character's parameters
 PLAYER_TYPES = {
-        'Nerd':         {'class': 'Nerd',       'knowledge': 10, 'smartness': 0, 'energy': 20, 'exams': 0, "inventory": {"beer": 0, "key": 0}}, 
-        'Average':      {'class': 'Average',    'knowledge': 5,  'smartness': 1, 'energy': 20, 'exams': 0, "inventory": {"beer": 0, "key": 0}},
-        'Laid-back':    {'class': 'Laid-back',  'knowledge': 1,  'smartness': 2, 'energy': 20, 'exams': 0, "inventory": {"beer": 1, "key": 0}}
+        'Nerd':         {'class': 'Nerd',       'knowledge': 10, 'smartness': 0, 'energy': 20, 'exams': 0, "inventory": {"beer": 0, "key": 0, "flower": 0, "chocolate": 1}}, 
+        'Average':      {'class': 'Average',    'knowledge': 5,  'smartness': 1, 'energy': 20, 'exams': 0, "inventory": {"beer": 0, "key": 0, "flower": 0, "chocolate": 0}},
+        'Laid-back':    {'class': 'Laid-back',  'knowledge': 1,  'smartness': 2, 'energy': 20, 'exams': 0, "inventory": {"beer": 1, "key": 0, "flower": 0, "chocolate": 0}}
         }
