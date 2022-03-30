@@ -14,6 +14,7 @@ BOARD_HEIGHT = 20
 PLAYER_ICON = f"{ui.bcolors.GREEN}☻{ui.bcolors.ENDC}"
 PLAYER_START_COORDS = (1,1)
 LEVELS = [1, 2, 3]
+KNOWLEDGE_TO_GET_KEY = 11
 
 intro_level1 = ["You are a young, more or less brilliant student",
                 "who is about to finish their first year of studies.",
@@ -110,6 +111,7 @@ def main():
     boards, items, npcs, player = initialize_game()
     #util.clear_screen()
     is_running = True
+    is_key_on_board = False
     while is_running:
         level = player["level"]
         engine.put_player_on_board(boards[level - 1], player) # ta funkcja jest koniecza przy zmianie poziomu, poza ty nie, ale nie przeszkadza 
@@ -120,6 +122,9 @@ def main():
             print("GAME OVER")
             is_running = False
             break
+        if player["knowledge"] >= KNOWLEDGE_TO_GET_KEY and not is_key_on_board:
+            engine.put_item(boards[level - 1], items[10]['icon'])
+            is_key_on_board = True
         util.clear_screen() # uncomment in final version
         ui.display_board(boards[level - 1], player)
         key = util.key_pressed().upper()
