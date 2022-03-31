@@ -104,18 +104,28 @@ def meeting_npc(npc):
 
 def finding_items(item):
     message = ""
-    if item["name"] == "notes":
+    if item == "notes":
         message = "Cool! Somebody left their notes here."
-    elif item["name"] == "Red Bull":
-        message == "I was getting a bit sllepy. This energy drink comes right in time!"
-    elif item["name"] == "instant noodles":
+    elif item == "Red Bull":
+        message = "I was getting a bit sleepy. This energy drink comes right in time!"
+    elif item == "instant noodles":
         message = "My favourite instant noodles! Just as I was gettinh hungry!"
-    elif item["name"] == "beer":
-        message == "Someone left a beer in the University dorm! That's crazy! Should I drink it now... Nah, I'll keep it in my backpack. "
-    elif item["name"] == "nerd's notes":
+    elif item == "beer":
+        message = "Someone left a beer in the University dorm! That's crazy! Should I drink it now... Nah, I'll keep it in my backpack. "
+    elif item == "nerd's notes":
         message = "Thank's man! With these notes the exam will be a breeze!"
-    elif item["name"] == "last year's test":
+    elif item == "last year's test":
         message = "Dude, you're the best! Now let's hope the professor uses the exact same test this year!"
+    elif item == "flower":
+        message = "A nice bouquet of flowers! The lady from the Dean's office might like it."
+    elif item == "chocolates":
+        message = "Fancy belgian chocolates. They will help me get some favours!"
+    elif item == "exam":
+        message = "This exam is more difficult than I expected..."
+    elif item == "key":
+        message = "I found a secret key!!!"
+    else:
+        pass
     print(message)
 
 
