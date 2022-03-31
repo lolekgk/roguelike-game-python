@@ -183,7 +183,7 @@ def interaction_with_boss(board, player, boss):
                 break
             option = input(f'Give her {[(i + 1, k) for i, k in enumerate(player["inventory"])]} > ')
         if boss['content'] == 5:
-            print("You have won") # placeholder obviously
+            print("You have won!") # placeholder obviously
 
 
 def boss_options(player, boss, option):

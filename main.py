@@ -1,4 +1,3 @@
-from items_and_characters import BOSS, PLAYER_TYPES
 import util
 import engine
 import action
