@@ -154,7 +154,9 @@ def display_inventory(player):
         inventory_scroll.append(line)
     for row in inventory_scroll:
         print(row)
-    input("\nPress enter to exit inventory > ")
+    secret_code = input("\nPress enter to exit inventory > ")
+    if secret_code.upper() == 'PANIZDZIEKANATU':
+        win_message(player)
     
     
 def lose_message():
@@ -162,7 +164,8 @@ def lose_message():
     message = END_MESSAGE_LOSE
     scroll = engine.create_intro_scroll(message)
     display_intro(scroll)
-        
+    quit()
+
 
 def win_message(player):
     util.clear_screen()
@@ -170,3 +173,4 @@ def win_message(player):
     message = END_MESSAGE_WIN
     scroll = engine.create_intro_scroll(message)
     display_intro(scroll)
+    quit()

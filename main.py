@@ -129,7 +129,7 @@ def main():
         ui.display_board(boards[level - 1], player)
         interaction_with_bot(boards, player, npcs, boss, level)
         if player["energy"] <= 0:
-            ui.lose_message()
+            print("GAME OVER")
             is_running = False
             break
         if not is_key_on_board[level - 1]:
