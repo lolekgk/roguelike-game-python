@@ -2,7 +2,7 @@ import engine
 import util
 import time
 from items_and_characters import bcolors
-
+from intro import END_MESSAGE_WIN, END_MESSAGE_LOSE
 from items_and_characters import ITEMS, PLAYER_TYPES, NPCS
 
 
@@ -159,3 +159,19 @@ def display_inventory(player):
     if secret_code.upper() == 'PANIZDZIEKANATU':
         print("You have won the game") # placeholder, should run win_message()
         quit()
+    input("\nPress enter to exit inventory > ")
+    
+    
+def lose_message():
+    util.clear_screen()
+    message = END_MESSAGE_LOSE
+    scroll = engine.create_intro_scroll(message)
+    display_intro(scroll)
+        
+
+def win_message(player):
+    util.clear_screen()
+    name = player[name]
+    message = END_MESSAGE_WIN
+    scroll = engine.create_intro_scroll(message)
+    display_intro(scroll)
