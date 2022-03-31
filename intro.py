@@ -1,4 +1,4 @@
-intro_level1 = ["You are a young, more or less brilliant student",
+INTRO_LEVEL_1 = ["You are a young, more or less brilliant student",
                 "who is about to finish their first year of studies.",
                 "You have spend the whole year studying / partying",
                 "and enjoying the student's life.",
@@ -11,7 +11,7 @@ intro_level1 = ["You are a young, more or less brilliant student",
                 "",
                 "(press any key to continue)"]
 
-intro_level2 = ["You have done the best you can",
+INTRO_LEVEL_2 = ["You have done the best you can",
                 "to prepare yourself for the final exams",
                 "in the little time you had.",
                 "Your next challange is to defeat the 3 professors",
@@ -22,7 +22,7 @@ intro_level2 = ["You have done the best you can",
                 "",
                 "(press any key to continue)"]
 
-intro_level3 = ["Congratulations!",
+INTRO_LEVEL_3 = ["Congratulations!",
                 "You have passed the final exams and you are getting",
                 "ready for some well-deserved vacation.",
                 "Little do you know that your fight is far from over!",

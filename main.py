@@ -7,7 +7,7 @@ import random
 import gamesaves
 import time
 import copy
-from intro import LEVEL_1,LEVEL_2,LEVEL_3
+from intro import INTRO_LEVEL_1, INTRO_LEVEL_2, INTRO_LEVEL_3
 
 
 BOARD_WIDTH = 30
@@ -17,7 +17,7 @@ PLAYER_START_COORDS = (1,1)
 LEVELS = [1, 2, 3]
 KNOWLEDGE_TO_GET_KEY = 10     #Zmienić na 15
 EXAMS_TO_GET_KEY = 0          #Zmienić na 3
-text_dict = {1: copy.copy(LEVEL_1), 2: copy.copy(LEVEL_2), 3: copy.copy(LEVEL_3)}
+
 
 
 def create_player():
@@ -101,11 +101,11 @@ def add_next_level_key_if_possible(boards, player, level, items):
         return False
 
 
-def intro(level):
+def intro(level, intro_texts):
     try:
-        text_dict[level]
-        text_list = text_dict[level]
-        del text_dict[level]
+        intro_texts[level]
+        text_list = intro_texts[level]
+        del intro_texts[level]
         scroll = engine.create_intro_scroll(text_list)
         ui.display_intro(scroll)
         input()
@@ -115,15 +115,16 @@ def intro(level):
 
 
 def main():
+    intro_texts = {1: INTRO_LEVEL_1, 2: INTRO_LEVEL_2, 3: INTRO_LEVEL_3}
     boards, player, items, npcs, boss = initialize_game()
     util.clear_screen() 
-    intro(player["level"])
+    intro(player["level"], intro_texts)
     is_running = True
     is_key_on_board = [False for level in LEVELS]
     while is_running:
         level = player["level"]
         util.clear_screen()
-        intro(level)
+        intro(level, intro_texts)
         engine.put_player_on_board(boards[level - 1], player) # ta funkcja jest koniecza przy zmianie poziomu, poza ty nie, ale nie przeszkadza 
         util.clear_screen() 
         ui.display_board(boards[level - 1], player)

@@ -138,15 +138,14 @@ def get_boolean_with_given_probability(success_prob):
     return success[0] #success is one-element list that contains the result
 
 
-def will_player_beat_student(player, npc, weapon):
+def will_player_beat_student(player, npc, weapon_amount):
     smartness = player["smartness"]
     basic_prob = npc["probability"]
-    weapon_amount = weapon[1]
     success_prob = min(1, (smartness + weapon_amount) * 0.25 + basic_prob)
     return get_boolean_with_given_probability(success_prob)
 
 
-def will_player_pass_exam(player, npc, energy, knowledge):
+def will_player_pass_exam(npc, energy, knowledge):
     sum = npc["exam requirement"]["energy"] + npc["exam requirement"]["knowledge"]
     success_prob = (energy + knowledge) / sum 
     return get_boolean_with_given_probability(success_prob)
@@ -155,10 +154,10 @@ def will_player_pass_exam(player, npc, energy, knowledge):
 def interaction_with_student(board, player, npcs):
     student = get_adjacent_npc(player, npcs)
     print(ui.meeting_npc(student))
-    weapon = ui.choose_weapon(player, student)
-    player["inventory"][weapon[0]] -= weapon[1] # after the "weapon" is choosen it is removed from inventory
+    beer_amount = ui.choose_beer_amount(player, student)
+    player["inventory"]["beer"] -= beer_amount # after the "weapon" is choosen it is removed from inventory
     player["energy"] -= student["energy damage"]
-    if will_player_beat_student(player, student, weapon):
+    if will_player_beat_student(player, student, beer_amount):
         update_game_if_player_won(board, player, npcs, student)
 
 

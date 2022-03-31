@@ -46,22 +46,20 @@ def get_player_name():
     return name
 
 
-def choose_weapon(player, opponent): 
+def choose_beer_amount(player, opponent): 
     # ta funkcja prawdopodobnie zostanie zastąpiona przez get_beer_amount
     # miała być ogólną funkcją do wyboru "broni" do interakcji, ale szanse, że tak się stanie, są niewielkie
-    weapon_kind = ""
-    if opponent["name"] in [npc["name"] for npc in NPCS if npc["level"] == 1]:
-        weapon_kind = "beer"
     attribute = opponent["attribute"]
-    max_amount = player["inventory"][weapon_kind]
-    print(f"\nTIP: You may use {weapon_kind} to get {attribute}.")
+    name = opponent["name"]
+    max_amount = player["inventory"]["beer"]
+    print(f"\nTIP: Use your wits and beer to get {attribute}.")
     while True:
-        amount = input(f"Choose amount (max {max_amount}): ")
+        amount = input(f"You have {max_amount} beers. How many of them will you give the {name}? ")
         if amount not in [str(n) for n in range(0, max_amount + 1)]:
             print(f"{bcolors.RED}Wrong input!{bcolors.ENDC}")
             continue
         break
-    return (weapon_kind, int(amount))
+    return int(amount)
 
 
 def choose_energy_and_knowledge(player, npc):
@@ -107,11 +105,11 @@ def finding_items(item):
     if item["name"] == "notes":
         message = "Cool! Somebody left their notes here."
     elif item["name"] == "Red Bull":
-        message == "I was getting a bit sllepy. This energy drink comes right in time!"
+        message = "I was getting a bit slepy. This energy drink comes right in time!"
     elif item["name"] == "instant noodles":
-        message = "My favourite instant noodles! Just as I was gettinh hungry!"
+        message = "My favourite instant noodles! Just as I was getting hungry!"
     elif item["name"] == "beer":
-        message == "Someone left a beer in the University dorm! That's crazy! Should I drink it now... Nah, I'll keep it in my backpack. "
+        message = "Someone left a beer in the University dorm! That's crazy! Should I drink it now... Nah, I'll keep it in my backpack. "
     elif item["name"] == "nerd's notes":
         message = "Thank's man! With these notes the exam will be a breeze!"
     elif item["name"] == "last year's test":
