@@ -1,11 +1,14 @@
 import shelve
 
-def save_game(board, items, npcs, player):
+
+
+def save_game(board, items, npcs, player, boss):
     with shelve.open('savegame', 'n') as f:
         f['board'] = board
         f['items'] = items
         f['npcs'] = npcs
         f['player'] = player
+        f['boss'] = boss
         
 
 def load_game():
@@ -14,5 +17,6 @@ def load_game():
         items = f['items']
         npcs = f['npcs']
         player = f['player']
-    return board, items, npcs, player
+        boss = f['boss']
+    return board, player, items, npcs, boss
 

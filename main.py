@@ -74,7 +74,7 @@ def react_on_key(boards, player, items, npcs, boss, level, key):
     if key == 'Q':
         return False
     elif key == 'V':
-        gamesaves.save_game(boards, items, npcs, player)
+        gamesaves.save_game(boards, items, npcs, player, boss)
         print("Saving game..")
         time.sleep(2)
         return False
