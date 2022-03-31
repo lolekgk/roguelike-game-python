@@ -7,6 +7,7 @@ import random
 import gamesaves
 import time
 import copy
+import ascii
 from intro import intro_level1, intro_level2, intro_level3
 
 
