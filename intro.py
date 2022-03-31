@@ -53,5 +53,5 @@ END_MESSAGE_WIN = ["GRADE TRANSCRIPT",
                     "2. English literature",
                     "3. Philosophy",
                     "",
-                    "and is accepted to continue studies",
+                    "and are accepted to continue studies",
                     "at Trump University."]
