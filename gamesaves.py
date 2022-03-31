@@ -18,5 +18,5 @@ def load_game():
         npcs = f['npcs']
         player = f['player']
         boss = f['boss']
-    return board, items, npcs, player, boss
+    return board, player, items, npcs, boss
 
