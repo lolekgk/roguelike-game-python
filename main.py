@@ -7,7 +7,7 @@ import random
 import gamesaves
 import time
 import copy
-from intro import LEVEL_1,LEVEL_2,LEVEL_3
+from intro import intro_level1, intro_level2, intro_level3
 
 
 BOARD_WIDTH = 30
@@ -17,7 +17,7 @@ PLAYER_START_COORDS = (1,1)
 LEVELS = [1, 2, 3]
 KNOWLEDGE_TO_GET_KEY = 10     #Zmienić na 15
 EXAMS_TO_GET_KEY = 0          #Zmienić na 3
-text_dict = {1: copy.copy(LEVEL_1), 2: copy.copy(LEVEL_2), 3: copy.copy(LEVEL_3)}
+text_dict = {1: copy.copy(intro_level1), 2: copy.copy(intro_level2), 3: copy.copy(intro_level3)}
 
 
 def create_player():

@@ -170,7 +170,7 @@ def lose_message():
 
 def win_message(player):
     util.clear_screen()
-    name = player[name]
+    name = player['name']
     message = END_MESSAGE_WIN
     scroll = engine.create_intro_scroll(message)
     display_intro(scroll)

@@ -43,10 +43,10 @@ END_MESSAGE_LOSE = ["Sorry mate, this time you didn't make it.",
                     "this whole year... But there is good news:", 
                     "your uncle got you a summer job in his car wash!!!"]
 
-"""
+
 END_MESSAGE_WIN = ["GRADE TRANSCRIPT",
                     "",
-                    f"Student {name}",
+                    #f"Student {name}",
                     "has succesfully passed the following exams:",
                     "",
                     "1. Mathematics",
@@ -55,4 +55,3 @@ END_MESSAGE_WIN = ["GRADE TRANSCRIPT",
                     "",
                     "and is accepted to continue studies",
                     "at Trump University."]
-"""
