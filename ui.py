@@ -157,9 +157,7 @@ def display_inventory(player):
         print(row)
     secret_code = input("\nPress enter to exit inventory > ")
     if secret_code.upper() == 'PANIZDZIEKANATU':
-        print("You have won the game") # placeholder, should run win_message()
-        quit()
-    input("\nPress enter to exit inventory > ")
+        win_message(player)
     
     
 def lose_message():
@@ -167,7 +165,8 @@ def lose_message():
     message = END_MESSAGE_LOSE
     scroll = engine.create_intro_scroll(message)
     display_intro(scroll)
-        
+    quit()
+
 
 def win_message(player):
     util.clear_screen()
@@ -175,3 +174,4 @@ def win_message(player):
     message = END_MESSAGE_WIN
     scroll = engine.create_intro_scroll(message)
     display_intro(scroll)
+    quit()
