@@ -6,14 +6,13 @@ from items_and_characters import bcolors
 from items_and_characters import ITEMS, PLAYER_TYPES, NPCS
 
 
-
 TYPES = ['Nerd', 'Average', 'Laid-back'] # = [k for k in PLAYER_TYPES.keys()] 
 
 
 def display_intro(scroll):
     for row in scroll:
-        print(row)
-    print()
+        print(bcolors.BLUE, row, bcolors.ENDC)
+    
     
 
 def display_board(board, player_info):
