@@ -1,4 +1,5 @@
 import random
+from time import sleep
 from tkinter import YES
 import ui
 import main
@@ -110,6 +111,8 @@ def is_interaction_with_npc(player, board):
 
 
 def update_player_by_item(player, item):
+    ui.finding_items(item)
+    sleep(2)
     for parameter in item["effect"].keys():
         player[parameter] += item["effect"][parameter]
     if item["name"] in player["inventory"]:

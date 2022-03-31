@@ -13,7 +13,6 @@ def display_intro(scroll):
     for row in scroll:
         print(bcolors.BLUE, row, bcolors.ENDC)
     
-    
 
 def display_board(board, player_info):
     stats_scroll = engine.create_stats_scroll(player_info, len(board))
@@ -104,20 +103,20 @@ def meeting_npc(npc):
 
 
 def finding_items(item):
-    if item == "notes":
+    message = ""
+    if item["name"] == "notes":
         message = "Cool! Somebody left their notes here."
-    elif item == "Red Bull":
+    elif item["name"] == "Red Bull":
         message == "I was getting a bit sllepy. This energy drink comes right in time!"
-    elif item == "instant noodles":
+    elif item["name"] == "instant noodles":
         message = "My favourite instant noodles! Just as I was gettinh hungry!"
-    elif item == "beer":
+    elif item["name"] == "beer":
         message == "Someone left a beer in the University dorm! That's crazy! Should I drink it now... Nah, I'll keep it in my backpack. "
-    elif item == "nerd's notes":
+    elif item["name"] == "nerd's notes":
         message = "Thank's man! With these notes the exam will be a breeze!"
-    elif item == "last year's test":
+    elif item["name"] == "last year's test":
         message = "Dude, you're the best! Now let's hope the professor uses the exact same test this year!"
-    else:
-        pass
+    print(message)
 
 
 def select_game_state():
