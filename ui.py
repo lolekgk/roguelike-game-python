@@ -155,4 +155,7 @@ def display_inventory(player):
         inventory_scroll.append(line)
     for row in inventory_scroll:
         print(row)
-    input("\nPress enter to exit inventory > ")
+    secret_code = input("\nPress enter to exit inventory > ")
+    if secret_code.upper() == 'PANIZDZIEKANATU':
+        print("You have won the game") # placeholder, should run win_message()
+        quit()
