@@ -143,22 +143,22 @@ def select_game_state():
 
 
 def display_inventory(player):
-    inventory_scroll = [f'{bcolors.YELLOW}   ______________________________{bcolors.ENDC}',
-                        f'{bcolors.YELLOW} / \                             \.{bcolors.ENDC}',
-            f'{bcolors.YELLOW}|   |{bcolors.ENDC}      {bcolors.BOLD}{bcolors.RED}Player inventory{bcolors.ENDC}      {bcolors.YELLOW}|.{bcolors.ENDC}',
-                        f'{bcolors.YELLOW} \_ |                            |.{bcolors.ENDC}'] 
+    inventory_scroll = [f'{bcolors.YELLOW}   _______________________________{bcolors.ENDC}',
+                        f'{bcolors.YELLOW} / \                              \.{bcolors.ENDC}',
+            f'{bcolors.YELLOW}|   |{bcolors.ENDC}      {bcolors.BOLD}{bcolors.RED}Player inventory{bcolors.ENDC}       {bcolors.YELLOW}|.{bcolors.ENDC}',
+                        f'{bcolors.YELLOW} \_ |                             |.{bcolors.ENDC}'] 
     for k in player['inventory']:
         for item in ITEMS:
             if item['name'] == k:
                 icon = item['icon']
         row = f"{bcolors.YELLOW}    |{bcolors.ENDC}  {icon} - {k}: {player['inventory'][k]} "
-        while len(row) < len(' \_ |                                     '):
+        while len(row) < len(' \_ |                                      '):
             row += ' '
         row += f'{bcolors.YELLOW}         |.{bcolors.ENDC}'
         inventory_scroll.append(row)
-    for line in [f'{bcolors.YELLOW}    |   _________________________|___{bcolors.ENDC}',
-                 f'{bcolors.YELLOW}    |  /                            /.{bcolors.ENDC}',
-                 f'{bcolors.YELLOW}    \_/____________________________/.{bcolors.ENDC}']:
+    for line in [f'{bcolors.YELLOW}    |   __________________________|___{bcolors.ENDC}',
+                 f'{bcolors.YELLOW}    |  /                             /.{bcolors.ENDC}',
+                 f'{bcolors.YELLOW}    \_/_____________________________/.{bcolors.ENDC}']:
         inventory_scroll.append(line)
     for row in inventory_scroll:
         print(row)
