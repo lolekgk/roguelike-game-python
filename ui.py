@@ -2,7 +2,7 @@ import engine
 import util
 import time
 from items_and_characters import bcolors
-from intro import END_MESSAGE_WIN, END_MESSAGE_LOOSE
+from intro import END_MESSAGE_WIN, END_MESSAGE_LOSE
 from items_and_characters import ITEMS, PLAYER_TYPES, NPCS
 
 
@@ -160,7 +160,7 @@ def display_inventory(player):
 def lose_message():
     util.clear_screen()
     message = END_MESSAGE_LOSE
-    scroll = create_intro_scroll(message)
+    scroll = engine.create_intro_scroll(message)
     display_intro(scroll)
         
 
@@ -168,5 +168,5 @@ def win_message(player):
     util.clear_screen()
     name = player[name]
     message = END_MESSAGE_WIN
-    scroll = create_intro_scroll(message)
+    scroll = engine.create_intro_scroll(message)
     display_intro(scroll)
