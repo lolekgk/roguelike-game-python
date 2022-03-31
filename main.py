@@ -2,22 +2,22 @@ import util
 import engine
 import action
 import ui
-from items_and_characters import ITEMS, NPCS, PLAYER_TYPES, BOSS
+from items_and_characters import ITEMS, NPCS, PLAYER_TYPES, BOSS, bcolors
 import random
 import gamesaves
 import time
 import copy
 from intro import INTRO_LEVEL_1, INTRO_LEVEL_2, INTRO_LEVEL_3
+import ascii
 
 
 BOARD_WIDTH = 30
 BOARD_HEIGHT = 20
-PLAYER_ICON = f"{ui.bcolors.GREEN}☻{ui.bcolors.ENDC}"
+PLAYER_ICON = f"{bcolors.GREEN}☻{bcolors.ENDC}"
 PLAYER_START_COORDS = (1,1)
 LEVELS = [1, 2, 3]
 KNOWLEDGE_TO_GET_KEY = 10     #Zmienić na 15
 EXAMS_TO_GET_KEY = 0          #Zmienić na 3
-
 
 
 def create_player():
@@ -49,6 +49,7 @@ def setup_start_boards(boards, player, npcs, items, boss):
 
 def initialize_game():
     if engine.play_new_game():
+        ascii.print_ascii_game_name()
         player = create_player()
         npcs = copy.deepcopy(NPCS) 
         items = copy.deepcopy(ITEMS)
@@ -130,7 +131,7 @@ def main():
         ui.display_board(boards[level - 1], player)
         interaction_with_bot(boards, player, npcs, boss, level)
         if player["energy"] <= 0:
-            print("GAME OVER")
+            ascii.print_ascii_game_over()
             is_running = False
             break
         if not is_key_on_board[level - 1]:

@@ -5,14 +5,14 @@ import os
 import time
 import util
 import ui
-from items_and_characters import ITEMS, NPCS, BOSS
+from items_and_characters import ITEMS, NPCS, BOSS, bcolors
 
 
 ROW = 0
-WALL = f'{ui.bcolors.GRAY}░{ui.bcolors.ENDC}'
+WALL = f'{bcolors.GRAY}░{bcolors.ENDC}'
 EMPTY = " "
-ENTRY = f'{ui.bcolors.RED}↑{ui.bcolors.ENDC}'
-EXIT = f'{ui.bcolors.GREEN}→{ui.bcolors.ENDC}'
+ENTRY = f'{bcolors.RED}↑{bcolors.ENDC}'
+EXIT = f'{bcolors.GREEN}→{bcolors.ENDC}'
 ENTRY_ROW, ENTRY_COLUMN = 0, 15
 EXIT_ROW, EXIT_COLUMN = 18, 29
 PLAYER_DATA_TO_DISPLAY = ["name", "class", 'knowledge', 'smartness', 'energy', 'exam']
