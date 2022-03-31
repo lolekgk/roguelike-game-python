@@ -113,10 +113,7 @@ def will_player_beat_student(player, npc, weapon):
 def will_player_pass_exam(player, npc, energy, knowledge):
     sum = npc["exam requirement"]["energy"] + npc["exam requirement"]["knowledge"]
     success_prob = (energy + knowledge) / sum 
-    print(success_prob)
-    result = get_boolean_with_given_probability(success_prob)
-    print(result)
-    return result[0]
+    return get_boolean_with_given_probability(success_prob)
 
 
 def get_boolean_with_given_probability(success_prob):
@@ -154,9 +151,10 @@ def interaction_with_student(board, player, npcs):
 def interaction_with_professor(board, player, npcs):
     npc = get_npc(player, npcs)
     energy, knowledge = ui.choose_energy_and_knowledge(player, npc)
+    print("choosen energy ", energy, " knowledge ", knowledge)
     player["energy"] -= energy
     player["knowledge"] -= knowledge
-    if will_player_pass_exam:
+    if will_player_pass_exam(player, npc, energy, knowledge):
         name = npc["attribute"]
         item = find_item_by_name(name)
         update_player(player, item)
@@ -182,7 +180,7 @@ def interaction_with_boss(board, player, boss):
                 player["field"] = (2, 15) # ensures no interaction right after exiting
                 break
             option = input(f'Give her {[(i + 1, k) for i, k in enumerate(player["inventory"])]} > ')
-        if boss['content'] == 5:
+        if boss['content'] >= 5:
             print("You have won") # placeholder obviously
 
 
@@ -202,7 +200,7 @@ def boss_options(player, boss, option):
             print("You don't have any flowers!")
     if option == '4':
         if player["inventory"]["chocolates"] > 0:
-            print('The lady likes your chocolates, but ')
+            print("The lady likes your chocolates, but says she'so na a diet")
             boss["content"] += 1
             player["inventory"]["chocolates"] -= 1
         else:
