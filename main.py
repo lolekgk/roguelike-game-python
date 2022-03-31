@@ -28,7 +28,7 @@ def create_player():
     player['name'] = name
     player['field'] = PLAYER_START_COORDS
     player['icon'] = PLAYER_ICON
-    player['level'] = 2
+    player['level'] = 1
     return player
 
 
@@ -44,7 +44,6 @@ def setup_start_boards(boards, player, npcs, items, boss):
         npcs_on_level = [npc for npc in npcs if npc["level"] == level]
         engine.put_items_on_board(boards[level - 1], items_on_level)
         engine.put_npcs_on_board(boards[level - 1], npcs_on_level)
-        ui.display_board(boards[level - 1], player)
         if level == 3:
             engine.put_boss_on_board(boards[level - 1], boss)
 
@@ -117,8 +116,8 @@ def intro(level):
 
 
 def main():
-    intro(1)
     boards, player, items, npcs, boss = initialize_game()
+    intro(player["level"])
     is_running = True
     is_key_on_board = [False for level in LEVELS]
     while is_running:
