@@ -49,6 +49,7 @@ def setup_start_boards(boards, player, npcs, items, boss):
 
 def initialize_game():
     if engine.play_new_game():
+        ascii.print_ascii_game_name()
         player = create_player()
         npcs = copy.deepcopy(NPCS) 
         items = copy.deepcopy(ITEMS)
@@ -129,7 +130,7 @@ def main():
         ui.display_board(boards[level - 1], player)
         interaction_with_bot(boards, player, npcs, boss, level)
         if player["energy"] <= 0:
-            print("GAME OVER")
+            ascii.print_ascii_game_over()
             is_running = False
             break
         if not is_key_on_board[level - 1]:
