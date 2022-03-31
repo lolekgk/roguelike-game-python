@@ -124,7 +124,7 @@ def finding_items(item):
         message = "I found a secret key!!!"
     else:
         pass
-    print(bcolors.BLUE, message, bcolors.ENDC)
+    print(f"{bcolors.GREEN}☻{bcolors.ENDC} {bcolors.BOLD}{message}{bcolors.ENDC}")
 
 
 def select_game_state():

@@ -112,7 +112,7 @@ def is_interaction_with_npc(player, board):
 
 def update_player_by_item(player, item):
     ui.finding_items(item)
-    sleep(2)
+    input("Press ENTER to continue...")
     for parameter in item["effect"].keys():
         player[parameter] += item["effect"][parameter]
     if item["name"] in player["inventory"]:
