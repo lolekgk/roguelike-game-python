@@ -27,7 +27,7 @@ def create_player():
     player['name'] = name
     player['field'] = PLAYER_START_COORDS
     player['icon'] = PLAYER_ICON
-    player['level'] = 2
+    player['level'] = 3
     return player
 
 

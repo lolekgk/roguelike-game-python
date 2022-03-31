@@ -30,6 +30,30 @@ def get_new_coords(row, column, key):
     return new_row, new_column
 
 
+def get_adjacent_npc(player, npcs):
+    row, column = player["field"]
+    adjacent_fields = [(row + 1, column), (row, column + 1), (row - 1, column),  (row, column - 1), ]
+    for npc in npcs:
+        if npc["field"] in adjacent_fields:
+            return npc
+
+
+def get_item_by_name(name):
+    for item in ITEMS:
+        if item["name"] == name:
+            return item
+
+
+def get_item_by_coords(board, row, col, items):
+    if board[row][col] in ITEM_ICONS:
+        for item in items:
+            if board[row][col] == item["icon"]:
+                return item
+
+
+# MOVEMENT FOR PLAYER AND LEVEL 1-2 NPCS 
+
+
 def go_through_gate(player):
     player["level"] += 1
     player["field"] = ( ENTRY_ROW + 1, ENTRY_COLUMN)
@@ -40,8 +64,8 @@ def go_back_through_gate(player):
     player["field"] = (EXIT_ROW, EXIT_COLUMN - 1)
 
 
-def is_move_valid(board, new_row, new_column, type_walls):
-    if board[new_row][new_column] in type_walls:
+def is_move_valid(board, new_row, new_column, obstacles):
+    if board[new_row][new_column] in obstacles:
         return False
     return True
 
@@ -66,26 +90,15 @@ def move(character, board, key, player, items):
         board[new_row][new_column] = character["icon"]
 
 
-def get_item(board, row, col, items):
-    if board[row][col] in ITEM_ICONS:
-        for item in items:
-            if board[row][col] == item["icon"]:
-                return item
+# INTERACTION LEVEL 1 AND 2
 
 
 def interaction_with_item(board, player, items, row, col):
-    item = get_item(board, row, col, items)  
+    item = get_item_by_coords(board, row, col, items)  
     item["total amount"] -= 1 # total amount is used only here
-    update_player(player, item)
+    update_player_by_item(player, item)
     
 
-def update_player(player, item):
-    for parameter in item["effect"].keys():
-        player[parameter] += item["effect"][parameter]
-    if item["name"] in player["inventory"]:
-        player["inventory"][item["name"]] += 1
-
-    
 def is_interaction_with_npc(player, board):
     row, column = player["field"]
     if board[row - 1][column] in NPC_ICONS or board[row + 1][column] in NPC_ICONS \
@@ -94,12 +107,30 @@ def is_interaction_with_npc(player, board):
     return False
 
 
-def get_npc(player, npcs):
-    row, column = player["field"]
-    adjacent_fields = [(row + 1, column), (row, column + 1), (row - 1, column),  (row, column - 1), ]
-    for npc in npcs:
-        if npc["field"] in adjacent_fields:
-            return npc
+def update_player_by_item(player, item):
+    for parameter in item["effect"].keys():
+        player[parameter] += item["effect"][parameter]
+    if item["name"] in player["inventory"]:
+        player["inventory"][item["name"]] += 1
+
+
+def update_game_if_player_won(board, player, npcs, npc):
+    name = npc["attribute"]
+    item = get_item_by_name(name)
+    update_player_by_item(player, item)
+    row, column = npc["field"] 
+    board[row][column] = EMPTY 
+    npcs.remove(npc)
+
+
+def get_boolean_with_given_probability(success_prob):
+    print("\nThe probability of success was ", success_prob)
+    failure_prob = 1 - success_prob
+    result = [True, False]
+    weights = [success_prob, failure_prob]
+    success = random.choices(result, weights)
+    ui.display_interaction_effect(success[0])
+    return success[0] #success is one-element list that contains the result
 
 
 def will_player_beat_student(player, npc, weapon):
@@ -116,61 +147,34 @@ def will_player_pass_exam(player, npc, energy, knowledge):
     return get_boolean_with_given_probability(success_prob)
 
 
-def get_boolean_with_given_probability(success_prob):
-    print("\nThe probability of success was ", success_prob)
-    failure_prob = 1 - success_prob
-    result = [True, False]
-    weights = [success_prob, failure_prob]
-    success = random.choices(result, weights)
-    ui.display_interaction_effect(success[0])
-    return success[0] #success is one-element list that contains the result
-
-
-def find_item_by_name(name):
-    for item in ITEMS:
-        if item["name"] == name:
-            return item
-
-
 def interaction_with_student(board, player, npcs):
-    npc = get_npc(player, npcs)
-    print(ui.meeting_npc(npc))
-    weapon = ui.choose_weapon(player, npc)
+    student = get_adjacent_npc(player, npcs)
+    print(ui.meeting_npc(student))
+    weapon = ui.choose_weapon(player, student)
     player["inventory"][weapon[0]] -= weapon[1] # after the "weapon" is choosen it is removed from inventory
-    player["energy"] -= npc["energy damage"]
-    if will_player_beat_student(player, npc, weapon):
-        name = npc["attribute"]
-        item = find_item_by_name(name)
-        update_player(player, item)
-        # player["inventory"][weapon[0]] -= weapon[1] # uncomment this line (and comment the line before if-block) if we decide that user don't loose his "weapon" in case of failure but looses in case of success
-        row, column = npc["field"] 
-        board[row][column] = EMPTY 
-        npcs.remove(npc)
+    player["energy"] -= student["energy damage"]
+    if will_player_beat_student(player, student, weapon):
+        update_game_if_player_won(board, player, npcs, student)
 
 
 def interaction_with_professor(board, player, npcs):
-    npc = get_npc(player, npcs)
-    energy, knowledge = ui.choose_energy_and_knowledge(player, npc)
+    professor = get_adjacent_npc(player, npcs)
+    energy, knowledge = ui.choose_energy_and_knowledge(player, professor)
     print("choosen energy ", energy, " knowledge ", knowledge)
     player["energy"] -= energy
     player["knowledge"] -= knowledge
-    if will_player_pass_exam(player, npc, energy, knowledge):
-        name = npc["attribute"]
-        item = find_item_by_name(name)
-        update_player(player, item)
-        row, column = npc["field"] 
-        board[row][column] = EMPTY 
-        npcs.remove(npc)
+    if will_player_pass_exam(player, professor, energy, knowledge):
+        update_game_if_player_won(board, player, npcs, professor)
 
 
-# BOSS 
+# BOSS MOVEMENT AND INTERACTION
 
 
 def interaction_with_boss(board, player, boss):
     if check_for_boss(player, board):
         print("You are facing the final boss - lady from the dean's office\nShe's on a coffee break right now, and cannot help you\nWhat do you want to do? (Type Q to leave)")
         option = None
-        while option not in [str(i) for i in range(1, len(player['inventory']))] + ['Q']:
+        while option not in [str(i) for i in range(1, len(player['inventory']) + 1)] + ['Q']:
             option = input(f'\nGive her {[(i + 1, k) for i, k in enumerate(player["inventory"])]} > ')
         while boss["content"] < 5:
             boss_options(player, boss, option)
