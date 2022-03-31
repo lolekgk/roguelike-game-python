@@ -117,11 +117,13 @@ def intro(level):
 
 def main():
     boards, player, items, npcs, boss = initialize_game()
+    util.clear_screen() 
     intro(player["level"])
     is_running = True
     is_key_on_board = [False for level in LEVELS]
     while is_running:
         level = player["level"]
+        util.clear_screen()
         intro(level)
         engine.put_player_on_board(boards[level - 1], player) # ta funkcja jest koniecza przy zmianie poziomu, poza ty nie, ale nie przeszkadza 
         util.clear_screen() 
