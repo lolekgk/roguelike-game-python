@@ -191,8 +191,7 @@ def interaction_with_boss(board, player, boss):
             if boss["content"] < 5:
                 option = input(f'Give her {[(i + 1, k) for i, k in enumerate(player["inventory"])]} (Type Q to leave) > ')
         if boss['content'] >= 5:
-            # win_message()
-            print('Wygranko') # placeholder
+           ui.win_message(player)
 
 
 def boss_options(player, boss, option):
