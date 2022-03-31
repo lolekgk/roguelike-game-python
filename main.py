@@ -2,7 +2,7 @@ import util
 import engine
 import action
 import ui
-from items_and_characters import ITEMS, NPCS, PLAYER_TYPES, BOSS
+from items_and_characters import ITEMS, NPCS, PLAYER_TYPES, BOSS, bcolors
 import random
 import gamesaves
 import time
@@ -13,7 +13,7 @@ from intro import intro_level1, intro_level2, intro_level3
 
 BOARD_WIDTH = 30
 BOARD_HEIGHT = 20
-PLAYER_ICON = f"{ui.bcolors.GREEN}☻{ui.bcolors.ENDC}"
+PLAYER_ICON = f"{bcolors.GREEN}☻{bcolors.ENDC}"
 PLAYER_START_COORDS = (1,1)
 LEVELS = [1, 2, 3]
 KNOWLEDGE_TO_GET_KEY = 10     #Zmienić na 15
