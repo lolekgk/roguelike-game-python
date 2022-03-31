@@ -167,7 +167,7 @@ def interaction_with_professor(board, player, npcs):
     print("choosen energy ", energy, " knowledge ", knowledge)
     player["energy"] -= energy
     player["knowledge"] -= knowledge
-    if will_player_pass_exam(player, professor, energy, knowledge):
+    if will_player_pass_exam(professor, energy, knowledge):
         update_game_if_player_won(board, player, npcs, professor)
 
 
