@@ -4,10 +4,11 @@ import engine
 import action
 import ui
 from items_and_characters import ITEMS, NPCS, PLAYER_TYPES, BOSS
-from copy import deepcopy
 import random
 import gamesaves
 import time
+import copy
+from intro import LEVEL_1,LEVEL_2,LEVEL_3
 
 
 BOARD_WIDTH = 30
@@ -17,41 +18,12 @@ PLAYER_START_COORDS = (1,1)
 LEVELS = [1, 2, 3]
 KNOWLEDGE_TO_GET_KEY = 10     #Zmienić na 15
 EXAMS_TO_GET_KEY = 0          #Zmienić na 3
-
-intro_level1 = ["You are a young, more or less brilliant student",
-                "who is about to finish their first year of studies.",
-                "You have spend the whole year studying / partying",
-                "and enjoying the student's life.",
-                "Unfortunately all good things come to an end...",
-                "Ahead of you is the most dreadful period for any student...",
-                "THE EXAMS!" ,
-                "Your first task is to prepare for them the best you can.",
-                "Increase your knowledge or use less honorable ways",
-                "to increase your chances of passing all final exams."]
-
-intro_level2 = ["You have done the best you can",
-                "to prepare yourself for the final exams",
-                "in the little time you had.",
-                "Your next challange is to defeat the 3 professors",
-                "and actually pass the exams",
-                "This task won't be easy, having good knowledge helps",
-                "but as all students know there are other ways",
-                "to get what you need from the noble members of Academia..."]
-
-intro_level3 = ["Congratulations!",
-                "You have passed the final exams and you are getting",
-                "ready for some well-deserved vacation.",
-                "Little do you know that your fight is far from over!",
-                "Your ultimate enemy is the lady from the Dean's office",
-                "the only person who can give you your Grade Transcript.",
-                "Only young, naive freshmen believe it's an easy task!",
-                "Catch the lady, be nice and if today is your lucky day",
-                "she might give you the Holy Graal of every student."]
+text_dict = {1: copy.copy(LEVEL_1), 2: copy.copy(LEVEL_2), 3: copy.copy(LEVEL_3)}
 
 
 def create_player():
     player_type = ui.get_player_type()
-    player = deepcopy(PLAYER_TYPES[player_type])
+    player = copy.deepcopy(PLAYER_TYPES[player_type])
     name = ui.get_player_name()
     player['name'] = name
     player['field'] = PLAYER_START_COORDS
@@ -72,7 +44,6 @@ def setup_start_boards(boards, player, npcs, items, boss):
         npcs_on_level = [npc for npc in npcs if npc["level"] == level]
         engine.put_items_on_board(boards[level - 1], items_on_level)
         engine.put_npcs_on_board(boards[level - 1], npcs_on_level)
-        ui.display_board(boards[level - 1], player)
         if level == 3:
             engine.put_boss_on_board(boards[level - 1], boss)
 
@@ -80,9 +51,9 @@ def setup_start_boards(boards, player, npcs, items, boss):
 def initialize_game():
     if engine.play_new_game():
         player = create_player()
-        npcs = deepcopy(NPCS) 
-        items = deepcopy(ITEMS)
-        boss = deepcopy(BOSS)
+        npcs = copy.deepcopy(NPCS) 
+        items = copy.deepcopy(ITEMS)
+        boss = copy.deepcopy(BOSS)
         boards = [engine.create_board(BOARD_WIDTH, BOARD_HEIGHT, level) for level in LEVELS]
         setup_start_boards(boards, player, npcs, items, boss)
     else:
@@ -91,12 +62,13 @@ def initialize_game():
 
 
 def interaction_with_bot(boards, player, npcs, boss, level):
-    if level == 1:
-        action.interaction_with_student(boards[level - 1], player, npcs)
-    elif level == 2:
-        action.interaction_with_professor(boards[level - 1], player, npcs)
-    else:
-        action.interaction_with_boss(boards[level - 1], player, boss)
+    if action.is_interaction_with_npc(player, boards[level - 1]):
+        if level == 1:
+            action.interaction_with_student(boards[level - 1], player, npcs)
+        elif level == 2:
+            action.interaction_with_professor(boards[level - 1], player, npcs)
+    elif level == 3:
+            action.interaction_with_boss(boards[level - 1], player, boss)
 
 
 def react_on_key(boards, player, items, npcs, boss, level, key):
@@ -123,19 +95,36 @@ def react_on_key(boards, player, items, npcs, boss, level, key):
 
 def add_next_level_key_if_possible(boards, player, level, items):
     if level == 1 and player["knowledge"] >= KNOWLEDGE_TO_GET_KEY \
-       or level == 2 and player["exams"] >= EXAMS_TO_GET_KEY:
+       or level == 2 and player["exam"] >= EXAMS_TO_GET_KEY:
             engine.put_item(boards[level - 1], items[10]['icon'])
             return True
     else:
         return False
 
 
+def intro(level):
+    try:
+        text_dict[level]
+        text_list = text_dict[level]
+        del text_dict[level]
+        scroll = engine.create_intro_scroll(text_list)
+        ui.display_intro(scroll)
+        input()
+        util.clear_screen()
+    except KeyError:
+        pass
+
+
 def main():
     boards, player, items, npcs, boss = initialize_game()
+    util.clear_screen() 
+    intro(player["level"])
     is_running = True
     is_key_on_board = [False for level in LEVELS]
     while is_running:
         level = player["level"]
+        util.clear_screen()
+        intro(level)
         engine.put_player_on_board(boards[level - 1], player) # ta funkcja jest koniecza przy zmianie poziomu, poza ty nie, ale nie przeszkadza 
         util.clear_screen() 
         ui.display_board(boards[level - 1], player)

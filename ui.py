@@ -6,14 +6,13 @@ from items_and_characters import bcolors
 from items_and_characters import ITEMS, PLAYER_TYPES, NPCS
 
 
-
 TYPES = ['Nerd', 'Average', 'Laid-back'] # = [k for k in PLAYER_TYPES.keys()] 
 
 
 def display_intro(scroll):
     for row in scroll:
-        print(row)
-    print()
+        print(bcolors.BLUE, row, bcolors.ENDC)
+    
     
 
 def display_board(board, player_info):
@@ -48,7 +47,9 @@ def get_player_name():
     return name
 
 
-def choose_weapon(player, opponent):
+def choose_weapon(player, opponent): 
+    # ta funkcja prawdopodobnie zostanie zastąpiona przez get_beer_amount
+    # miała być ogólną funkcją do wyboru "broni" do interakcji, ale szanse, że tak się stanie, są niewielkie
     weapon_kind = ""
     if opponent["name"] in [npc["name"] for npc in NPCS if npc["level"] == 1]:
         weapon_kind = "beer"
@@ -56,9 +57,34 @@ def choose_weapon(player, opponent):
     max_amount = player["inventory"][weapon_kind]
     print(f"\nTIP: You may use {weapon_kind} to get {attribute}.")
     while True:
-        amount = int(input(f"Choose amount (max {max_amount}): "))
-        if amount in range(0, max_amount + 1):
-            return (weapon_kind, amount)
+        amount = input(f"Choose amount (max {max_amount}): ")
+        if amount not in [str(n) for n in range(0, max_amount + 1)]:
+            print(f"{bcolors.RED}Wrong input!{bcolors.ENDC}")
+            continue
+        break
+    return (weapon_kind, int(amount))
+
+
+def choose_energy_and_knowledge(player, npc):
+    name = npc["name"]
+    max_knowledge = npc["exam requirement"]["knowledge"]
+    max_energy = npc["exam requirement"]["energy"]
+    print(f"\nTime for {name.split()[0]} exam.".upper())
+    print("\nHow much study and energy did you spend preparing for the exam?")
+    print(f"\nChoosing {max_energy} energy points and {max_knowledge} knowledge points you can be sure you will pass.\n")
+    while True:
+        energy = input("Energy - ")
+        if energy not in [str(n) for n in range(min(max_energy, player["energy"]) + 1)]:
+            print(f"{bcolors.RED}Wrong input!{bcolors.ENDC}")
+            continue
+        break
+    while True:
+        knowledge = input("Knowledge - ")
+        if knowledge not in [str(n) for n in range(min(max_knowledge, player["knowledge"]) + 1)]:
+            print(f"{bcolors.RED}Wrong input!{bcolors.ENDC}")
+            continue
+        break
+    return int(energy), int(knowledge)
         
 
 def display_interaction_effect(success):

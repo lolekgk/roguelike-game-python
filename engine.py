@@ -15,7 +15,7 @@ ENTRY = f'{ui.bcolors.RED}↑{ui.bcolors.ENDC}'
 EXIT = f'{ui.bcolors.GREEN}→{ui.bcolors.ENDC}'
 ENTRY_ROW, ENTRY_COLUMN = 0, 15
 EXIT_ROW, EXIT_COLUMN = 18, 29
-PLAYER_DATA_TO_DISPLAY = ["name", "class", 'knowledge', 'smartness', 'energy', 'exams']
+PLAYER_DATA_TO_DISPLAY = ["name", "class", 'knowledge', 'smartness', 'energy', 'exam']
 
 
 def select_game_state():

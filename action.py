@@ -102,13 +102,26 @@ def get_npc(player, npcs):
             return npc
 
 
-def will_player_succeed(player, npc, weapon):
+def will_player_beat_student(player, npc, weapon):
     smartness = player["smartness"]
     basic_prob = npc["probability"]
     weapon_amount = weapon[1]
     success_prob = min(1, (smartness + weapon_amount) * 0.25 + basic_prob)
+    return get_boolean_with_given_probability(success_prob)
+
+
+def will_player_pass_exam(player, npc, energy, knowledge):
+    sum = npc["exam requirement"]["energy"] + npc["exam requirement"]["knowledge"]
+    success_prob = (energy + knowledge) / sum 
+    print(success_prob)
+    result = get_boolean_with_given_probability(success_prob)
+    print(result)
+    return result[0]
+
+
+def get_boolean_with_given_probability(success_prob):
     print("\nThe probability of success was ", success_prob)
-    failure_prob = max(0, 1 - ((smartness + weapon_amount) * 0.25 + basic_prob))
+    failure_prob = 1 - success_prob
     result = [True, False]
     weights = [success_prob, failure_prob]
     success = random.choices(result, weights)
@@ -123,31 +136,92 @@ def find_item_by_name(name):
 
 
 def interaction_with_student(board, player, npcs):
-    if is_interaction_with_npc(player, board):
-        npc = get_npc(player, npcs)
-        print(ui.meeting_npc(npc))
-        weapon = ui.choose_weapon(player, npc)
-        player["inventory"][weapon[0]] -= weapon[1] # after the "weapon" is choosen it is removed from inventory
-        player["energy"] -= npc["energy damage"]
-        if will_player_succeed(player, npc, weapon):
-            name = npc["attribute"]
-            item = find_item_by_name(name)
-            update_player(player, item)
-            # player["inventory"][weapon[0]] -= weapon[1] # uncomment this line (and comment the line before if-block) if we decide that user don't loose his "weapon" in case of failure but looses in case of success
-            row, column = npc["field"] 
-            board[row][column] = EMPTY 
-            npcs.remove(npc)
+    npc = get_npc(player, npcs)
+    print(ui.meeting_npc(npc))
+    weapon = ui.choose_weapon(player, npc)
+    player["inventory"][weapon[0]] -= weapon[1] # after the "weapon" is choosen it is removed from inventory
+    player["energy"] -= npc["energy damage"]
+    if will_player_beat_student(player, npc, weapon):
+        name = npc["attribute"]
+        item = find_item_by_name(name)
+        update_player(player, item)
+        # player["inventory"][weapon[0]] -= weapon[1] # uncomment this line (and comment the line before if-block) if we decide that user don't loose his "weapon" in case of failure but looses in case of success
+        row, column = npc["field"] 
+        board[row][column] = EMPTY 
+        npcs.remove(npc)
 
 
 def interaction_with_professor(board, player, npcs):
-    if is_interaction_with_npc(player, board):
-        npc = get_npc(player, npcs)
-        #power = choose_attack_power()
-        pass
+    npc = get_npc(player, npcs)
+    energy, knowledge = ui.choose_energy_and_knowledge(player, npc)
+    player["energy"] -= energy
+    player["knowledge"] -= knowledge
+    if will_player_pass_exam:
+        name = npc["attribute"]
+        item = find_item_by_name(name)
+        update_player(player, item)
+        row, column = npc["field"] 
+        board[row][column] = EMPTY 
+        npcs.remove(npc)
+
+
+# BOSS 
 
 
 def interaction_with_boss(board, player, boss):
-    pass
+    if check_for_boss(player, board):
+        print("You are facing the final boss - lady from the dean's office\nShe's on a coffee break right now, and cannot help you\nWhat do you want to do? (Type Q to leave)")
+        option = None
+        while option not in [str(i) for i in range(1, len(player['inventory']))] + ['Q']:
+            option = input(f'\nGive her {[(i + 1, k) for i, k in enumerate(player["inventory"])]} > ')
+        while boss["content"] < 5:
+            boss_options(player, boss, option)
+            if option.upper() == 'Q':
+                print('You decide to leave, and try some other time.')
+                board[player['field'][0]][player['field'][1]] = EMPTY
+                player["field"] = (2, 15) # ensures no interaction right after exiting
+                break
+            option = input(f'Give her {[(i + 1, k) for i, k in enumerate(player["inventory"])]} > ')
+        if boss['content'] == 5:
+            print("You have won") # placeholder obviously
+
+
+def boss_options(player, boss, option):
+    if option == '1':
+        print("Lady from the dean's office doesn't want your beer, and yells at you for bringing it here. -%s energy)" %boss['energy damage'])
+        player['energy'] -= boss['energy damage']
+    if option == '2':
+        print("Lady from the dean's office has no use for this item. -%s energy" %boss['energy damage'])
+        player["energy"] -= boss['energy damage']
+    if option == '3':
+        if player["inventory"]["flowers"] > 0:
+            print('The lady likes your flowers, but says she is really busy right now')
+            player["inventory"]["flowers"] -= 1
+            boss["content"] += 1
+        else:
+            print("You don't have any flowers!")
+    if option == '4':
+        if player["inventory"]["chocolates"] > 0:
+            print('The lady likes your chocolates, but ')
+            boss["content"] += 1
+            player["inventory"]["chocolates"] -= 1
+        else:
+            print("You don't have any chocolates!")
+
+
+def check_for_boss(player, board):
+    row, column = player["field"]
+    if board[row - 1][column] in BOSS_ICONS or board[row + 1][column] in BOSS_ICONS \
+        or board[row][column - 1] in BOSS_ICONS or board[row][column + 1] in BOSS_ICONS:
+        return True
+    return False
+
+
+def put_boss_on_board(board, boss):
+    row, column = boss['field']
+    for x in range(5):
+        for y in range(5):
+            board[row + x][column + y] = boss["face"][x][y]
 
 
 def move_boss(board, boss):
