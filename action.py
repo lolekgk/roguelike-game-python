@@ -165,8 +165,63 @@ def interaction_with_professor(board, player, npcs):
         npcs.remove(npc)
 
 
+# BOSS 
+
+
 def interaction_with_boss(board, player, boss):
-    pass
+    if check_for_boss(player, board):
+        print("You are facing the final boss - lady from the dean's office\nShe's on a coffee break right now, and cannot help you\nWhat do you want to do? (Type Q to leave)")
+        option = None
+        while option not in [str(i) for i in range(1, len(player['inventory']))] + ['Q']:
+            option = input(f'\nGive her {[(i + 1, k) for i, k in enumerate(player["inventory"])]} > ')
+        while boss["content"] < 5:
+            boss_options(player, boss, option)
+            if option.upper() == 'Q':
+                print('You decide to leave, and try some other time.')
+                board[player['field'][0]][player['field'][1]] = EMPTY
+                player["field"] = (2, 15) # ensures no interaction right after exiting
+                break
+            option = input(f'Give her {[(i + 1, k) for i, k in enumerate(player["inventory"])]} > ')
+        if boss['content'] == 5:
+            print("You have won") # placeholder obviously
+
+
+def boss_options(player, boss, option):
+    if option == '1':
+        print("Lady from the dean's office doesn't want your beer, and yells at you for bringing it here. -%s energy)" %boss['energy damage'])
+        player['energy'] -= boss['energy damage']
+    if option == '2':
+        print("Lady from the dean's office has no use for this item. -%s energy" %boss['energy damage'])
+        player["energy"] -= boss['energy damage']
+    if option == '3':
+        if player["inventory"]["flowers"] > 0:
+            print('The lady likes your flowers, but says she is really busy right now')
+            player["inventory"]["flowers"] -= 1
+            boss["content"] += 1
+        else:
+            print("You don't have any flowers!")
+    if option == '4':
+        if player["inventory"]["chocolates"] > 0:
+            print('The lady likes your chocolates, but ')
+            boss["content"] += 1
+            player["inventory"]["chocolates"] -= 1
+        else:
+            print("You don't have any chocolates!")
+
+
+def check_for_boss(player, board):
+    row, column = player["field"]
+    if board[row - 1][column] in BOSS_ICONS or board[row + 1][column] in BOSS_ICONS \
+        or board[row][column - 1] in BOSS_ICONS or board[row][column + 1] in BOSS_ICONS:
+        return True
+    return False
+
+
+def put_boss_on_board(board, boss):
+    row, column = boss['field']
+    for x in range(5):
+        for y in range(5):
+            board[row + x][column + y] = boss["face"][x][y]
 
 
 def move_boss(board, boss):
