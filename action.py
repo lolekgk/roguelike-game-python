@@ -1,7 +1,9 @@
 import random
+from tkinter import YES
 import ui
 import main
 from items_and_characters import ITEMS, NPCS, BOSS
+import util
 
 WALL = f'{ui.bcolors.GRAY}░{ui.bcolors.ENDC}'
 EMPTY = " "
@@ -170,10 +172,10 @@ def interaction_with_professor(board, player, npcs):
 
 def interaction_with_boss(board, player, boss):
     if check_for_boss(player, board):
-        print("You are facing the final boss - lady from the dean's office\nShe's on a coffee break right now, and cannot help you\nWhat do you want to do? (Type Q to leave)")
+        print("You are facing the final boss - lady from the dean's office\nShe's on a coffee break right now, and cannot help you\n\nWhat do you want to do? (Type Q to leave)")
         option = None
-        while option not in [str(i) for i in range(1, len(player['inventory']))] + ['Q']:
-            option = input(f'\nGive her {[(i + 1, k) for i, k in enumerate(player["inventory"])]} > ')
+        while option not in [str(i) for i in range(1, len(player['inventory']) + 1)] + ['Q']:
+            option = input(f'\nGive her {[(i + 1, k) for i, k in enumerate(player["inventory"])]} (Type Q to leave) > ')
         while boss["content"] < 5:
             boss_options(player, boss, option)
             if option.upper() == 'Q':
@@ -181,17 +183,19 @@ def interaction_with_boss(board, player, boss):
                 board[player['field'][0]][player['field'][1]] = EMPTY
                 player["field"] = (2, 15) # ensures no interaction right after exiting
                 break
-            option = input(f'Give her {[(i + 1, k) for i, k in enumerate(player["inventory"])]} > ')
-        if boss['content'] == 5:
-            print("You have won!") # placeholder obviously
+            if boss["content"] < 5:
+                option = input(f'Give her {[(i + 1, k) for i, k in enumerate(player["inventory"])]} (Type Q to leave) > ')
+        if boss['content'] >= 5:
+            # win_message()
+            print('Wygranko') # placeholder
 
 
 def boss_options(player, boss, option):
     if option == '1':
-        print("Lady from the dean's office doesn't want your beer, and yells at you for bringing it here. -%s energy)" %boss['energy damage'])
+        print("Lady from the dean's office doesn't want your beer, and yells at you for bringing it here. (-%s energy)" %(boss['energy damage']*2))
         player['energy'] -= boss['energy damage']
     if option == '2':
-        print("Lady from the dean's office has no use for this item. -%s energy" %boss['energy damage'])
+        print("Lady from the dean's office has no use for this item. (-%s energy)" %boss['energy damage'])
         player["energy"] -= boss['energy damage']
     if option == '3':
         if player["inventory"]["flowers"] > 0:
@@ -202,7 +206,7 @@ def boss_options(player, boss, option):
             print("You don't have any flowers!")
     if option == '4':
         if player["inventory"]["chocolates"] > 0:
-            print('The lady likes your chocolates, but ')
+            print("The lady likes your chocolates, but says she'so na a diet")
             boss["content"] += 1
             player["inventory"]["chocolates"] -= 1
         else:
@@ -250,4 +254,3 @@ def check_valid_boss_move(board, new_row, new_col):
             if board[new_row + x][new_col + y] in NPC_OBSTACLES:
                 return False
     return True
-
