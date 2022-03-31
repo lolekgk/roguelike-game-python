@@ -27,7 +27,7 @@ def create_player():
     player['name'] = name
     player['field'] = PLAYER_START_COORDS
     player['icon'] = PLAYER_ICON
-    player['level'] = 1
+    player['level'] = 3
     return player
 
 
@@ -74,7 +74,7 @@ def react_on_key(boards, player, items, npcs, boss, level, key):
     if key == 'Q':
         return False
     elif key == 'V':
-        gamesaves.save_game(boards, items, npcs, player)
+        gamesaves.save_game(boards, items, npcs, player, boss)
         print("Saving game..")
         time.sleep(2)
         return False
