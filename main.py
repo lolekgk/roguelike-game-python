@@ -16,8 +16,8 @@ BOARD_HEIGHT = 20
 PLAYER_ICON = f"{bcolors.GREEN}☻{bcolors.ENDC}"
 PLAYER_START_COORDS = (1,1)
 LEVELS = [1, 2, 3]
-KNOWLEDGE_TO_GET_KEY = 10     #Zmienić na 15
-EXAMS_TO_GET_KEY = 0          #Zmienić na 3
+KNOWLEDGE_TO_GET_KEY = 15     #Zmienić na 15
+EXAMS_TO_GET_KEY = 2          #Zmienić na 3
 
 
 def create_player():
@@ -49,6 +49,7 @@ def setup_start_boards(boards, player, npcs, items, boss):
 
 def initialize_game():
     if engine.play_new_game():
+        util.clear_screen() 
         ascii.print_ascii_game_name()
         player = create_player()
         npcs = copy.deepcopy(NPCS) 

@@ -17,7 +17,7 @@ NPC_ICONS = {npc["icon"] for npc in NPCS}
 BOSS_ICONS = {char for char in BOSS["icon"]}
 PLAYER_OBSTACLES = {WALL} | NPC_ICONS | BOSS_ICONS
 NPC_OBSTACLES = {WALL, ENTRY, EXIT, main.PLAYER_ICON} | ITEM_ICONS | NPC_ICONS
-
+SLOPE = 0.18
 
 def get_new_coords(row, column, key):
     if key == "W":
@@ -141,7 +141,7 @@ def get_boolean_with_given_probability(success_prob):
 def will_player_beat_student(player, npc, weapon_amount):
     smartness = player["smartness"]
     basic_prob = npc["probability"]
-    success_prob = min(1, (smartness + weapon_amount) * 0.25 + basic_prob)
+    success_prob = min(1, (smartness + weapon_amount) * SLOPE + basic_prob)
     return get_boolean_with_given_probability(success_prob)
 
 
