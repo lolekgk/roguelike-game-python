@@ -8,8 +8,8 @@ class bcolors:
     BOLD = '\033[1m'
     GRAY = "\033[100m"
     ENDC = '\033[0m'
-    PURPLE = "\033[1;35m"
-    BRAUN = "\033[0;33;47m" #nie jest brązowy :(
+    PURPLE = "\033[35m"
+    BROWN = "\033[97m" #nie jest brązowy :(
 
 
 # the value for "effect" is a tuple containing info about which studen's attribute is affected and how
@@ -22,7 +22,7 @@ ITEMS = [
         {"name": "nerd's notes",        "level": 1, "icon": "◘",                                "total amount": 0, "effect": {"energy": 1, "knowledge": 4} },
         {"name": "last year's test",    "level": 1, "icon": "T",                                "total amount": 0, "effect": {"energy": 2, "knowledge": 7} }, 
         {"name": "flowers",             "level": 2, "icon": f"{bcolors.PURPLE}*{bcolors.ENDC}", "total amount": 4, "effect": {} },
-        {"name": "chocolates",          "level": 2, "icon": f"{bcolors.BRAUN}#{bcolors.ENDC}",  "total amount": 4, "effect": {} },
+        {"name": "chocolates",          "level": 2, "icon": f"{bcolors.BROWN}#{bcolors.ENDC}",  "total amount": 4, "effect": {} },
         {"name": "Red Bull",            "level": 2, "icon": f"{bcolors.BLUE}E{bcolors.ENDC}",   "total amount": 3, "effect": {"energy": 3} },
         {"name": "exam",                "level": 2, "icon": "X",                                "total amount": 0, "effect": {"energy": 2, "exam": 1 } },
         {"name": "key",                 "level": 1, "icon": f"{bcolors.CYAN}¬{bcolors.ENDC}",   "total amount": 0, "effect": {} }
