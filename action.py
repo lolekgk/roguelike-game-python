@@ -76,16 +76,15 @@ def is_move_valid(board, new_row, new_column, obstacles):
 def move(character, board, key, player, items):
     row, column = character["field"]
     new_row, new_column = get_new_coords(row, column, key)
-    if (new_row, new_column) == (ENTRY_ROW, ENTRY_COLUMN) and player["level"] != 1:
+    obstacles = PLAYER_OBSTACLES if character == player else NPC_OBSTACLES
+    if (new_row, new_column) == (ENTRY_ROW, ENTRY_COLUMN) \
+        and character == player and player["level"] != 1:
         go_back_through_gate(player)
-        return None
-    if (new_row, new_column) == (EXIT_ROW, EXIT_COLUMN) \
+    elif (new_row, new_column) == (EXIT_ROW, EXIT_COLUMN) \
         and character == player and player["level"] != 3:
         if player["inventory"]["key"] >= player["level"]:
-            go_through_gate(player)
-        return None
-    obstacles = PLAYER_OBSTACLES if character == player else NPC_OBSTACLES
-    if is_move_valid(board, new_row, new_column, obstacles):
+            go_through_gate(player)    
+    elif is_move_valid(board, new_row, new_column, obstacles):
         if board[new_row][new_column] in ITEM_ICONS and character == player:
             interaction_with_item(board, player, items, new_row, new_column)
         board[row][column] = EMPTY
